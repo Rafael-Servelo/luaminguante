@@ -26,4 +26,5 @@ export default defineComponent({
 div {
   background: var(--color-primary);
 }
+
 </style>
