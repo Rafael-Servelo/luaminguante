@@ -10,7 +10,6 @@
 </template>
 
 <script lang="ts">
-//import store from "@/store";
 import { defineComponent } from "vue";
 
 export default defineComponent({
@@ -26,5 +25,4 @@ export default defineComponent({
 div {
   background: var(--color-primary);
 }
-
 </style>
