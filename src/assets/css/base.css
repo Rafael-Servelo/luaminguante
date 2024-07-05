@@ -1,0 +1,11 @@
+:root{
+    --color-primary: #730202;
+    --color-secondary: #f27405;
+    --color-tertiary: #d92b04;
+    --color-green: #005349;
+}
+
+.bg-img{
+    background: url(../img/img-bg.png) center no-repeat;
+    background-size: cover;
+}
