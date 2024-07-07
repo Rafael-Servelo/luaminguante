@@ -1,11 +1,27 @@
 :root{
-    --color-primary: #730202;
+    --color-primary: #590232;
     --color-secondary: #f27405;
     --color-tertiary: #d92b04;
     --color-green: #005349;
 }
 
+body{
+    background: var(--color-primary);
+}
+
 .bg-img{
     background: url(../img/img-bg.png) center no-repeat;
     background-size: cover;
+}
+
+.line{
+    width: 100%;
+    height: 1px;
+    border: 1px solid white;
+    margin: .5rem;
+}
+
+.frase-inteira {
+    user-select: none;
+    white-space: nowrap;
 }
