@@ -1,27 +1,35 @@
-:root{
-    --color-primary: #590232;
-    --color-secondary: #f27405;
-    --color-tertiary: #d92b04;
-    --color-green: #005349;
+@font-face {
+    font-family: "Brookshire";
+    src: url("../fonts/EFCOBrookshireRegular.ttf");
+    font-weight: normal;
+    font-style: normal;
 }
 
-body{
-    background: var(--color-primary);
+:root {
+  --color-primary: #590232;
+  --color-secondary: #f27405;
+  --color-tertiary: #d92b04;
+  --color-green: #005349;
+  --font-header: "Brookshire"
 }
 
-.bg-img{
-    background: url(../img/img-bg.png) center no-repeat;
-    background-size: cover;
+body {
+  background: var(--color-primary);
 }
 
-.line{
-    width: 100%;
-    height: 1px;
-    border: 1px solid white;
-    margin: .5rem;
+.bg-img {
+  background: url(../img/img-bg.png) center no-repeat;
+  background-size: cover;
+}
+
+.line {
+  width: 100%;
+  height: 1px;
+  border: 1px solid white;
+  margin: 0.5rem;
 }
 
 .frase-inteira {
-    user-select: none;
-    white-space: nowrap;
+  user-select: none;
+  white-space: nowrap;
 }
