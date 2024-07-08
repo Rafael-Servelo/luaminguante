@@ -1,5 +1,5 @@
 {
-  "name": "mimos-da-isa",
+  "name": "lua-minguante",
   "version": "0.0.0",
   "scripts": {
     "dev": "vite --host",
