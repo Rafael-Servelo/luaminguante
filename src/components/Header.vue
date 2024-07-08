@@ -21,7 +21,7 @@ export default defineComponent({
   components: { LoginForm },
   data() {
     return {
-      title: "Mimos da Isa",
+      title: "Lua Minguante",
       drawer: false,
       group: null,
     };
