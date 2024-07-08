@@ -3,7 +3,7 @@
     <v-app-bar-nav-icon @click.stop="drawer = !drawer" v-if="drawer === false" />
     <v-btn rounded icon="mdi-close" @click.stop="drawer = !drawer" v-else></v-btn>
     <v-spacer></v-spacer>
-    <v-img src="../assets/img/logo.png" max-width="60"></v-img>
+    <v-img src="../assets/img/logo-claro.png" max-width="60"></v-img>
     <v-spacer></v-spacer>
     <v-btn icon>
       <v-icon>mdi-cart</v-icon>
