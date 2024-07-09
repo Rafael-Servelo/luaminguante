@@ -10,11 +10,11 @@ const actionsAuth = {
       document.cookie = `userID=${data.userID}; path=/;`;
       toast.success(data.msg);
       dispatch("getUser")
+      window.location.reload()
     } catch (err: any) {
       toast.error(err.response.data.msg);
     } finally {
       commit("Set_Load", false);
-      window.location.reload()
     }
   },
 
