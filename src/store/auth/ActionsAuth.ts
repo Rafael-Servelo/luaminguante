@@ -9,8 +9,20 @@ const actionsAuth = {
       document.cookie = `token=${data.token}; path=/;`;
       document.cookie = `userID=${data.userID}; path=/;`;
       toast.success(data.msg);
-      dispatch("getUser")
-      window.location.reload()
+      dispatch("getUser");
+      window.location.reload();
+    } catch (err: any) {
+      toast.error(err.response.data.msg);
+    } finally {
+      commit("Set_Load", false);
+    }
+  },
+  async register({ commit }: any, form: any) {
+    try {
+      const { data } = await serviceAuth.register(form);
+      commit("Set_Response", data);
+      toast.success(data.msg);
+      commit("Set_IsRegister", false);
     } catch (err: any) {
       toast.error(err.response.data.msg);
     } finally {
@@ -22,7 +34,7 @@ const actionsAuth = {
     try {
       const { data } = await serviceAuth.getUser();
       commit("Set_User", data);
-    } catch (err:any) {
+    } catch (err: any) {
       toast.error(err.response.data.msg);
     }
   },

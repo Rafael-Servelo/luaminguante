@@ -17,12 +17,12 @@
       <v-icon>mdi-cart</v-icon>
     </v-btn>
   </v-app-bar>
-  <login-form v-if="!isLogged" :drawer="drawer" />
-  <user-logged v-else :drawer="drawer" />
+  <sidebar :drawer="drawer" />
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from "vue";
+import { defineComponent } from "vue";
+import Sidebar from "@/components/Sidebar.vue";
 import LoginForm from "@/components/Login.vue";
 import UserLogged from "@/components/UserLogged.vue"
 import getCookie from "@/assets/scripts/getCookies";
@@ -30,10 +30,9 @@ import store from "@/store";
 
 export default defineComponent({
   name: "header nav",
-  components: { LoginForm, UserLogged },
+  components: { Sidebar, LoginForm, UserLogged },
   data() {
     return {
-      isLogged: computed(()=> store.state.auth.isLogged),
       title: "Lua Minguante",
       drawer: false,
       group: null,

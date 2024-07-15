@@ -8,7 +8,17 @@
     temporary
   >
     <v-responsive class="mx-auto" max-width="344">
-      <v-form @submit.prevent="login">
+      <v-form @submit.prevent="register">
+        <v-text-field
+          class="my-2"
+          variant="solo-filled"
+          rounded
+          hide-details
+          bg-color="white"
+          placeholder="Nome"
+          type="text"
+          v-model="form.name"
+        />
         <v-text-field
           class="my-2"
           variant="solo-filled"
@@ -17,7 +27,7 @@
           bg-color="white"
           placeholder="E-mail"
           type="email"
-          autocomplete="username"
+          autocomplete="email"
           v-model="form.email"
         />
         <v-text-field
@@ -31,14 +41,24 @@
           autocomplete="current-password"
           v-model="form.password"
         />
+        <v-text-field
+          class="my-2"
+          variant="solo-filled"
+          rounded
+          hide-details
+          bg-color="white"
+          placeholder="Confirmar Senha"
+          type="password"
+          v-model="form.confirmPassword"
+        />
         <div class="inputs-field">
           <v-btn
             class="ma-2"
-            rounded
-            color="var(--color-secondary)"
             type="submit"
             :loading="loadBtn"
-            >Entrar</v-btn
+            rounded
+            color="var(--color-tertiary)"
+            >Cadastre-se</v-btn
           >
         </div>
       </v-form>
@@ -50,14 +70,15 @@
     >
       <div class="d-flex w-100 align-center justify-center">
         <div class="line"></div>
-        <p class="frase-inteira">Ainda nao tem cadastro ?</p>
+        <p class="frase-inteira">Já possui login ?</p>
         <div class="line"></div>
       </div>
       <v-btn
+        @click="store.commit('Set_IsRegister', !isRegister)"
         class="ma-2"
         rounded
-        color="var(--color-tertiary)"
-        >Cadastre-se</v-btn
+        color="var(--color-secondary)"
+        >Entrar</v-btn
       >
     </div>
   </v-navigation-drawer>
@@ -75,21 +96,24 @@ export default defineComponent({
   },
   data() {
     return {
+      isRegister: computed(() => store.state.isRegister),
       toast,
       store,
-      loadBtn: computed(()=> store.state.auth.load),
+      loadBtn: computed(() => store.state.auth.load),
       form: {
+        name: "",
         email: "",
         password: "",
+        confirmPassword: "",
       },
     };
   },
-  methods:{
-    login(){
-      store.commit("Set_Load", true)
-      store.dispatch('login', this.form)
-    }
-  }
+  methods: {
+    register() {
+      store.commit("Set_Load", true);
+      store.dispatch("register", this.form);
+    },
+  },
 });
 </script>
 

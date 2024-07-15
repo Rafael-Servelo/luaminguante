@@ -8,12 +8,13 @@
     temporary
   >
     <v-responsive class="mx-auto h-100" max-width="344">
-      <div class="d-flex flex-column h-100 justify-space-between ">
+      <div class="d-flex flex-column h-100 justify-space-between">
         <div>
           <div class="d-flex flex-column align-center my-3">
             <v-avatar
+              density="compact"
               size="50"
-              :text="user?.name[0]"
+              :text="user?.name[0].toUpperCase()"
               color="var(--color-secondary)"
             />
             <span class="nameUser">{{ user?.name }}</span>

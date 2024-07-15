@@ -9,6 +9,16 @@ const serviceAuth = {
     });
   },
 
+  async register(form: any) {
+    return axios.post(`${import.meta.env.VITE_URL}/auth/register`, {
+      name: form.name,
+      email: form.email,
+      password: form.password,
+      confirmPassword: form.confirmPassword,
+      isAdm: false
+    });
+  },
+
   async getUser() {
     const token = `Bearer ${getCookie("token")}`;
     const userID = getCookie("userID");

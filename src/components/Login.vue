@@ -1,5 +1,6 @@
 <template>
   <v-navigation-drawer
+    v-if="!isRegister"
     floating
     :width="$vuetify.display.mobile ? $vuetify.display.width : 400"
     color="var(--color-primary)"
@@ -54,6 +55,7 @@
         <div class="line"></div>
       </div>
       <v-btn
+        @click="store.commit('Set_IsRegister', !isRegister)"
         class="ma-2"
         rounded
         color="var(--color-tertiary)"
@@ -61,35 +63,39 @@
       >
     </div>
   </v-navigation-drawer>
+  <register v-else :drawer="drawer" />
 </template>
 
 <script lang="ts">
 import store from "@/store";
 import { computed, defineComponent } from "vue";
 import { toast } from "vue3-toastify";
+import Register from "@/components/Register.vue";
 
 export default defineComponent({
   name: "Login Form",
+  components: { Register },
   props: {
     drawer: Boolean,
   },
   data() {
     return {
+      isRegister: computed(() => store.state.isRegister),
       toast,
       store,
-      loadBtn: computed(()=> store.state.auth.load),
+      loadBtn: computed(() => store.state.auth.load),
       form: {
         email: "",
         password: "",
       },
     };
   },
-  methods:{
-    login(){
-      store.commit("Set_Load", true)
-      store.dispatch('login', this.form)
-    }
-  }
+  methods: {
+    login() {
+      store.commit("Set_Load", true);
+      store.dispatch("login", this.form);
+    },
+  },
 });
 </script>
 
