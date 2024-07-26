@@ -33,3 +33,14 @@ body {
   user-select: none;
   white-space: nowrap;
 }
+
+.flex{
+  display: flex!important;
+}
+
+.col{
+  flex-direction: column!important;
+}
+.row{
+  flex-direction: row!important;
+}

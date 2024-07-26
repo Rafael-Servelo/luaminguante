@@ -6,6 +6,7 @@
 
 // Plugins
 import { registerPlugins } from '@/plugins'
+import router from './router';
 import '@/assets/css/base.css'
 import 'vue3-toastify/dist/index.css';
 
@@ -19,4 +20,5 @@ const app = createApp(App)
 
 registerPlugins(app)
 
+app.use(router)
 app.mount('#app')

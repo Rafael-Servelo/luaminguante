@@ -4,11 +4,9 @@
       @click.stop="drawer = !drawer"
       v-if="drawer === false"
     />
-    <v-btn
-      icon
-      @click.stop="drawer = !drawer"
-      v-else
-    ><v-icon>mdi-close</v-icon></v-btn>
+    <v-btn icon @click.stop="drawer = !drawer" v-else >
+      <v-icon>mdi-close</v-icon>
+    </v-btn>
     <v-spacer></v-spacer>
     <v-img src="../assets/img/logo-claro.png" max-width="60"></v-img>
     <v-spacer></v-spacer>
