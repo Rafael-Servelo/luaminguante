@@ -1,17 +1,33 @@
 <template>
+  <v-fab
+  color="var(--color-secondary)"
+    icon="mdi-chevron-up"
+    location="bottom right"
+    app
+    class="mb-8"
+    :appear="true"
+    size="60"
+    @click="upPage"
+    v-if="upperBtn"
+  ></v-fab>
+
   <header-nav />
   <v-main class="bg-img">
-      <v-container class="flex col align-center">        
-          <v-card v-for="item in [1,2,3]" height="500" class="flex col align-center justify-center my-2 w-100" rounded="xl" color="white">
-              <strong>
-                Main Content {{ item }}
-              </strong>
-          </v-card>
-      </v-container>
+    <v-container class="flex col align-center">
+      <v-card
+        v-for="item in [1, 2, 3]"
+        height="500"
+        class="flex col align-center justify-center my-2 w-100"
+        rounded="xl"
+        color="white"
+      >
+        <strong> Main Content {{ item }} </strong>
+      </v-card>
+    </v-container>
   </v-main>
   <v-footer color="var(--color-green)" class="d-flex flex-column">
     <div class="flex align-center">
-      <p class="pt-0"> Nos acompanhe nas redes sociais! </p>
+      <p class="pt-0">Nos acompanhe nas redes sociais!</p>
       <v-spacer />
       <v-btn
         v-for="icon in icons"
@@ -26,7 +42,7 @@
     <v-divider></v-divider>
 
     <div>
-        ©{{ new Date().getFullYear() }} Lua Minguante —
+      ©{{ new Date().getFullYear() }} Lua Minguante —
       <strong>Desenvolvido por Rafael Servelo</strong>
     </div>
   </v-footer>
@@ -43,12 +59,35 @@ export default defineComponent({
   data() {
     return {
       icons: ["mdi-facebook", "mdi-instagram"],
+      upperBtn: false
     };
   },
-  methods:{
-    openInsta(){
-    window.open('https://www.instagram.com/luaminguanteloja/')
-  }
+  methods: {
+    openInsta() {
+      window.open("https://www.instagram.com/luaminguanteloja/");
+    },
+    upPage(){
+      window.scrollTo({
+        top: 0,
+        behavior:'smooth'
+      })
+    }
+  },
+  mounted(){
+    window.addEventListener('scroll', ()=>{
+      if(window.scrollY >= 100){
+        this.upperBtn = true
+      } else {
+        this.upperBtn = false
+      }
+    })
   }
 });
 </script>
+
+<style>
+.fluter {
+  z-index: 1006;
+  position: fixed;
+}
+</style>
