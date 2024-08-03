@@ -17,21 +17,35 @@
       :class="{ 'w-100': search }"
     >
       <v-text-field
-        variant="outlined"
+        theme="light"
+        variant="solo"
         hide-details
+        density="compact"
         v-if="search"
         class="w-100"
+        label="Pesquisar..."
+        clearable
         v-model="searchField"
       ></v-text-field>
-      <v-btn icon @click="initSearch">
+      <v-btn icon @click="initSearch" v-tooltip="'Pesquisar'" theme="light">
         <v-icon>mdi-magnify</v-icon>
       </v-btn>
     </v-form>
-    <v-btn icon v-tooltip="'Favoritos'" v-if="!search">
-      <v-icon>mdi-heart</v-icon>
+    <v-btn icon v-tooltip="'Favoritos'" theme="light" v-if="!search">
+      <v-badge color="red" content="9+" location="top end" :floating="true">
+        <v-icon>mdi-heart</v-icon>
+      </v-badge>
     </v-btn>
-    <v-btn icon v-tooltip="'Carrinho'" v-if="!search">
-      <v-icon>mdi-cart</v-icon>
+    <v-btn
+      class="me-4"
+      icon
+      v-tooltip="'Carrinho'"
+      theme="light"
+      v-if="!search"
+    >
+      <v-badge color="red" content="9+" location="top end" :floating="true">
+        <v-icon>mdi-cart</v-icon>
+      </v-badge>
     </v-btn>
   </v-app-bar>
   <sidebar :drawer="drawer" />
@@ -64,7 +78,7 @@ export default defineComponent({
   },
   methods: {
     initSearch() {
-      if (this.searchField === "") {
+      if (this.searchField === "" || this.searchField === null) {
         this.search = !this.search;
       } else {
         console.log("Pesquisar:", this.searchField);
@@ -78,6 +92,13 @@ export default defineComponent({
     } else {
       store.commit("Set_IsLogged", false);
     }
+
+    document.addEventListener("keydown", (evt: any) => {
+      if (evt.keyCode == 27) {
+        this.searchField = "";
+        this.search = false;
+      }
+    });
   },
 });
 </script>
