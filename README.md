@@ -59,6 +59,11 @@ To build your project for production, use:
 yarn build
 ```
 
+To scanner in SonarQube, use:
+```bbash
+sonar-scanner.bat -D"sonar.projectKey=SONAR_KEY" -D"sonar.sources=." -D"sonar.host.url=http://localhost:9000" -D"sonar.token=SONAR_SECRET"
+```
+
 (Repeat for npm, pnpm, and bun with respective commands.)
 
 Once the build process is completed, your application will be ready for deployment in a production environment.

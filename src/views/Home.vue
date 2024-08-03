@@ -64,7 +64,7 @@ export default defineComponent({
   },
   methods: {
     openInsta() {
-      window.open("https://www.instagram.com/luaminguanteloja/");
+      window.open("https://www.instagram.com/luaminguanteloja/", "WindowName", "noopener");
     },
     upPage(){
       window.scrollTo({
