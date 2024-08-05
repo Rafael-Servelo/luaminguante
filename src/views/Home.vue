@@ -13,37 +13,42 @@
 
   <header-nav />
   <v-main class="bg-img">
-    <v-container class="flex col align-center">
-      <v-card
-        v-for="item in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]"
-        class="mx-auto mb-4"
-        rounded="lg"
-        max-width="344"
-        color="white"
-      >
-        <v-img
-          src="https://cdn.vuetifyjs.com/images/cards/forest-art.jpg"
-        ></v-img>
-
-        <v-card-text>
-          <h2 class="text-h6" style="color: var(--color-green);">Main Content {{ item }}</h2>
-          Travel to the best outdoor experience on planet Earth. A vacation you
-          will never forget!
-        </v-card-text>
-
-        <v-card-title>
-          <v-rating
-
-            :model-value="4"
-            background-color="var(--color-green)"
-            class="me-2"
-            color="var(--color-green)"
-            dense
-            hover
-          ></v-rating>
-          <span class="text-primary text-subtitle-2">64 Reviews</span>
-        </v-card-title>
-      </v-card>
+    <v-container class="flex col align-center" style="background-color: white;">
+      <v-row>
+        <v-col v-for="item in 24"
+        :key="item">
+        <v-card
+          class="mx-auto mb-4"
+          rounded="lg"
+          max-width="344"
+          color="white"
+          elevation="6"
+        >
+          <v-img
+            src="https://cdn.vuetifyjs.com/images/cards/forest-art.jpg"
+          ></v-img>
+  
+          <v-card-text>
+            <h2 class="text-h6" style="color: var(--color-green);">Main Content {{ item }}</h2>
+            Travel to the best outdoor experience on planet Earth. A vacation you
+            will never forget!
+          </v-card-text>
+  
+          <v-card-title>
+            <v-rating
+  
+              :model-value="4"
+              background-color="var(--color-green)"
+              class="me-2"
+              color="var(--color-green)"
+              dense
+              hover
+            ></v-rating>
+            <span class="text-primary text-subtitle-2">64 Reviews</span>
+          </v-card-title>
+        </v-card>
+        </v-col>
+      </v-row>
     </v-container>
   </v-main>
   <v-footer color="var(--color-green)" class="d-flex flex-column">
