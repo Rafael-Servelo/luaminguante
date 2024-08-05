@@ -1,6 +1,6 @@
 <template>
   <v-fab
-  color="var(--color-secondary)"
+    color="var(--color-secondary)"
     icon="mdi-chevron-up"
     location="bottom right"
     app
@@ -15,13 +15,34 @@
   <v-main class="bg-img">
     <v-container class="flex col align-center">
       <v-card
-        v-for="item in [1, 2, 3]"
-        height="500"
-        class="flex col align-center justify-center my-2 w-100"
-        rounded="xl"
+        v-for="item in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]"
+        class="mx-auto mb-4"
+        rounded="lg"
+        max-width="344"
         color="white"
       >
-        <strong> Main Content {{ item }} </strong>
+        <v-img
+          src="https://cdn.vuetifyjs.com/images/cards/forest-art.jpg"
+        ></v-img>
+
+        <v-card-text>
+          <h2 class="text-h6" style="color: var(--color-green);">Main Content {{ item }}</h2>
+          Travel to the best outdoor experience on planet Earth. A vacation you
+          will never forget!
+        </v-card-text>
+
+        <v-card-title>
+          <v-rating
+
+            :model-value="4"
+            background-color="var(--color-green)"
+            class="me-2"
+            color="var(--color-green)"
+            dense
+            hover
+          ></v-rating>
+          <span class="text-primary text-subtitle-2">64 Reviews</span>
+        </v-card-title>
       </v-card>
     </v-container>
   </v-main>
@@ -59,29 +80,33 @@ export default defineComponent({
   data() {
     return {
       icons: ["mdi-facebook", "mdi-instagram"],
-      upperBtn: false
+      upperBtn: false,
     };
   },
   methods: {
     openInsta() {
-      window.open("https://www.instagram.com/luaminguanteloja/", "WindowName", "noopener");
+      window.open(
+        "https://www.instagram.com/luaminguanteloja/",
+        "WindowName",
+        "noopener"
+      );
     },
-    upPage(){
+    upPage() {
       window.scrollTo({
         top: 0,
-        behavior:'smooth'
-      })
-    }
+        behavior: "smooth",
+      });
+    },
   },
-  mounted(){
-    window.addEventListener('scroll', ()=>{
-      if(window.scrollY >= 100){
-        this.upperBtn = true
+  mounted() {
+    window.addEventListener("scroll", () => {
+      if (window.scrollY >= 100) {
+        this.upperBtn = true;
       } else {
-        this.upperBtn = false
+        this.upperBtn = false;
       }
-    })
-  }
+    });
+  },
 });
 </script>
 
