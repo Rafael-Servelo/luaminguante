@@ -99,7 +99,7 @@
           rounded="circle"
           @first="controls.goTo(1)"
           @last="controls.goTo(state.totalPages)"
-          @update:model-value="(e) => controls.goTo(e)"
+          @update:model-value="(e: number) => controls.goTo(e)"
           :total-visible="$vuetify.display.mobile ? '5' : '7'"
         />
       </div>
