@@ -58,7 +58,7 @@
                   class="text-subtitle-3"
                   style="user-select: none; color: var(--color-green)"
                 >
-                  R$ 49,00
+                  R$ 49,99
                 </div>
                 <v-btn icon variant="plain">
                   <v-icon color="var(--color-green)">mdi-heart-outline</v-icon>
@@ -100,7 +100,7 @@
           @first="controls.goTo(1)"
           @last="controls.goTo(state.totalPages)"
           @update:model-value="(e: number) => controls.goTo(e)"
-          :total-visible="$vuetify.display.mobile ? '5' : '7'"
+          :total-visible="$vuetify.display.mobile ? '4' : '7'"
         />
       </div>
     </v-container>
@@ -172,7 +172,7 @@ export default defineComponent({
       return el as any;
     });
 
-    let perPage = 12;
+    let perPage = 8;
     const state = {
       page: ref(0),
       perPage,
