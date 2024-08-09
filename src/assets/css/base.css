@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700&display=swap');
 @font-face {
     font-family: "Brookshire";
     src: url("../fonts/EFCOBrookshireRegular.ttf");
@@ -10,7 +11,14 @@
   --color-secondary: #f27405;
   --color-tertiary: #d92b04;
   --color-green: #005349;
-  --font-header: "Brookshire"
+  --font-header: "Brookshire";
+  --font-body: "M PLUS Rounded 1c", sans-serif;
+}
+
+html, body{
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-style: normal;
 }
 
 body {

@@ -13,42 +13,96 @@
 
   <header-nav />
   <v-main class="bg-img">
-    <v-container class="flex col align-center" style="background-color: white;">
+    <v-container
+      class="flex col align-center"
+      style="background-color: white"
+      ron
+    >
+      <div
+        class="text-h3 mb-6"
+        style="
+          color: var(--color-primary);
+          font-weight: 500;
+          font-family: var(--font-body);
+        "
+      >
+        Destaques
+      </div>
       <v-row>
-        <v-col v-for="item in 24"
-        :key="item">
-        <v-card
-          class="mx-auto mb-4"
-          rounded="lg"
-          max-width="344"
-          color="white"
-          elevation="6"
+        <v-col
+          v-for="item in listArray"
+          :key="item.id"
+          :cols="$vuetify.display.mobile === false ? '3' : false"
         >
-          <v-img
-            src="https://cdn.vuetifyjs.com/images/cards/forest-art.jpg"
-          ></v-img>
-  
-          <v-card-text>
-            <h2 class="text-h6" style="color: var(--color-green);">Main Content {{ item }}</h2>
-            Travel to the best outdoor experience on planet Earth. A vacation you
-            will never forget!
-          </v-card-text>
-  
-          <v-card-title>
-            <v-rating
-  
-              :model-value="4"
-              background-color="var(--color-green)"
-              class="me-2"
-              color="var(--color-green)"
-              dense
-              hover
-            ></v-rating>
-            <span class="text-primary text-subtitle-2">64 Reviews</span>
-          </v-card-title>
-        </v-card>
+          <v-card
+            class="mx-auto mb-4"
+            rounded="xl"
+            max-width="344"
+            color="white"
+            elevation="6"
+          >
+            <v-img
+              :src="`https://picsum.photos/500/300?image=${item.id + 10}`"
+            ></v-img>
+            <v-card-text>
+              <h2 class="text-h6" style="color: var(--color-green)">
+                {{ item.name }}
+              </h2>
+              Travel to the best outdoor experience on planet Earth. A vacation
+              you will never forget!
+            </v-card-text>
+
+            <v-card-item>
+              <div class="flex align-center w-100 justify-space-around">
+                <div
+                  class="text-subtitle-3"
+                  style="user-select: none; color: var(--color-green)"
+                >
+                  R$ 49,00
+                </div>
+                <v-btn icon variant="plain">
+                  <v-icon color="var(--color-green)">mdi-heart-outline</v-icon>
+                </v-btn>
+                <v-btn icon variant="plain">
+                  <v-icon color="var(--color-green)">mdi-cart-plus</v-icon>
+                </v-btn>
+              </div>
+            </v-card-item>
+
+            <v-card-title>
+              <div class="flex align-center col">
+                <v-rating
+                  :model-value="4"
+                  background-color="var(--color-green)"
+                  class="me-2"
+                  color="var(--color-green)"
+                  dense
+                  hover
+                ></v-rating>
+                <div
+                  class="text-subtitle-2"
+                  style="color: var(--color-secondary)"
+                >
+                  64 Reviews
+                </div>
+              </div>
+            </v-card-title>
+          </v-card>
         </v-col>
       </v-row>
+      <div>
+        <v-pagination
+          ariant="plain"
+          color="var(--color-green)"
+          v-model="state.page.value"
+          :length="state.totalPages"
+          rounded="circle"
+          @first="controls.goTo(1)"
+          @last="controls.goTo(state.totalPages)"
+          @update:model-value="(e) => controls.goTo(e)"
+          :total-visible="$vuetify.display.mobile ? '5' : '7'"
+        />
+      </div>
     </v-container>
   </v-main>
   <v-footer color="var(--color-green)" class="d-flex flex-column">
@@ -75,7 +129,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
 import HeaderNav from "@/components/Header.vue";
 
 export default defineComponent({
@@ -84,7 +138,7 @@ export default defineComponent({
   },
   data() {
     return {
-      icons: ["mdi-facebook", "mdi-instagram"],
+      icons: ["mdi-instagram"],
       upperBtn: false,
     };
   },
@@ -103,7 +157,86 @@ export default defineComponent({
       });
     },
   },
+  setup() {
+    let listArray = ref([] as any);
+    /**
+     * Populando Lista para paginação
+     */
+    const data = Array.from({ length: 100 }).map((el, i) => {
+      if (!el) {
+        el = {
+          name: `Main Content ${i + 1}`,
+          id: i,
+        };
+      }
+      return el as any;
+    });
+
+    let perPage = 12;
+    const state = {
+      page: ref(0),
+      perPage,
+      totalPages: Math.ceil(data.length / perPage),
+    };
+    const controls = {
+      next() {
+        state.page.value++;
+
+        if (state.page.value > state.totalPages) {
+          this.prev();
+        }
+      },
+      prev() {
+        state.page.value--;
+
+        if (state.page.value < 1) {
+          this.next();
+        }
+      },
+      goTo(page: number) {
+        state.page.value = page;
+
+        list.update();
+
+        if (state.page.value > state.totalPages) {
+          this.goTo(state.totalPages);
+        }
+
+        if (state.page.value < 1) {
+          this.goTo(1);
+        }
+      },
+    };
+
+    const list = {
+      update() {
+        listArray.value = [];
+
+        let page = state.page.value - 1;
+        let start = page * state.perPage;
+        let end = start + state.perPage;
+
+        const paginatedItems = data.slice(start, end);
+
+        listArray.value = paginatedItems;
+
+        console.log(paginatedItems);
+      },
+    };
+
+    return {
+      data,
+      state,
+      controls,
+      list,
+      listArray,
+    };
+  },
   mounted() {
+    this.controls.goTo(0);
+    /**
+     * Função para voltar ao topo da pagina
+     */
     window.addEventListener("scroll", () => {
       if (window.scrollY >= 100) {
         this.upperBtn = true;
