@@ -32,6 +32,10 @@
           autocomplete="current-password"
           v-model="form.password"
         />
+        <div
+          class="buttons d-flex justify-center align-center"
+          style="flex-direction: column"
+        ></div>
         <div class="inputs-field">
           <v-btn
             class="ma-2"
@@ -44,6 +48,12 @@
         </div>
       </v-form>
     </v-responsive>
+
+    <div class="d-flex w-100 mb-2 align-center justify-center">
+      <div class="line"></div>
+      <a class="frase-inteira link">Esqueceu a senha ?</a>
+      <div class="line"></div>
+    </div>
 
     <div
       class="buttons d-flex justify-center align-center"
@@ -104,5 +114,12 @@ export default defineComponent({
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.link {
+  cursor: pointer;
+  color: white;
+}
+.link:hover {
+  color: cornflowerblue;
 }
 </style>

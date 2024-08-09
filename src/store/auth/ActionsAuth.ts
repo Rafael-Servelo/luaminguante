@@ -9,10 +9,12 @@ const actionsAuth = {
       document.cookie = `token=${data.token}; path=/;`;
       document.cookie = `userID=${data.userID}; path=/;`;
       toast.success(data.msg);
+      commit("Set_IsLogged", true);
       dispatch("getUser");
       window.location.reload();
     } catch (err: any) {
       toast.error(err.response.data.msg);
+      commit("Set_IsLogged", false);
     } finally {
       commit("Set_Load", false);
     }
@@ -34,8 +36,10 @@ const actionsAuth = {
     try {
       const { data } = await serviceAuth.getUser();
       commit("Set_User", data);
+      commit("Set_IsLogged", true);
     } catch (err: any) {
       toast.error(err.response.data.msg);
+      commit("Set_IsLogged", false);
     }
   },
 };

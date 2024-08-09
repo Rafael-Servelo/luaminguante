@@ -60,11 +60,21 @@
                 >
                   R$ 49,99
                 </div>
-                <v-btn icon variant="plain">
-                  <v-icon color="var(--color-green)">mdi-heart-outline</v-icon>
+                <v-btn icon variant="plain" @click="item.fav = !item.fav">
+                  <v-icon color="var(--color-green)" v-if="item.fav"
+                    >mdi-heart</v-icon
+                  >
+                  <v-icon color="var(--color-green)" v-else
+                    >mdi-heart-outline</v-icon
+                  >
                 </v-btn>
-                <v-btn icon variant="plain">
-                  <v-icon color="var(--color-green)">mdi-cart-plus</v-icon>
+                <v-btn icon variant="plain" @click="item.card = !item.card">
+                  <v-icon color="var(--color-green)" v-if="item.card"
+                    >mdi-cart-remove</v-icon
+                  >
+                  <v-icon color="var(--color-green)" v-else
+                    >mdi-cart-plus</v-icon
+                  >
                 </v-btn>
               </div>
             </v-card-item>
@@ -72,6 +82,7 @@
             <v-card-title>
               <div class="flex align-center col">
                 <v-rating
+                  readonly
                   :model-value="4"
                   background-color="var(--color-green)"
                   class="me-2"
@@ -167,6 +178,8 @@ export default defineComponent({
         el = {
           name: `Main Content ${i + 1}`,
           id: i,
+          fav: false,
+          card: false,
         };
       }
       return el as any;
@@ -219,8 +232,6 @@ export default defineComponent({
         const paginatedItems = data.slice(start, end);
 
         listArray.value = paginatedItems;
-
-        console.log(paginatedItems);
       },
     };
 
