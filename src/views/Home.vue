@@ -83,7 +83,7 @@
               <div class="flex align-center col">
                 <v-rating
                   readonly
-                  :model-value="4"
+                  :model-value="item.rated"
                   background-color="var(--color-green)"
                   class="me-2"
                   color="var(--color-green)"
@@ -180,6 +180,7 @@ export default defineComponent({
           id: i,
           fav: false,
           card: false,
+          rated: Math.floor(Math.random() * (5 - 1 + 1)) + 1
         };
       }
       return el as any;
