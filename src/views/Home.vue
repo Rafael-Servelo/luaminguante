@@ -18,6 +18,13 @@
       style="background-color: white"
       ron
     >
+      <v-img
+        alt="Logo Lua Minguante"
+        width="200"
+        src="../assets/img/logo-escuro.png"
+      ></v-img>
+      <v-divider color="var(--color-green)" opacity=".5" width="100%" />
+      <div class="my-2"></div>
       <div
         class="text-h3 mb-6"
         style="
@@ -52,13 +59,22 @@
               you will never forget!
             </v-card-text>
 
-            <v-card-item>
+            <v-card-item style="min-width: 250px;">
+              <v-chip color="var(--color-secondary)" variant="flat" text="Frete Grátis" theme="light" ></v-chip>
               <div class="flex align-center w-100 justify-space-around">
-                <div
-                  class="text-subtitle-3"
-                  style="user-select: none; color: var(--color-green)"
-                >
-                  R$ 49,99
+                <div>
+                  <div
+                    class="text-subtitle-1"
+                    style="user-select: none;"
+                  >
+                    A partir de
+                  </div>
+                  <div
+                    class="text-subtitle-3"
+                    style="user-select: none; color: var(--color-green)"
+                  >
+                    R$ 249,99
+                  </div>
                 </div>
                 <v-btn icon variant="plain" @click="item.fav = !item.fav">
                   <v-icon color="var(--color-green)" v-if="item.fav"
@@ -78,26 +94,6 @@
                 </v-btn>
               </div>
             </v-card-item>
-
-            <v-card-title>
-              <div class="flex align-center col">
-                <v-rating
-                  readonly
-                  :model-value="item.rated"
-                  background-color="var(--color-green)"
-                  class="me-2"
-                  color="var(--color-green)"
-                  dense
-                  hover
-                ></v-rating>
-                <div
-                  class="text-subtitle-2"
-                  style="color: var(--color-secondary)"
-                >
-                  64 Reviews
-                </div>
-              </div>
-            </v-card-title>
           </v-card>
         </v-col>
       </v-row>
@@ -180,7 +176,7 @@ export default defineComponent({
           id: i,
           fav: false,
           card: false,
-          rated: Math.floor(Math.random() * (5 - 1 + 1)) + 1
+          rated: Math.floor(Math.random() * (5 - 1 + 1)) + 1,
         };
       }
       return el as any;
