@@ -1,5 +1,6 @@
 import { toast } from "vue3-toastify";
 import serviceAuth from "./serviceAuth";
+import router from "@/router";
 
 const actionsAuth = {
   async login({ commit, dispatch }: any, form: any) {
@@ -15,6 +16,32 @@ const actionsAuth = {
     } catch (err: any) {
       toast.error(err.response.data.msg);
       commit("Set_IsLogged", false);
+    } finally {
+      commit("Set_Load", false);
+    }
+  },
+  async forgotPassword({ commit }: any, email: string) {
+    try {
+      const { data } = await serviceAuth.forgotPassword(email);
+      toast.success(data.msg);
+      setInterval(() => {
+        router.push({ name: "Home" });
+      }, 3000);
+    } catch (err: any) {
+      toast.error(err.response.data.msg);
+    } finally {
+      commit("Set_Load", false);
+    }
+  },
+  async recoveryPassword({ commit }: any, email: string) {
+    try {
+      const { data } = await serviceAuth.recoveryPassword(email);
+      toast.success(data.msg);
+      setInterval(() => {
+        router.push({ name: "Home" });
+      }, 3000);
+    } catch (err: any) {
+      toast.error(err.response.data.msg);
     } finally {
       commit("Set_Load", false);
     }

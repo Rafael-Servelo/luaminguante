@@ -51,7 +51,11 @@
 
     <div class="d-flex w-100 mb-2 align-center justify-center">
       <div class="line"></div>
-      <a class="frase-inteira link">Esqueceu a senha ?</a>
+      <a
+        class="frase-inteira link"
+        @click="$router.push({ name: 'ForgotPassword' })"
+        >Esqueceu a senha ?</a
+      >
       <div class="line"></div>
     </div>
 

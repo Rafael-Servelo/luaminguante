@@ -9,13 +9,27 @@ const serviceAuth = {
     });
   },
 
+  async forgotPassword(email: any) {
+    return axios.post(`${import.meta.env.VITE_URL}/auth/forgot_password`, {
+      email: email,
+    });
+  },
+  async recoveryPassword(form: any) {
+    return axios.post(`${import.meta.env.VITE_URL}/auth/reset_password/`, {
+      email: form.email,
+      token: form.token,
+      password: form.password,
+      confirmPassword: form.confirmPassword,
+    });
+  },
+
   async register(form: any) {
     return axios.post(`${import.meta.env.VITE_URL}/auth/register`, {
       name: form.name,
       email: form.email,
       password: form.password,
       confirmPassword: form.confirmPassword,
-      isAdm: false
+      isAdm: false,
     });
   },
 

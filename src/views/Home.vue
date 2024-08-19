@@ -107,41 +107,25 @@
           @first="controls.goTo(1)"
           @last="controls.goTo(state.totalPages)"
           @update:model-value="(e: number) => controls.goTo(e)"
+          @click="changePage($event.target.innerText)"
           :total-visible="$vuetify.display.mobile ? '4' : '7'"
         />
       </div>
     </v-container>
   </v-main>
-  <v-footer color="var(--color-green)" class="d-flex flex-column">
-    <div class="flex align-center">
-      <p class="pt-0">Nos acompanhe nas redes sociais!</p>
-      <v-spacer />
-      <v-btn
-        v-for="icon in icons"
-        :key="icon"
-        :icon="icon"
-        class="mx-2"
-        variant="text"
-        @click="icon.includes('instagram') ? openInsta() : console.log('Face')"
-      ></v-btn>
-    </div>
-
-    <v-divider></v-divider>
-
-    <div>
-      ©{{ new Date().getFullYear() }} Lua Minguante —
-      <strong>Desenvolvido por Rafael Servelo</strong>
-    </div>
-  </v-footer>
+  <my-footer></my-footer>
+  
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
 import HeaderNav from "@/components/Header.vue";
+import MyFooter from "@/components/footer.vue"
 
 export default defineComponent({
   components: {
     HeaderNav,
+    MyFooter
   },
   data() {
     return {
@@ -150,13 +134,6 @@ export default defineComponent({
     };
   },
   methods: {
-    openInsta() {
-      window.open(
-        "https://www.instagram.com/luaminguanteloja/",
-        "WindowName",
-        "noopener"
-      );
-    },
     upPage() {
       window.scrollTo({
         top: 0,
@@ -166,10 +143,11 @@ export default defineComponent({
   },
   setup() {
     let listArray = ref([] as any);
+    const urlParams = new URLSearchParams(window.location.search) as any;
     /**
      * Populando Lista para paginação
      */
-    const data = Array.from({ length: 100 }).map((el, i) => {
+    const data = Array.from({ length: 200 }).map((el, i) => {
       if (!el) {
         el = {
           name: `Main Content ${i + 1}`,
@@ -182,9 +160,9 @@ export default defineComponent({
       return el as any;
     });
 
-    let perPage = 8;
+    let perPage = 16;
     const state = {
-      page: ref(0),
+      page: ref(1),
       perPage,
       totalPages: Math.ceil(data.length / perPage),
     };
@@ -195,6 +173,8 @@ export default defineComponent({
         if (state.page.value > state.totalPages) {
           this.prev();
         }
+
+        urlParams.set('page', `${state.page.value}`);
       },
       prev() {
         state.page.value--;
@@ -202,6 +182,7 @@ export default defineComponent({
         if (state.page.value < 1) {
           this.next();
         }
+        urlParams.set('page', `${state.page.value}`);
       },
       goTo(page: number) {
         state.page.value = page;
@@ -215,6 +196,7 @@ export default defineComponent({
         if (state.page.value < 1) {
           this.goTo(1);
         }
+        urlParams.set('page', `${state.page.value}`);
       },
     };
 
@@ -229,8 +211,14 @@ export default defineComponent({
         const paginatedItems = data.slice(start, end);
 
         listArray.value = paginatedItems;
+        urlParams.set("page", state.page.value)
       },
     };
+
+    function changePage(n: any){
+      urlParams.set("page", `${n}`);
+      window.location.search = urlParams
+    }
 
     return {
       data,
@@ -238,10 +226,17 @@ export default defineComponent({
       controls,
       list,
       listArray,
+      changePage
     };
   },
   mounted() {
-    this.controls.goTo(0);
+    const urlParams = new URLSearchParams(window.location.search) as any;
+    if(urlParams != ''){
+      this.controls.goTo(urlParams.get("page"));
+    } else {
+      urlParams.set('page', `${this.state.page.value}`);
+      window.location.search = urlParams
+    }
     /**
      * Função para voltar ao topo da pagina
      */

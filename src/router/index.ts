@@ -1,15 +1,20 @@
 import { RouteRecordRaw, createWebHistory, createRouter } from "vue-router";
 
 const routes: RouteRecordRaw[] = [
-  {
-    path: "/:pathMatch(.*)*",
-    name: "NotFound",
-    component: () => import("@/views/404.vue"),
-  },
+  // {
+  //   path: "/:pathMatch(.*)*",
+  //   name: "NotFound",
+  //   component: () => import("@/views/404.vue"),
+  // },
   {
     path: "/",
     name: "Home",
     component: () => import("@/views/Home.vue"),
+  },
+  {
+    path: "/esqueci-a-senha",
+    name: "ForgotPassword",
+    component: () => import("@/views/ForgotPassword.vue"),
   },
 ];
 
