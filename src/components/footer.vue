@@ -15,9 +15,9 @@
 
     <v-divider></v-divider>
 
-    <div>
-      ©{{ new Date().getFullYear() }} Lua Minguante —
-      <strong>Desenvolvido por Rafael Servelo</strong>
+    <div style="font-weight: 400">
+      <strong> &copy;{{ new Date().getFullYear() }} Lua Minguante </strong> —
+      Desenvolvido por <strong>Rafael Servelo</strong>
     </div>
   </v-footer>
 </template>

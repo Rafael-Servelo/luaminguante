@@ -12,18 +12,20 @@
   ></v-fab>
 
   <header-nav />
+  <div class="bg-logo">
+    <v-img
+      alt="Logo Lua Minguante"
+      width="200"
+      height="200"
+      src="../assets/img/logo-claro.png"
+    ></v-img>
+  </div>
   <v-main class="bg-img">
     <v-container
       class="flex col align-center"
       style="background-color: white"
       ron
     >
-      <v-img
-        alt="Logo Lua Minguante"
-        width="200"
-        src="../assets/img/logo-escuro.png"
-      ></v-img>
-      <v-divider color="var(--color-green)" opacity=".5" width="100%" />
       <div class="my-2"></div>
       <div
         class="text-h3 mb-6"
@@ -48,9 +50,27 @@
             color="white"
             elevation="6"
           >
-            <v-img
-              :src="`https://picsum.photos/500/300?image=${item.id + 10}`"
-            ></v-img>
+            <v-sheet color="transparent">
+              <v-carousel
+                color="var(--color-secondary)"
+                height="300"
+              >
+                <v-carousel-item
+                  :src="`https://picsum.photos/500/400?image=${item.id + 10}`"
+                  cover
+                ></v-carousel-item>
+
+                <v-carousel-item
+                  :src="`https://picsum.photos/500/400?image=${item.id + 11}`"
+                  cover
+                ></v-carousel-item>
+
+                <v-carousel-item
+                  :src="`https://picsum.photos/500/400?image=${item.id + 12}`"
+                  cover
+                ></v-carousel-item>
+              </v-carousel>
+            </v-sheet>
             <v-card-text>
               <h2 class="text-h6" style="color: var(--color-green)">
                 {{ item.name }}
@@ -59,14 +79,16 @@
               you will never forget!
             </v-card-text>
 
-            <v-card-item style="min-width: 250px;">
-              <v-chip color="var(--color-secondary)" variant="flat" text="Frete Grátis" theme="light" ></v-chip>
+            <v-card-item style="min-width: 250px">
+              <v-chip
+                color="var(--color-secondary)"
+                variant="flat"
+                text="Frete Grátis"
+                theme="light"
+              ></v-chip>
               <div class="flex align-center w-100 justify-space-around">
                 <div>
-                  <div
-                    class="text-subtitle-1"
-                    style="user-select: none;"
-                  >
+                  <div class="text-subtitle-1" style="user-select: none">
                     A partir de
                   </div>
                   <div
@@ -114,18 +136,17 @@
     </v-container>
   </v-main>
   <my-footer></my-footer>
-  
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
 import HeaderNav from "@/components/Header.vue";
-import MyFooter from "@/components/footer.vue"
+import MyFooter from "@/components/footer.vue";
 
 export default defineComponent({
   components: {
     HeaderNav,
-    MyFooter
+    MyFooter,
   },
   data() {
     return {
@@ -174,7 +195,7 @@ export default defineComponent({
           this.prev();
         }
 
-        urlParams.set('page', `${state.page.value}`);
+        urlParams.set("page", `${state.page.value}`);
       },
       prev() {
         state.page.value--;
@@ -182,7 +203,7 @@ export default defineComponent({
         if (state.page.value < 1) {
           this.next();
         }
-        urlParams.set('page', `${state.page.value}`);
+        urlParams.set("page", `${state.page.value}`);
       },
       goTo(page: number) {
         state.page.value = page;
@@ -196,7 +217,7 @@ export default defineComponent({
         if (state.page.value < 1) {
           this.goTo(1);
         }
-        urlParams.set('page', `${state.page.value}`);
+        urlParams.set("page", `${state.page.value}`);
       },
     };
 
@@ -211,13 +232,13 @@ export default defineComponent({
         const paginatedItems = data.slice(start, end);
 
         listArray.value = paginatedItems;
-        urlParams.set("page", state.page.value)
+        urlParams.set("page", state.page.value);
       },
     };
 
-    function changePage(n: any){
+    function changePage(n: any) {
       urlParams.set("page", `${n}`);
-      window.location.search = urlParams
+      window.location.search = urlParams;
     }
 
     return {
@@ -226,16 +247,16 @@ export default defineComponent({
       controls,
       list,
       listArray,
-      changePage
+      changePage,
     };
   },
   mounted() {
     const urlParams = new URLSearchParams(window.location.search) as any;
-    if(urlParams != ''){
+    if (urlParams != "") {
       this.controls.goTo(urlParams.get("page"));
     } else {
-      urlParams.set('page', `${this.state.page.value}`);
-      window.location.search = urlParams
+      urlParams.set("page", `${this.state.page.value}`);
+      window.location.search = urlParams;
     }
     /**
      * Função para voltar ao topo da pagina
@@ -252,6 +273,13 @@ export default defineComponent({
 </script>
 
 <style>
+.bg-logo {
+  position: relative;
+  top: 56px;
+  width: 100%;
+  background-color: var(--color-primary);
+  display: flex;
+}
 .fluter {
   z-index: 1006;
   position: fixed;
