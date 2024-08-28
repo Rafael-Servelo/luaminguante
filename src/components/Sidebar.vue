@@ -16,7 +16,7 @@ export default defineComponent({
         UserLogged,
     },
     props:{
-        drawer: Boolean
+        drawer: Object as any
     },
     data(){
         return{

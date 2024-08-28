@@ -142,6 +142,7 @@
 import { defineComponent, ref } from "vue";
 import HeaderNav from "@/components/Header.vue";
 import MyFooter from "@/components/footer.vue";
+import router from "@/router";
 
 export default defineComponent({
   components: {
@@ -257,6 +258,10 @@ export default defineComponent({
     } else {
       urlParams.set("page", `${this.state.page.value}`);
       window.location.search = urlParams;
+    }
+    if(urlParams.get("token")){
+      sessionStorage.setItem("resetToken", urlParams.get("token"))
+      router.push({name: 'ForgotPassword'})
     }
     /**
      * Função para voltar ao topo da pagina

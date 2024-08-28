@@ -24,7 +24,7 @@ const actionsAuth = {
     try {
       const { data } = await serviceAuth.forgotPassword(email);
       toast.success(data.msg);
-      setInterval(() => {
+      setTimeout(() => {
         router.push({ name: "Home" });
       }, 3000);
     } catch (err: any) {
@@ -37,8 +37,9 @@ const actionsAuth = {
     try {
       const { data } = await serviceAuth.recoveryPassword(email);
       toast.success(data.msg);
-      setInterval(() => {
+      setTimeout(() => {
         router.push({ name: "Home" });
+        sessionStorage.clear()
       }, 3000);
     } catch (err: any) {
       toast.error(err.response.data.msg);

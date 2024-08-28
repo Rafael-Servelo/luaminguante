@@ -3,7 +3,7 @@
     floating
     :width="$vuetify.display.mobile ? $vuetify.display.width : 400"
     color="var(--color-primary)"
-    v-model="drawer"
+    v-model="drawer.drawer"
     :location="$vuetify.display.mobile ? 'left' : undefined"
     temporary
   >
@@ -54,7 +54,7 @@ import { toast } from "vue3-toastify";
 export default defineComponent({
   name: "Login Form",
   props: {
-    drawer: Boolean,
+    drawer: Object as any,
   },
   data() {
     return {

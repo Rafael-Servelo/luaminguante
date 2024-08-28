@@ -4,7 +4,7 @@
     floating
     :width="$vuetify.display.mobile ? $vuetify.display.width : 400"
     color="var(--color-primary)"
-    v-model="drawer"
+    v-model="drawer.drawer"
     :location="$vuetify.display.mobile ? 'left' : undefined"
     temporary
   >
@@ -77,7 +77,7 @@
       >
     </div>
   </v-navigation-drawer>
-  <register v-else :drawer="drawer" />
+  <register v-else :drawer="drawer.drawer" />
 </template>
 
 <script lang="ts">
@@ -90,7 +90,7 @@ export default defineComponent({
   name: "Login Form",
   components: { Register },
   props: {
-    drawer: Boolean,
+    drawer: Object as any
   },
   data() {
     return {

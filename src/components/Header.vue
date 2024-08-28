@@ -1,10 +1,10 @@
 <template>
   <v-app-bar color="var(--color-primary)" density="comfortable">
     <v-app-bar-nav-icon
-      @click.stop="drawer = !drawer"
-      v-if="drawer === false"
+      @click.stop="drawer.drawer = !drawer.drawer"
+      v-if="drawer.drawer === false"
     />
-    <v-btn icon @click.stop="drawer = !drawer" v-else>
+    <v-btn icon @click.stop="drawer.drawer = !drawer" v-else>
       <v-icon>mdi-close</v-icon>
     </v-btn>
     <v-spacer></v-spacer>
@@ -63,7 +63,9 @@ export default defineComponent({
   data() {
     return {
       title: "Lua Minguante",
-      drawer: false,
+      drawer:{
+        drawer: false
+      },
       group: null,
       search: false,
       searchField: "",
@@ -71,7 +73,7 @@ export default defineComponent({
   },
   watch: {
     group() {
-      this.drawer = false;
+      this.drawer.drawer = false;
     },
   },
   methods: {

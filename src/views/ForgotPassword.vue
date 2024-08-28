@@ -41,13 +41,14 @@
                 color="var(--color-green)"
                 type="submit"
                 rounded
-                @click=""
+                :loading="loadBtn"
               />
             </div>
           </v-card-item>
         </v-form>
       </v-card>
       <v-card
+        v-else
         color="var(--color-secondary)"
         width="500"
         elevation="4"
@@ -94,8 +95,8 @@
                 text="Recuperar Senha"
                 color="var(--color-green)"
                 type="submit"
+                :loading="loadBtn"
                 rounded
-                @click=""
               />
             </div>
           </v-card-item>
@@ -113,7 +114,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { computed, defineComponent } from "vue";
 import HeaderNav from "@/components/Header.vue";
 import MyFooter from "@/components/footer.vue";
 import store from "@/store";
@@ -126,12 +127,13 @@ export default defineComponent({
   },
   data() {
     return {
+      loadBtn: computed(() => store.state.auth.load),
       email: "",
       form: {
-        email: '',
-        token: '',
-        password: '',
-        confirmPassword: ''
+        email: "",
+        token: "",
+        password: "",
+        confirmPassword: "",
       },
       recoveryPassword: false,
       rules: [
@@ -143,25 +145,23 @@ export default defineComponent({
       ],
     };
   },
-  methods:{
-    sendEmail(){
-        store.dispatch("forgotPassword", this.email)
+  methods: {
+    sendEmail() {
+      store.dispatch("forgotPassword", this.email);
     },
-    sendRecovery(){
-        store.dispatch("recoveryPassword", this.form)
+    sendRecovery() {
+      store.dispatch("recoveryPassword", this.form);
+    },
+  },
+  mounted() {
+    const resetToken = sessionStorage.getItem("resetToken");
+
+    if (resetToken !== null) {
+      this.recoveryPassword = true;
+      this.form.token = resetToken;
+    } else {
+      this.recoveryPassword = false;
     }
   },
-  mounted(){
-    const urlParams = new URLSearchParams(window.location.search) as any;
-
-    if(urlParams.get('token') !== null){
-        console.log('teste1')
-        this.recoveryPassword = true
-        this.form.token = urlParams.get('token')
-    } else {
-        console.log('teste2')
-        this.recoveryPassword = false
-    }
-  }
 });
 </script>
