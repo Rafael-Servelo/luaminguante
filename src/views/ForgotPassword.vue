@@ -50,7 +50,7 @@
       <v-card
         v-else
         color="var(--color-secondary)"
-        width="500"
+        :width="$vuetify.display.mobile ? $vuetify.display.width - 20: '500'"
         elevation="4"
         rounded="xl"
         class="ma-10"
