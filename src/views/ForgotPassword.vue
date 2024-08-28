@@ -42,6 +42,7 @@
                 type="submit"
                 rounded
                 :loading="loadBtn"
+                @click="$store.commit('Set_Load', true)"
               />
             </div>
           </v-card-item>
@@ -97,6 +98,7 @@
                 type="submit"
                 :loading="loadBtn"
                 rounded
+                @click="$store.commit('Set_Load', true)"
               />
             </div>
           </v-card-item>
