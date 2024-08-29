@@ -24,11 +24,12 @@
     <v-container
       class="flex col align-center"
       style="background-color: white"
+      :style="{ width: $vuetify.display.mobile ? '100%' : '1500px' }"
       ron
     >
       <div class="my-2"></div>
       <div
-        class="text-h3 mb-6"
+        class="text-h4 mb-10"
         style="
           color: var(--color-primary);
           font-weight: 500;
@@ -46,15 +47,26 @@
           <v-card
             class="mx-auto mb-4"
             rounded="xl"
-            max-width="344"
+            :max-width="$vuetify.display.mobile ? 190 : 300"
             color="white"
             elevation="6"
           >
             <v-sheet color="transparent">
               <v-carousel
                 color="var(--color-secondary)"
-                height="300"
+                :height="$vuetify.display.mobile ? 190 : 300"
+                delimiter-icon="mdi-circle-medium"
+                hide-delimiter-background
               >
+                <template v-slot:prev="{ props }">
+                  <v-btn
+                    color="var(--color-secondary)"
+                    variant="elevated"
+                    @click="props.onClick"
+                    icon
+                    ><v-icon>mdi-menu-left</v-icon></v-btn
+                  >
+                </template>
                 <v-carousel-item
                   :src="`https://picsum.photos/500/400?image=${item.id + 10}`"
                   cover
@@ -69,6 +81,15 @@
                   :src="`https://picsum.photos/500/400?image=${item.id + 12}`"
                   cover
                 ></v-carousel-item>
+                <template v-slot:next="{ props }">
+                  <v-btn
+                    color="var(--color-secondary)"
+                    variant="elevated"
+                    @click="props.onClick"
+                    icon
+                    ><v-icon>mdi-menu-right</v-icon></v-btn
+                  >
+                </template>
               </v-carousel>
             </v-sheet>
             <v-card-text>
@@ -86,31 +107,49 @@
                 text="Frete Grátis"
                 theme="light"
               ></v-chip>
+              <v-card-item subtitle="A partir de:">
+                <span style="color: var(--color-green)"
+                  >R$ {{ item.id <= 0 ? "" : item.id }}9,99</span
+                >
+              </v-card-item>
+            </v-card-item>
+            <v-card-item>
               <div class="flex align-center w-100 justify-space-around">
-                <div>
-                  <div class="text-subtitle-1" style="user-select: none">
-                    A partir de
-                  </div>
-                  <div
-                    class="text-subtitle-3"
-                    style="user-select: none; color: var(--color-green)"
-                  >
-                    R$ 249,99
-                  </div>
-                </div>
-                <v-btn icon variant="plain" @click="item.fav = !item.fav">
-                  <v-icon color="var(--color-green)" v-if="item.fav"
+                <v-btn
+                  icon
+                  variant="flat"
+                  base-color="transparent"
+                  @click="item.fav = !item.fav"
+                >
+                  <v-icon
+                    color="var(--color-green)"
+                    v-if="item.fav"
+                    v-tooltip="'Remover dos favoritos'"
                     >mdi-heart</v-icon
                   >
-                  <v-icon color="var(--color-green)" v-else
+                  <v-icon
+                    color="var(--color-green)"
+                    v-else
+                    v-tooltip="'Adicionar aos favoritos'"
                     >mdi-heart-outline</v-icon
                   >
                 </v-btn>
-                <v-btn icon variant="plain" @click="item.card = !item.card">
-                  <v-icon color="var(--color-green)" v-if="item.card"
+                <v-btn
+                  icon
+                  variant="flat"
+                  base-color="transparent"
+                  @click="item.card = !item.card"
+                >
+                  <v-icon
+                    color="var(--color-green)"
+                    v-if="item.card"
+                    v-tooltip="'Remover do carrinho'"
                     >mdi-cart-remove</v-icon
                   >
-                  <v-icon color="var(--color-green)" v-else
+                  <v-icon
+                    color="var(--color-green)"
+                    v-else
+                    v-tooltip="'Adicionar ao carrinho'"
                     >mdi-cart-plus</v-icon
                   >
                 </v-btn>
@@ -259,9 +298,9 @@ export default defineComponent({
       urlParams.set("page", `${this.state.page.value}`);
       window.location.search = urlParams;
     }
-    if(urlParams.get("token")){
-      sessionStorage.setItem("resetToken", urlParams.get("token"))
-      router.push({name: 'ForgotPassword'})
+    if (urlParams.get("token")) {
+      sessionStorage.setItem("resetToken", urlParams.get("token"));
+      router.push({ name: "ForgotPassword" });
     }
     /**
      * Função para voltar ao topo da pagina
