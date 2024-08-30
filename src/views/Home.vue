@@ -57,6 +57,7 @@
                 :height="$vuetify.display.mobile ? 190 : 300"
                 delimiter-icon="mdi-circle-medium"
                 hide-delimiter-background
+                :continuous=false
               >
                 <template v-slot:prev="{ props }">
                   <v-btn
@@ -64,6 +65,7 @@
                     variant="elevated"
                     @click="props.onClick"
                     icon
+                    size="30"
                     ><v-icon>mdi-menu-left</v-icon></v-btn
                   >
                 </template>
@@ -87,6 +89,7 @@
                     variant="elevated"
                     @click="props.onClick"
                     icon
+                    size="30"
                     ><v-icon>mdi-menu-right</v-icon></v-btn
                   >
                 </template>
