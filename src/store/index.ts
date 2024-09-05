@@ -1,5 +1,6 @@
 import { createStore } from "vuex";
 import auth from "./auth";
+import storeModule from "./store";
 
 const store = createStore({
   namespace: true,
@@ -18,7 +19,8 @@ const store = createStore({
     }
   },
   modules:{
-    auth: auth
+    auth,
+    store: storeModule
   }
 });
 

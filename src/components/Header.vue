@@ -9,48 +9,55 @@
     </v-btn>
     <v-spacer></v-spacer>
 
-    <v-form
-      @submit.prevent="initSearch"
-      class="flex align-center"
-      :class="{ 'w-100': search }"
-    >
-      <v-text-field
-        theme="light"
-        variant="solo"
-        hide-details
-        density="compact"
-        v-if="search"
-        class="w-100"
-        label="Pesquisar..."
-        clearable
-        v-model="searchField"
-      ></v-text-field>
-      <v-btn icon @click="initSearch" v-tooltip="'Pesquisar'" theme="light">
-        <v-icon>mdi-magnify</v-icon>
-      </v-btn>
-    </v-form>
-    <v-btn icon v-tooltip="'Favoritos'" theme="light" v-if="!search">
+    <v-btn icon @click="initSearch" v-tooltip="'Pesquisar'" theme="light">
+      <v-icon>mdi-magnify</v-icon>
+    </v-btn>
+    <v-btn icon v-tooltip="'Favoritos'" theme="light">
       <v-badge color="red" content="9+" location="top end" :floating="true">
         <v-icon>mdi-heart</v-icon>
       </v-badge>
     </v-btn>
-    <v-btn
-      class="me-4"
-      icon
-      v-tooltip="'Carrinho'"
-      theme="light"
-      v-if="!search"
-    >
+    <v-btn class="me-4" icon v-tooltip="'Carrinho'" theme="light">
       <v-badge color="red" content="9+" location="top end" :floating="true">
         <v-icon>mdi-cart</v-icon>
       </v-badge>
     </v-btn>
   </v-app-bar>
   <sidebar :drawer="drawer" />
+
+  <v-overlay :model-value="search" class="align-center justify-center" theme="light">
+    <v-sheet rounded   :width="$vuetify.display.mobile ? $vuetify.display.width - 20 : 700">
+      <v-card theme="light">
+        <v-card-item>
+          <v-text-field
+            theme="light"
+            variant="solo"
+            hide-details
+            density="compact"
+            v-if="search"
+            class="w-100"
+            label="Pesquisar..."
+            clearable
+            v-model="searchField"
+            @update:model-value="searchText"
+          />
+        </v-card-item>
+        <v-card-item v-for="item in results">
+          <template v-slot:prepend>
+            <v-img width="90" :src="'data: image/jpeg; base64,'+item.images[0]"></v-img>
+          </template>
+          {{ item.product }}
+          <template v-slot:append>
+            <v-btn color="var(--color-secondary)" theme="dark">ACESSAR</v-btn>
+          </template>
+        </v-card-item>
+      </v-card>
+    </v-sheet>
+  </v-overlay>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { computed, defineComponent } from "vue";
 import Sidebar from "@/components/Sidebar.vue";
 import LoginForm from "@/components/Login.vue";
 import UserLogged from "@/components/UserLogged.vue";
@@ -63,12 +70,13 @@ export default defineComponent({
   data() {
     return {
       title: "Lua Minguante",
-      drawer:{
-        drawer: false
+      drawer: {
+        drawer: false,
       },
       group: null,
       search: false,
       searchField: "",
+      results: computed(() => store.state.store.resultSearch),
     };
   },
   watch: {
@@ -78,11 +86,10 @@ export default defineComponent({
   },
   methods: {
     initSearch() {
-      if (this.searchField === "" || this.searchField === null) {
-        this.search = !this.search;
-      } else {
-        console.log("Pesquisar:", this.searchField);
-      }
+      this.search = !this.search
+    },
+    searchText() {
+      store.dispatch("search", this.searchField);
     },
   },
   mounted() {
