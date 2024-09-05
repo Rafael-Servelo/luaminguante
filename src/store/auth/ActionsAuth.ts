@@ -39,10 +39,14 @@ const actionsAuth = {
       toast.success(data.msg);
       setTimeout(() => {
         router.push({ name: "Home" });
-        sessionStorage.clear()
+        sessionStorage.clear();
       }, 3000);
     } catch (err: any) {
       toast.error(err.response.data.msg);
+      setTimeout(() => {
+        router.push({ name: "Home" });
+        sessionStorage.clear();
+      }, 3000);
     } finally {
       commit("Set_Load", false);
     }
