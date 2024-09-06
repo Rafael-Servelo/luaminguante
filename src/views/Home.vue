@@ -183,7 +183,7 @@
         <v-pagination
           ariant="plain"
           color="var(--color-green)"
-          v-model="state.page.value"
+          v-model="state.page"
           :length="state.totalPages"
           rounded="circle"
           @first="controls.goTo(1)"
@@ -199,11 +199,12 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref } from "vue";
+import { computed, defineComponent } from "vue";
 import HeaderNav from "@/components/Header.vue";
 import MyFooter from "@/components/footer.vue";
 import router from "@/router";
 import store from "@/store";
+import { controls, state, changePage } from "@/assets/scripts/pagination"
 
 export default defineComponent({
   components: {
@@ -214,6 +215,10 @@ export default defineComponent({
     return {
       icons: ["mdi-instagram"],
       upperBtn: false,
+      products: computed(() => store.state.store.products),
+      state,
+      controls,
+      changePage
     };
   },
   methods: {
@@ -224,103 +229,13 @@ export default defineComponent({
       });
     },
   },
-  setup() {
-    const products = computed(() => store.state.store.products);
-    let listArray = ref([] as any);
-    const urlParams = new URLSearchParams(window.location.search) as any;
-    /**
-     * Populando Lista para paginação
-     */
-    const data = Array.from({ length: 4 }).map((el, i) => {
-      if (!el) {
-        el = {
-          name: `Main Content ${i + 1}`,
-          id: i,
-          fav: false,
-          card: false,
-          rated: Math.floor(Math.random() * (5 - 1 + 1)) + 1,
-        };
-      }
-      return el as any;
-    });
-
-    let perPage = 16;
-    const state = {
-      page: ref(1),
-      perPage,
-      totalPages: Math.ceil(data.length / perPage),
-    };
-    const controls = {
-      next() {
-        state.page.value++;
-
-        if (state.page.value > state.totalPages) {
-          this.prev();
-        }
-
-        urlParams.set("page", `${state.page.value}`);
-      },
-      prev() {
-        state.page.value--;
-
-        if (state.page.value < 1) {
-          this.next();
-        }
-        urlParams.set("page", `${state.page.value}`);
-      },
-      goTo(page: number) {
-        state.page.value = page;
-
-        list.update();
-
-        if (state.page.value > state.totalPages) {
-          this.goTo(state.totalPages);
-        }
-
-        if (state.page.value < 1) {
-          this.goTo(1);
-        }
-        urlParams.set("page", `${state.page.value}`);
-      },
-    };
-
-    const list = {
-      update() {
-        listArray.value = [];
-
-        let page = state.page.value - 1;
-        let start = page * state.perPage;
-        let end = start + state.perPage;
-
-        const paginatedItems = data.slice(start, end);
-
-        listArray.value = paginatedItems;
-        urlParams.set("page", state.page.value);
-      },
-    };
-
-    function changePage(n: any) {
-      urlParams.set("page", `${n}`);
-      window.location.search = urlParams;
-    }
-
-    return {
-      data,
-      state,
-      controls,
-      list,
-      listArray,
-      products,
-      changePage,
-    };
-  },
   mounted() {
     store.dispatch("getProducts");
     const urlParams = new URLSearchParams(window.location.search) as any;
     if (urlParams != "") {
-      this.controls.goTo(urlParams.get("page"));
+      controls.goTo(urlParams.get("page"));
     } else {
-      urlParams.set("page", `${this.state.page.value}`);
+      urlParams.set("page", `${state.page}`);
       window.location.search = urlParams;
     }
     if (urlParams.get("token")) {
