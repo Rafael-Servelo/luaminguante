@@ -25,8 +25,15 @@
   </v-app-bar>
   <sidebar :drawer="drawer" />
 
-  <v-overlay :model-value="search" class="align-center justify-center" theme="light">
-    <v-sheet rounded   :width="$vuetify.display.mobile ? $vuetify.display.width - 20 : 700">
+  <v-overlay
+    :model-value="search"
+    class="align-center justify-center"
+    theme="light"
+  >
+    <v-sheet
+      rounded
+      :width="$vuetify.display.mobile ? $vuetify.display.width - 20 : 700"
+    >
       <v-card theme="light">
         <v-card-item>
           <v-text-field
@@ -42,15 +49,26 @@
             @update:model-value="searchText"
           />
         </v-card-item>
-        <v-card-item v-for="item in results">
-          <template v-slot:prepend>
-            <v-img width="90" :src="'data: image/jpeg; base64,'+item.images[0]"></v-img>
-          </template>
-          {{ item.product }}
-          <template v-slot:append>
-            <v-btn color="var(--color-secondary)" theme="dark">ACESSAR</v-btn>
-          </template>
-        </v-card-item>
+        <v-list selectable>
+          <v-list-item v-for="item in results">
+            <template v-slot:prepend>
+              <v-img
+                width="90"
+                :src="item.images[0]"
+                v-if="item.images[0].startsWith('http')"
+              ></v-img>
+              <v-img
+                v-else
+                width="90"
+                :src="'data: image/jpeg; base64,' + item.images[0]"
+              ></v-img>
+            </template>
+            {{ item.product }}
+            <template v-slot:append>
+              <v-btn color="var(--color-secondary)" theme="dark">ACESSAR</v-btn>
+            </template>
+          </v-list-item>
+        </v-list>
       </v-card>
     </v-sheet>
   </v-overlay>
@@ -86,7 +104,7 @@ export default defineComponent({
   },
   methods: {
     initSearch() {
-      this.search = !this.search
+      this.search = !this.search;
     },
     searchText() {
       store.dispatch("search", this.searchField);

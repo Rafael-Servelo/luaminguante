@@ -1,6 +1,5 @@
 // import { toast } from "vue3-toastify";
 // import router from "@/router";
-import store from "../index";
 import serviceStore from "./serviceStore";
 
 const actionsStore = {
@@ -9,10 +8,16 @@ const actionsStore = {
             const { data } = await serviceStore.search(text);
 
             commit("Set_ResultSearch", data.result)
-
-            console.log(store.state.store.resultSearch)
         } catch (err:any){
             console.log(err.messagee)
+        }
+    },
+    async getProducts({commit}: any){
+        try{
+            const { data } = await serviceStore.getProducts();
+            commit("Set_Products", data.products)
+        } catch(err){
+            console.error(err)
         }
     }
 }

@@ -17,6 +17,9 @@ const serviceAuth = {
       });
     }
   },
+  async getProducts() {
+    return axios.get(`${import.meta.env.VITE_DEV_URL}/store/products`)
+  }
 };
 
 export default serviceAuth;

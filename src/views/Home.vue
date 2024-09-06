@@ -40,7 +40,7 @@
       </div>
       <v-row>
         <v-col
-          v-for="item in listArray"
+          v-for="item in products"
           :key="item.id"
           :cols="$vuetify.display.mobile === false ? '3' : false"
         >
@@ -57,7 +57,7 @@
                 :height="$vuetify.display.mobile ? 190 : 300"
                 delimiter-icon="mdi-circle-medium"
                 hide-delimiter-background
-                :continuous=false
+                :continuous="false"
               >
                 <template v-slot:prev="{ props }">
                   <v-btn
@@ -70,17 +70,8 @@
                   >
                 </template>
                 <v-carousel-item
-                  :src="`https://picsum.photos/500/400?image=${item.id + 10}`"
-                  cover
-                ></v-carousel-item>
-
-                <v-carousel-item
-                  :src="`https://picsum.photos/500/400?image=${item.id + 11}`"
-                  cover
-                ></v-carousel-item>
-
-                <v-carousel-item
-                  :src="`https://picsum.photos/500/400?image=${item.id + 12}`"
+                  v-for="img in item.images"
+                  :src="img.startsWith('http') ? img : 'data: image/jpeg; base64,'+ img"
                   cover
                 ></v-carousel-item>
                 <template v-slot:next="{ props }">
@@ -97,22 +88,22 @@
             </v-sheet>
             <v-card-text>
               <h2 class="text-h6" style="color: var(--color-green)">
-                {{ item.name }}
+                {{ item.product }}
               </h2>
-              Travel to the best outdoor experience on planet Earth. A vacation
-              you will never forget!
+              {{ item.description }}
             </v-card-text>
 
             <v-card-item style="min-width: 250px">
               <v-chip
+              v-for="tag in item.tags"
                 color="var(--color-secondary)"
                 variant="flat"
-                text="Frete Grátis"
+                :text="tag"
                 theme="light"
               ></v-chip>
               <v-card-item subtitle="A partir de:">
                 <span style="color: var(--color-green)"
-                  >R$ {{ item.id <= 0 ? "" : item.id }}9,99</span
+                  >R$ {{ item.price }}</span
                 >
               </v-card-item>
             </v-card-item>
@@ -181,10 +172,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { computed, defineComponent, ref } from "vue";
 import HeaderNav from "@/components/Header.vue";
 import MyFooter from "@/components/footer.vue";
 import router from "@/router";
+import store from "@/store";
 
 export default defineComponent({
   components: {
@@ -206,12 +198,13 @@ export default defineComponent({
     },
   },
   setup() {
+    const products =  computed(() => store.state.store.products);
     let listArray = ref([] as any);
     const urlParams = new URLSearchParams(window.location.search) as any;
     /**
      * Populando Lista para paginação
      */
-    const data = Array.from({ length: 200 }).map((el, i) => {
+    const data = Array.from({ length: 4 }).map((el, i) => {
       if (!el) {
         el = {
           name: `Main Content ${i + 1}`,
@@ -290,10 +283,12 @@ export default defineComponent({
       controls,
       list,
       listArray,
+      products,
       changePage,
     };
   },
   mounted() {
+    store.dispatch("getProducts");
     const urlParams = new URLSearchParams(window.location.search) as any;
     if (urlParams != "") {
       this.controls.goTo(urlParams.get("page"));

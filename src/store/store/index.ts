@@ -4,7 +4,8 @@ import mutationsStore from "./MutationsStore";
 const store = {
   state() {
       return {
-        resultSearch: []
+        resultSearch: [],
+        products: []
     };
   },
   mutations: mutationsStore,
