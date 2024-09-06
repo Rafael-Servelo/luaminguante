@@ -39,11 +39,7 @@
         Destaques
       </div>
       <v-row>
-        <v-col
-          v-for="item in products"
-          :key="item.id"
-          :cols="$vuetify.display.mobile === false ? '3' : false"
-        >
+        <v-col v-for="item in products" :key="item.id">
           <v-card
             class="mx-auto mb-4"
             rounded="xl"
@@ -71,7 +67,11 @@
                 </template>
                 <v-carousel-item
                   v-for="img in item.images"
-                  :src="img.startsWith('http') ? img : 'data: image/jpeg; base64,'+ img"
+                  :src="
+                    img.startsWith('http')
+                      ? img
+                      : 'data: image/jpeg; base64,' + img
+                  "
                   cover
                 ></v-carousel-item>
                 <template v-slot:next="{ props }">
@@ -86,26 +86,53 @@
                 </template>
               </v-carousel>
             </v-sheet>
-            <v-card-text>
+            <v-card-item>
               <h2 class="text-h6" style="color: var(--color-green)">
                 {{ item.product }}
               </h2>
-              {{ item.description }}
-            </v-card-text>
+              <div
+                class="text-subtitle-1"
+                style="
+                  max-height: 80px;
+                  white-space: nowrap;
+                  text-overflow: '...';
+                  overflow: hidden;
+                "
+              >
+                {{ item.description }}
+              </div>
+            </v-card-item>
 
             <v-card-item style="min-width: 250px">
               <v-chip
-              v-for="tag in item.tags"
+                v-for="tag in item.tags"
                 color="var(--color-secondary)"
                 variant="flat"
                 :text="tag"
                 theme="light"
               ></v-chip>
-              <v-card-item subtitle="A partir de:">
-                <span style="color: var(--color-green)"
-                  >R$ {{ item.price }}</span
+              <div class="flex">
+                <v-card-item
+                  :subtitle="item.discountPrice ? 'de:' : 'A partir de:'"
                 >
-              </v-card-item>
+                  <s v-if="item.discountPrice">
+                    <span class="grey font-weight-light"
+                      >R$ {{ item.price }}</span
+                    >
+                  </s>
+                  <span v-else style="color: var(--color-green)"
+                    >R$ {{ item.price }}</span
+                  >
+                </v-card-item>
+                <v-card-item
+                  :subtitle="item.discountPrice ? 'A partir de:' : ''"
+                  v-if="item.discountPrice"
+                >
+                  <span style="color: var(--color-green)"
+                    >R$ {{ item?.discountPrice }}</span
+                  >
+                </v-card-item>
+              </div>
             </v-card-item>
             <v-card-item>
               <div class="flex align-center w-100 justify-space-around">
@@ -198,7 +225,7 @@ export default defineComponent({
     },
   },
   setup() {
-    const products =  computed(() => store.state.store.products);
+    const products = computed(() => store.state.store.products);
     let listArray = ref([] as any);
     const urlParams = new URLSearchParams(window.location.search) as any;
     /**
