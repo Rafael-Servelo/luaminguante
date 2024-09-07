@@ -20,11 +20,10 @@
       src="../assets/img/logo-claro.png"
     ></v-img>
   </div>
-  <v-main class="bg-img">
+  <v-main style="background: white;">
     <v-container
       class="flex col align-center"
-      style="background-color: white"
-      :style="{ width: $vuetify.display.mobile ? '100%' : '1500px' }"
+      style="background-color: white; width: 100%"
       ron
     >
       <div class="my-2"></div>

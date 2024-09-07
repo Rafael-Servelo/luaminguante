@@ -1,9 +1,9 @@
 <template>
   <header-nav></header-nav>
 
-  <v-main class="bg-img">
+  <v-main style="background: white;">
     <v-container
-      class="flex col align-center justify-center h-100"
+      class="flex col align-center justify-center h-100 w-100"
       style="background-color: white"
       ron
     >
