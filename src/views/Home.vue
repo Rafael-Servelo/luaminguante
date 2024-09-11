@@ -20,10 +20,10 @@
       src="../assets/img/logo-claro.png"
     ></v-img>
   </div>
-  <v-main style="background: white;">
+  <v-main style="background: white">
     <v-container
       class="flex col align-center"
-      style="background-color: white; width: 100%"
+      style="background-color: white; color: black; width: 100%"
       ron
     >
       <div class="my-2"></div>
@@ -37,6 +37,23 @@
       >
         Destaques
       </div>
+      <v-card theme="light" color="var(--color-secondary)" class="mb-5">
+        <v-select
+        theme="light"
+          bg-color="var(--color-secondary)"
+          base-color="var(--color-primary)"
+          color="var(--color-primary)"
+          append-icon="mdi-filter"
+          label="FILTRO"
+          :items="itemsFilter"
+          item-title="item"
+          item-value="value"
+          :width="$vuetify.display.mobile ? $vuetify.display.width - 20 : '300'"
+          hide-details
+          @update:model-value="filterResults($event)"
+        >
+        </v-select>
+      </v-card>
       <v-row>
         <v-col v-for="item in products" :key="item.id">
           <v-card
@@ -124,7 +141,7 @@
                   >
                 </v-card-item>
                 <v-card-item
-                  :subtitle="item.discountPrice ? 'A partir de:' : ''"
+                  :subtitle="item.discountPrice ? 'Por:' : ''"
                   v-if="item.discountPrice"
                 >
                   <span style="color: var(--color-green)"
@@ -203,7 +220,7 @@ import HeaderNav from "@/components/Header.vue";
 import MyFooter from "@/components/footer.vue";
 import router from "@/router";
 import store from "@/store";
-import { controls, state, changePage } from "@/assets/scripts/pagination"
+import { controls, state, changePage } from "@/assets/scripts/pagination";
 
 export default defineComponent({
   components: {
@@ -215,9 +232,27 @@ export default defineComponent({
       icons: ["mdi-instagram"],
       upperBtn: false,
       products: computed(() => store.state.store.products),
+      itemsFilter: [
+        {
+          item: "Ordem alfabética (A-Z)",
+          value: "alfAZ",
+        },
+        {
+          item: "Ordem alfabética (Z-A)",
+          value: "alfZA",
+        },
+        {
+          item: "Menor Valor",
+          value: "menor",
+        },
+        {
+          item: "Maior Valor",
+          value: "maior",
+        },
+      ],
       state,
       controls,
-      changePage
+      changePage,
     };
   },
   methods: {
@@ -226,6 +261,30 @@ export default defineComponent({
         top: 0,
         behavior: "smooth",
       });
+    },
+    filterResults(evt: any) {
+      if (evt === "alfAZ") {
+        // Logica alfabetica
+        this.products.sort((a: any, b: any) => {
+          return a.product > b.product;
+        });
+      } else if (evt === "menor") {
+        // Logica menor preço
+        this.products.sort((a: any, b: any) => {
+          return a.price - b.price;
+        });
+      } else if (evt === "maior") {
+        // Logica maior preço
+        this.products.sort((a: any, b: any) => {
+          return b.price - a.price;
+        });
+      } else if (evt === "alfZA") {
+        this.products.sort((a: any, b: any) => {
+          return a.product < b.product;
+        });
+      } else {
+        store.dispatch("getProducts");
+      }
     },
   },
   mounted() {

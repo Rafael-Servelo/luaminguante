@@ -4,7 +4,7 @@
   <v-main style="background: white;">
     <v-container
       class="flex col align-center justify-center h-100 w-100"
-      style="background-color: white"
+      style="background-color: white; color: black;"
       ron
     >
       <v-card
