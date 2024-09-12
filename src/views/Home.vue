@@ -204,10 +204,10 @@
           ariant="plain"
           color="var(--color-green)"
           v-model="paginaAtual"
-          :length="totalPage(products, limit)-1"
+          :length="totalPage()"
           rounded="circle"
           @first="goToPage(1)"
-          @last="goToPage(totalPage(products, limit))"
+          @last="goToPage(totalPage())"
           @update:model-value="(e: number) => goToPage(e)"
           :total-visible="$vuetify.display.mobile ? '4' : '7'"
         />
@@ -221,9 +221,7 @@
 import { computed, defineComponent } from "vue";
 import HeaderNav from "@/components/Header.vue";
 import MyFooter from "@/components/footer.vue";
-// import router from "@/router";
 import store from "@/store";
-// import { controls, state, changePage } from "@/assets/scripts/pagination";
 // @click="changePage($event.target.innerText)"
 
 export default defineComponent({
@@ -238,7 +236,7 @@ export default defineComponent({
       products: computed(() => store.state.store.products),
       resultPagination: [] as any,
       paginaAtual: 1,
-      limit: 8,
+      limit: 10,
       itemsFilter: [
         {
           item: "Ordem alfabética (A-Z)",
@@ -261,22 +259,7 @@ export default defineComponent({
           value: "date",
         },
       ],
-      totalPage: (items: any, limit: any) => {
-        let total = Math.ceil(items.length / limit);
-
-        return total;
-      },
-      count: (pageActual: any, limit: any) => {
-        let counts = pageActual * limit - limit;
-
-        return counts;
-      },
       urlParams: new URLSearchParams(window.location.search) as any,
-      // delimiter: (count: any, limit: any) => {
-      //   let delimiters = count + limit;
-
-      //   return delimiters;
-      // },
     };
   },
   methods: {
@@ -286,80 +269,95 @@ export default defineComponent({
         behavior: "smooth",
       });
     },
-    changePage(n: any) {
-      this.urlParams.set("page", `${n}`);
-      window.location.search = this.urlParams;
+    count() {
+      let counts = this.paginaAtual * this.limit - this.limit;
+
+      return counts;
     },
+    totalPage() {
+      let total = Math.ceil(this.products.length / this.limit);
+
+      return total;
+    },
+    // changePage(n: any) {
+    //   this.urlParams.set("page", `${n}`);
+    //   window.location.search = this.urlParams;
+    // },
     filterResults(evt: any) {
       if (evt === "alfAZ") {
         // Logica alfabetica
-        this.products.sort((a: any, b: any) => {
-          return a.product > b.product;
-        });
+        return this.listItems(
+          this.products.sort((a: any, b: any) => {
+            return a.product > b.product;
+          }),
+          this.paginaAtual,
+        );
+      } else if (evt === "alfZA") {
+        return this.listItems(
+          this.products.sort((a: any, b: any) => {
+            return a.product < b.product;
+          }),
+          this.paginaAtual,
+        );
       } else if (evt === "menor") {
         // Logica menor preço
-        this.products.sort((a: any, b: any) => {
-          return a.price - b.price;
-        });
+        return this.listItems(
+          this.products.sort((a: any, b: any) => {
+            return a.price - b.price;
+          }),
+          this.paginaAtual,
+        );
       } else if (evt === "maior") {
         // Logica maior preço
-        this.products.sort((a: any, b: any) => {
-          return b.price - a.price;
-        });
-      } else if (evt === "alfZA") {
-        this.products.sort((a: any, b: any) => {
-          return a.product < b.product;
-        });
+        this.listItems(
+          this.products.sort((a: any, b: any) => {
+            return b.price - a.price;
+          }),
+          this.paginaAtual,
+        );
       } else if (evt === "date") {
-        this.products.sort((a: any, b: any) => {
-          return a.datePost < b.datePost;
-        });
+        return this.listItems(
+          this.products.sort((a: any, b: any) => {
+            return a.datePost < b.datePost;
+          }),
+          this.paginaAtual,
+        );
       } else {
         store.dispatch("getProducts");
       }
     },
-    listItems(items: Array<object>, pageActual: any, limitItems: any) {
+    listItems(items: Array<object>, pageActual: any) {
       let result = [] as any;
-      let totalPage = this.totalPage(items, limitItems);
-      let count = this.count(pageActual, limitItems);
-      let delimiter = count + limitItems;
+      let totalPage = this.totalPage();
+      let count = this.count();
+      let delimiter = count + this.limit;
 
       if (pageActual <= totalPage) {
         for (let i = count; i < delimiter; i++) {
-          result.push(items[i]);
-          count++;
+          if (items[i]) {
+            result.push(items[i]);
+            count++;
+          }
         }
       }
 
-      return (this.resultPagination = result);
+      this.resultPagination = result;
     },
     goToPage(page: any) {
-      this.listItems(this.products, page, this.limit);
+      if (page > this.totalPage()) {
+        return this.listItems(this.products, this.totalPage());
+      }
+
+      if (page < 1) {
+        return this.listItems(this.products, 1);
+      }
+
+      this.listItems(this.products, page);
     },
   },
   created() {
     store.dispatch("getProducts");
-  },
-  mounted() {
-    setTimeout(() => {
-      this.listItems(this.products, 1, this.limit);
-      console.log(this.resultPagination);
-    }, 200);
 
-    // const urlParams = new URLSearchParams(window.location.search) as any;
-    // if (urlParams != "") {
-    //   this.goToPage(urlParams.get("page"));
-    // } else {
-    //   urlParams.set("page", `${this.paginaAtual}`);
-    //   window.location.search = urlParams;
-    // }
-    // if (urlParams.get("token")) {
-    //   sessionStorage.setItem("resetToken", urlParams.get("token"));
-    //   router.push({ name: "ForgotPassword" });
-    // }
-    /**
-     * Função para voltar ao topo da pagina
-     */
     window.addEventListener("scroll", () => {
       if (window.scrollY >= 100) {
         this.upperBtn = true;
@@ -367,6 +365,11 @@ export default defineComponent({
         this.upperBtn = false;
       }
     });
+  },
+  mounted() {
+    setTimeout(() => {
+      this.listItems(this.products, 1);
+    }, 200);
   },
 });
 </script>
