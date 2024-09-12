@@ -21,25 +21,15 @@
     ></v-img>
   </div>
   <v-main style="background: white">
-    <v-container
+    <div
       class="flex col align-center"
       style="background-color: white; color: black; width: 100%"
       ron
     >
       <div class="my-2"></div>
-      <div
-        class="text-h4 mb-10"
-        style="
-          color: var(--color-primary);
-          font-weight: 500;
-          font-family: var(--font-body);
-        "
-      >
-        Destaques
-      </div>
       <v-card theme="light" color="var(--color-secondary)" class="mb-5">
         <v-select
-        theme="light"
+          theme="light"
           bg-color="var(--color-secondary)"
           base-color="var(--color-primary)"
           color="var(--color-primary)"
@@ -51,15 +41,29 @@
           :width="$vuetify.display.mobile ? $vuetify.display.width - 20 : '300'"
           hide-details
           @update:model-value="filterResults($event)"
+          class="pr-4"
         >
         </v-select>
       </v-card>
-      <v-row>
-        <v-col v-for="item in products" :key="item.id">
+      <div
+        class="text-h4 mb-10"
+        style="
+          color: var(--color-primary);
+          font-weight: 500;
+          font-family: var(--font-body);
+        "
+      >
+        Destaques
+      </div>
+      <v-row class="w-100">
+        <v-col v-for="item in resultPagination" :key="item.id" sm>
           <v-card
             class="mx-auto mb-4"
             rounded="xl"
-            :max-width="$vuetify.display.mobile ? 190 : 300"
+            :width="
+              $vuetify.display.mobile ? $vuetify.display.width / 2 - 30 : 300
+            "
+            :height="$vuetify.display.mobile ? 'auto' : 600"
             color="white"
             elevation="6"
           >
@@ -127,7 +131,7 @@
                 :text="tag"
                 theme="light"
               ></v-chip>
-              <div class="flex">
+              <div :class="{ flex: !$vuetify.display.mobile }">
                 <v-card-item
                   :subtitle="item.discountPrice ? 'de:' : 'A partir de:'"
                 >
@@ -199,17 +203,16 @@
         <v-pagination
           ariant="plain"
           color="var(--color-green)"
-          v-model="state.page"
-          :length="state.totalPages"
+          v-model="paginaAtual"
+          :length="totalPage(products, limit)-1"
           rounded="circle"
-          @first="controls.goTo(1)"
-          @last="controls.goTo(state.totalPages)"
-          @update:model-value="(e: number) => controls.goTo(e)"
-          @click="changePage($event.target.innerText)"
+          @first="goToPage(1)"
+          @last="goToPage(totalPage(products, limit))"
+          @update:model-value="(e: number) => goToPage(e)"
           :total-visible="$vuetify.display.mobile ? '4' : '7'"
         />
       </div>
-    </v-container>
+    </div>
   </v-main>
   <my-footer></my-footer>
 </template>
@@ -218,9 +221,10 @@
 import { computed, defineComponent } from "vue";
 import HeaderNav from "@/components/Header.vue";
 import MyFooter from "@/components/footer.vue";
-import router from "@/router";
+// import router from "@/router";
 import store from "@/store";
-import { controls, state, changePage } from "@/assets/scripts/pagination";
+// import { controls, state, changePage } from "@/assets/scripts/pagination";
+// @click="changePage($event.target.innerText)"
 
 export default defineComponent({
   components: {
@@ -232,6 +236,9 @@ export default defineComponent({
       icons: ["mdi-instagram"],
       upperBtn: false,
       products: computed(() => store.state.store.products),
+      resultPagination: [] as any,
+      paginaAtual: 1,
+      limit: 8,
       itemsFilter: [
         {
           item: "Ordem alfabética (A-Z)",
@@ -249,10 +256,27 @@ export default defineComponent({
           item: "Maior Valor",
           value: "maior",
         },
+        {
+          item: "Lançamento",
+          value: "date",
+        },
       ],
-      state,
-      controls,
-      changePage,
+      totalPage: (items: any, limit: any) => {
+        let total = Math.ceil(items.length / limit);
+
+        return total;
+      },
+      count: (pageActual: any, limit: any) => {
+        let counts = pageActual * limit - limit;
+
+        return counts;
+      },
+      urlParams: new URLSearchParams(window.location.search) as any,
+      // delimiter: (count: any, limit: any) => {
+      //   let delimiters = count + limit;
+
+      //   return delimiters;
+      // },
     };
   },
   methods: {
@@ -261,6 +285,10 @@ export default defineComponent({
         top: 0,
         behavior: "smooth",
       });
+    },
+    changePage(n: any) {
+      this.urlParams.set("page", `${n}`);
+      window.location.search = this.urlParams;
     },
     filterResults(evt: any) {
       if (evt === "alfAZ") {
@@ -282,24 +310,53 @@ export default defineComponent({
         this.products.sort((a: any, b: any) => {
           return a.product < b.product;
         });
+      } else if (evt === "date") {
+        this.products.sort((a: any, b: any) => {
+          return a.datePost < b.datePost;
+        });
       } else {
         store.dispatch("getProducts");
       }
     },
+    listItems(items: Array<object>, pageActual: any, limitItems: any) {
+      let result = [] as any;
+      let totalPage = this.totalPage(items, limitItems);
+      let count = this.count(pageActual, limitItems);
+      let delimiter = count + limitItems;
+
+      if (pageActual <= totalPage) {
+        for (let i = count; i < delimiter; i++) {
+          result.push(items[i]);
+          count++;
+        }
+      }
+
+      return (this.resultPagination = result);
+    },
+    goToPage(page: any) {
+      this.listItems(this.products, page, this.limit);
+    },
+  },
+  created() {
+    store.dispatch("getProducts");
   },
   mounted() {
-    store.dispatch("getProducts");
-    const urlParams = new URLSearchParams(window.location.search) as any;
-    if (urlParams != "") {
-      controls.goTo(urlParams.get("page"));
-    } else {
-      urlParams.set("page", `${state.page}`);
-      window.location.search = urlParams;
-    }
-    if (urlParams.get("token")) {
-      sessionStorage.setItem("resetToken", urlParams.get("token"));
-      router.push({ name: "ForgotPassword" });
-    }
+    setTimeout(() => {
+      this.listItems(this.products, 1, this.limit);
+      console.log(this.resultPagination);
+    }, 200);
+
+    // const urlParams = new URLSearchParams(window.location.search) as any;
+    // if (urlParams != "") {
+    //   this.goToPage(urlParams.get("page"));
+    // } else {
+    //   urlParams.set("page", `${this.paginaAtual}`);
+    //   window.location.search = urlParams;
+    // }
+    // if (urlParams.get("token")) {
+    //   sessionStorage.setItem("resetToken", urlParams.get("token"));
+    //   router.push({ name: "ForgotPassword" });
+    // }
     /**
      * Função para voltar ao topo da pagina
      */
