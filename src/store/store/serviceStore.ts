@@ -4,13 +4,13 @@ import axios from "axios";
 const serviceAuth = {
   async search(text: any) {
     if (!text) {
-      return axios.get(`${import.meta.env.VITE_DEV_URL}/store`, {
+      return axios.get(`${import.meta.env.VITE_URL}/store`, {
         params: {
           search: " ",
         },
       });;
     } else {
-      return axios.get(`${import.meta.env.VITE_DEV_URL}/store`, {
+      return axios.get(`${import.meta.env.VITE_URL}/store`, {
         params: {
           search: text,
         },
@@ -18,7 +18,7 @@ const serviceAuth = {
     }
   },
   async getProducts() {
-    return axios.get(`${import.meta.env.VITE_DEV_URL}/store/products`)
+    return axios.get(`${import.meta.env.VITE_URL}/store/products`)
   }
 };
 
