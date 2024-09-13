@@ -8,7 +8,7 @@ const serviceAuth = {
         params: {
           search: " ",
         },
-      });;
+      });
     } else {
       return axios.get(`${import.meta.env.VITE_URL}/store`, {
         params: {
@@ -18,8 +18,21 @@ const serviceAuth = {
     }
   },
   async getProducts() {
-    return axios.get(`${import.meta.env.VITE_URL}/store/products`)
-  }
+    return axios.get(`${import.meta.env.VITE_URL}/store/products`);
+  },
+  async deleteProducts(id: any, email: any) {
+    return axios.delete(
+      `${import.meta.env.VITE_URL}/store/delete_product`,
+      {
+        headers: {
+          email
+        },
+        data: {
+          id
+        }
+      },
+    );
+  },
 };
 
 export default serviceAuth;

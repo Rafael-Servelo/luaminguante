@@ -1,5 +1,4 @@
-// import { toast } from "vue3-toastify";
-// import router from "@/router";
+import { toast } from "vue3-toastify";
 import serviceStore from "./serviceStore";
 
 const actionsStore = {
@@ -18,6 +17,19 @@ const actionsStore = {
             commit("Set_Products", data.products)
         } catch(err){
             console.error(err)
+        } finally {
+            commit("Set_LoadProducts", false)
+        }
+    },
+    async deleteProducts({commit, dispatch}: any, id:any, email:any){
+        try{
+            const { data } = await serviceStore.deleteProducts(id, email);
+            toast.success(data.msg)
+        } catch(err){
+            console.error(err)
+        } finally {
+            commit("Set_LoadProducts", false)
+            dispatch("getProducts")
         }
     }
 }

@@ -1,5 +1,10 @@
 <template>
   <v-footer color="var(--color-green)" class="d-flex flex-column">
+    <div class="flex col align-center">
+      <v-img src="../assets/img/logo-claro.png" width="200"></v-img>
+      <div class="text-subtitle-1">O poder do mistério, a magia do recomeço.</div>
+    </div>
+    <v-divider class="w-100 my-4" opacity="0.2" color="white"></v-divider>
     <div class="flex align-center">
       <p class="pt-0">Nos acompanhe nas redes sociais!</p>
       <v-spacer />
@@ -18,6 +23,10 @@
     <div style="font-weight: 400">
       <strong> &copy;{{ new Date().getFullYear() }} Lua Minguante </strong> —
       Desenvolvido por <strong>Rafael Servelo</strong>
+    </div>
+    <v-divider class="w-100 my-4" opacity="0.2" color="white"></v-divider>
+    <div style="font-weight: 400">
+      Lua Minguante. 2024 - Todos os direitos reservados.
     </div>
   </v-footer>
 </template>

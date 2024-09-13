@@ -5,7 +5,8 @@ const store = {
   state() {
       return {
         resultSearch: [],
-        products: []
+        products: [],
+        loadProducts: true
     };
   },
   mutations: mutationsStore,

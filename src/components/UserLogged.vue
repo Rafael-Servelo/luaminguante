@@ -13,26 +13,33 @@
           <div class="d-flex flex-column align-center my-3">
             <v-avatar
               density="compact"
-              size="50"
-              :text="user?.name[0].toUpperCase()"
+              size="100"
+              :text="user.name[0].toUpperCase()"
               color="var(--color-secondary)"
             />
-            <span class="nameUser">{{ user?.name }}</span>
-            <a :href="`mailto:${user?.email}`" class="emailUser">{{
-              user?.email
+            <span class="nameUser">{{ user.name }}</span>
+            <a :href="`mailto:${user.email}`" class="emailUser">{{
+              user.email
             }}</a>
           </div>
-          <v-divider></v-divider>
-          <v-list color="transparent">
+          <v-divider opacity="0.5"></v-divider>
+          <v-list selectable >
             <v-list-item
               prepend-icon="mdi-view-dashboard"
-              title="Dashboard"
+              title="Início"
             ></v-list-item>
             <v-list-item
               prepend-icon="mdi-account-box"
-              title="Meu Perfil"
+              title="Minha Conta"
             ></v-list-item>
-            <v-list-item prepend-icon="mdi-gavel" title="Admin"></v-list-item>
+            <v-list-item
+              prepend-icon="mdi-account-box"
+              title="Meus Pedidos"
+            ></v-list-item>
+            <v-list-item
+              prepend-icon="mdi-note-plus"
+              title="Cadastrar Produtos"
+            ></v-list-item>
           </v-list>
         </div>
 
@@ -61,7 +68,7 @@ export default defineComponent({
       toast,
       store,
       loadBtn: computed(() => store.state.auth.load),
-      user: computed(() => store.state.auth.user.user) as any,
+      user: computed(() => store.state.auth.user),
     };
   },
   methods: {

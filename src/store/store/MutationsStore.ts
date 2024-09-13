@@ -5,6 +5,9 @@ const mutationsStore = {
   Set_Products(state: any, payload: any) {
     state.products = payload;
   },
+  Set_LoadProducts(state: any, payload: any) {
+    state.loadProducts = payload;
+  },
 };
 
 export default mutationsStore;

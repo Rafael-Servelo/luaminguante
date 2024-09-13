@@ -28,10 +28,13 @@
           hide-details
           bg-color="white"
           placeholder="Senha"
-          type="password"
+          :type="showPassword ? 'text' : 'password'"
           autocomplete="current-password"
           v-model="form.password"
+          :append-inner-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
+          @click:append-inner="showPassword = !showPassword"
         />
+
         <div
           class="buttons d-flex justify-center align-center"
           style="flex-direction: column"
@@ -90,10 +93,11 @@ export default defineComponent({
   name: "Login Form",
   components: { Register },
   props: {
-    drawer: Object as any
+    drawer: Object as any,
   },
   data() {
     return {
+      showPassword: false,
       isRegister: computed(() => store.state.isRegister),
       toast,
       store,
