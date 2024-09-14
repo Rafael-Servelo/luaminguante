@@ -1,9 +1,39 @@
 <template>
-  <div
-    class="flex col align-center"
-    style="color: black; width: 100%"
-    ron
+  <v-overlay
+    :model-value="showAlert"
+    class="align-center justify-center"
+    theme="light"
   >
+    <v-sheet
+      rounded="xl"
+      class="pa-6 text-green-darken-4 mx-auto"
+      color="#f4f4f4"
+      :width="$vuetify.display.mobile ? $vuetify.display.width - 20 : 'auto'"
+    >
+      <div class="w-100 flex col align-center mb-4" style="gap: 0.5rem">
+        <v-icon color="amber" size="112">mdi-alert</v-icon>
+        <h4 class="text-h5 font-weight-bold">Atenção!</h4>
+      </div>
+      <p class="mb-4 text-body-1">
+        Tem certeza que deseja deletar o item
+        <strong>{{ deleteItem.name }}</strong
+        >?
+      </p>
+
+      <div class="flex w-100 align-center justify-center" style="gap: 1rem">
+        <v-btn color="error" @click="deleteitem(deleteItem.id)">Deletar</v-btn>
+        <v-btn
+          variant="outlined"
+          color="error"
+          @click="
+            (showAlert = false), (deleteItem.id = ''), (deleteItem.name = '')
+          "
+          >Cancelar</v-btn
+        >
+      </div>
+    </v-sheet>
+  </v-overlay>
+  <div class="flex col align-center" style="color: black; width: 100%" ron>
     <div class="my-2"></div>
     <v-card theme="light" color="var(--color-secondary)" class="mb-5">
       <v-select
@@ -173,16 +203,17 @@
                 >
               </v-btn>
             </div>
-            <div class="flex align-center w-100 justify-space-around" v-if="user.isAdm">
+            <div
+              class="flex align-center w-100 justify-space-around"
+              v-if="user.isAdm"
+            >
               <v-btn
                 icon
                 variant="flat"
                 base-color="transparent"
                 @click="item.card = !item.card"
               >
-                <v-icon
-                  color="var(--color-green)"
-                  v-tooltip="'Editar item'"
+                <v-icon color="var(--color-green)" v-tooltip="'Editar item'"
                   >mdi-pencil</v-icon
                 >
               </v-btn>
@@ -190,11 +221,13 @@
                 icon
                 variant="flat"
                 base-color="transparent"
-                @click="deleteItem(item.id)"
+                @click="
+                  (showAlert = !showAlert),
+                    ((deleteItem.id = item.id),
+                    (deleteItem.name = item.product))
+                "
               >
-                <v-icon
-                  color="var(--color-green)"
-                  v-tooltip="'Deletar item'"
+                <v-icon color="var(--color-green)" v-tooltip="'Deletar item'"
                   >mdi-trash-can-outline</v-icon
                 >
               </v-btn>
@@ -231,7 +264,7 @@ export default defineComponent({
   } as any,
   data() {
     return {
-      user: computed(()=> store.state.auth.user),
+      user: computed(() => store.state.auth.user),
       resultPagination: [] as any,
       paginaAtual: 1,
       itemsFilter: [
@@ -256,11 +289,16 @@ export default defineComponent({
           value: "date",
         },
       ],
+      showAlert: false,
+      deleteItem: {
+        name: "",
+        id: "",
+      },
     };
   },
   methods: {
-    deleteItem(id: any){
-      store.dispatch("deleteProducts",id, this.user.email)
+    deleteitem(id: any) {
+      store.dispatch("deleteProducts", id, this.user.email);
     },
     count() {
       let counts = this.paginaAtual * this.perPage - this.perPage;
@@ -316,7 +354,7 @@ export default defineComponent({
       }
     },
     async listItems(items: Array<object>, pageActual: any) {
-      let result = [] as any
+      let result = [] as any;
       let totalPage = this.totalPage();
       let count = this.count();
       let deperPageer = count + this.perPage;
@@ -330,8 +368,7 @@ export default defineComponent({
         }
       }
 
-      this.resultPagination = result
-      
+      this.resultPagination = result;
     },
     goToPage(page: any) {
       if (page > this.totalPage()) {
@@ -345,9 +382,9 @@ export default defineComponent({
       this.listItems(this.products, page);
     },
   },
-  mounted(){
-    this.listItems(this.products, 1)
-  }
+  mounted() {
+    this.listItems(this.products, 1);
+  },
 });
 </script>
 
