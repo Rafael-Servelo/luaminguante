@@ -2,7 +2,7 @@
   <v-footer color="var(--color-green)" class="d-flex flex-column">
     <div class="flex col align-center">
       <v-img src="../assets/img/logo-claro.png" width="200"></v-img>
-      <div class="text-subtitle-1">O poder do mistério, a magia do recomeço.</div>
+      <div class="text-subtitle-1" style="margin-top: -1.5rem; font-family: var(--font-body);">A beleza começa com o autocuidado!</div>
     </div>
     <v-divider class="w-100 my-4" opacity="0.2" color="white"></v-divider>
     <div class="flex align-center">

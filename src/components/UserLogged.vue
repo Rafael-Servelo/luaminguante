@@ -13,9 +13,11 @@
           <div class="d-flex flex-column align-center my-3">
             <v-avatar
               density="compact"
-              size="100"
-              :text="user.name[0].toUpperCase()"
+              size="80"
+              :text="user.name"
               color="var(--color-secondary)"
+              style="font-family: var(--font-header); font-size: 18pt;"
+              icon="mdi-account"
             />
             <span class="nameUser">{{ user.name }}</span>
             <a :href="`mailto:${user.email}`" class="emailUser">{{
@@ -23,7 +25,7 @@
             }}</a>
           </div>
           <v-divider opacity="0.5"></v-divider>
-          <v-list selectable >
+          <v-list selectable>
             <v-list-item
               prepend-icon="mdi-view-dashboard"
               title="Início"
@@ -86,7 +88,7 @@ export default defineComponent({
 <style scoped>
 .nameUser {
   margin: 0.5rem;
-  font-family: var(--font-header);
+  font-family: var(--font-body);
   font-size: xx-large;
 }
 .emailUser a {

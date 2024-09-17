@@ -71,7 +71,6 @@
           :width="
             $vuetify.display.mobile ? $vuetify.display.width / 2 - 30 : 300
           "
-          :height="$vuetify.display.mobile ? 'auto' : 600"
           color="white"
           elevation="6"
         >
@@ -388,4 +387,7 @@ export default defineComponent({
 });
 </script>
 
-<style scoped></style>
+<style scoped>
+/**
+ */
+</style>
