@@ -72,6 +72,7 @@
               :rules="rules"
               theme="light"
             />
+            <input type="text" name="mask" v-model="form.cpf" v-mask="'000.000.000-00'" hidden>
           </v-card-item>
           <v-card-item>
             <div class="d-flex w-100 align-center justify-center">

@@ -8,11 +8,13 @@
 import vuetify from './vuetify'
 import store from '@/store/index'
 import Vue3Toasity, { type ToastContainerOptions } from 'vue3-toastify';
+import VueMask from '@devindex/vue-mask';
 
 // Types
 import type { App } from 'vue'
 
 export function registerPlugins (app: App) {
+  app.use(VueMask)
   app.use(vuetify)
   app.use(store)
   app.use(
