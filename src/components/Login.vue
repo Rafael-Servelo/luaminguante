@@ -68,11 +68,11 @@
     >
       <div class="d-flex w-100 align-center justify-center">
         <div class="line"></div>
-        <p class="frase-inteira">Ainda nao tem cadastro ?</p>
+        <p class="frase-inteira">Ainda não tem cadastro ?</p>
         <div class="line"></div>
       </div>
       <v-btn
-        @click="store.commit('Set_IsRegister', !isRegister)"
+        @click="$router.push({ name: 'CreateAccount' })"
         class="ma-2"
         rounded
         color="var(--color-tertiary)"
