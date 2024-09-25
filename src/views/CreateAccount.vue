@@ -82,8 +82,30 @@
                   v-mask="'000.000.000-00'"
                   hidden
                 />
+                <v-text-field
+                  label="Telefone"
+                  v-model="form.phone"
+                  type="phone"
+                  bg-color="white"
+                  rounded
+                  variant="solo"
+                  :rules="rules"
+                  theme="light"
+                />
+                <input
+                  type="text"
+                  name="mask"
+                  v-model="form.phone"
+                  v-mask="'(00) 00009-0000'"
+                  hidden
+                />
               </div>
-              <v-divider vertical class="mx-4" opacity=".3" color="white" />
+              <v-divider
+                :vertical="!$vuetify.display.mobile"
+                class="mx-4"
+                opacity=".3"
+                color="white"
+              />
               <div class="w-100">
                 <div class="w-100 text-subtitle-2 mb-2">Endereço:</div>
                 <v-text-field
@@ -115,6 +137,7 @@
                     variant="solo"
                     theme="light"
                     :disabled="disableCEP"
+                    :loading="cepLoad"
                   />
                   <v-text-field
                     label="Numero"
@@ -124,7 +147,7 @@
                     rounded
                     variant="solo"
                     theme="light"
-                    :disabled="disableCEP"
+                    :rules="rules"
                   />
                 </div>
                 <v-text-field
@@ -136,6 +159,7 @@
                   variant="solo"
                   theme="light"
                   :disabled="disableCEP"
+                  :loading="cepLoad"
                 />
                 <div class="flex" style="gap: 1rem">
                   <v-text-field
@@ -148,6 +172,7 @@
                     variant="solo"
                     theme="light"
                     :disabled="disableCEP"
+                    :loading="cepLoad"
                   />
                   <v-text-field
                     label="Estado"
@@ -158,6 +183,7 @@
                     variant="solo"
                     theme="light"
                     :disabled="disableCEP"
+                    :loading="cepLoad"
                   />
                 </div>
               </div>
@@ -202,10 +228,12 @@ export default defineComponent({
     return {
       loadBtn: computed(() => store.state.auth.load),
       disableCEP: true,
+      cepLoad: false,
       form: {
         name: "",
         email: "",
         cpf: "",
+        phone: "",
         password: "",
         confirmPassword: "",
         address: {
@@ -234,6 +262,9 @@ export default defineComponent({
     buscarCEP() {
       let cep = this.form.address.cep.replace("-", "");
 
+      this.disableCEP = true;
+      this.cepLoad = true;
+
       fetch(`https://brasilapi.com.br/api/cep/v1/${cep}`)
         .then((res) => res.json())
         .then((data) => {
@@ -243,6 +274,7 @@ export default defineComponent({
             this.form.address.cidade = data.city;
             this.form.address.uf = data.state;
             this.disableCEP = false;
+            this.cepLoad = false;
           } catch (error) {
             console.error(error);
           }
