@@ -52,8 +52,9 @@
                   bg-color="white"
                   rounded
                   variant="solo"
-                  :rules="rules"
+                  :rules="rulesPassword"
                   theme="light"
+                  id="password"
                 />
                 <v-text-field
                   label="Confirmar Senha"
@@ -62,7 +63,7 @@
                   bg-color="white"
                   rounded
                   variant="solo"
-                  :rules="rules"
+                  :rules="rulesConfirmPassword"
                   theme="light"
                 />
                 <v-text-field
@@ -110,7 +111,7 @@
                 <div class="w-100 text-subtitle-2 mb-2">Endereço:</div>
                 <v-text-field
                   label="CEP"
-                  v-model="form.address.cep"
+                  v-model="form.address[0].cep"
                   type="text"
                   bg-color="white"
                   rounded
@@ -122,7 +123,7 @@
                 <input
                   type="text"
                   name="mask"
-                  v-model="form.address.cep"
+                  v-model="form.address[0].cep"
                   v-mask="'00000-000'"
                   hidden
                 />
@@ -130,7 +131,7 @@
                   <v-text-field
                     width="280"
                     label="Rua"
-                    v-model="form.address.rua"
+                    v-model="form.address[0].street"
                     type="text"
                     bg-color="white"
                     rounded
@@ -141,7 +142,7 @@
                   />
                   <v-text-field
                     label="Numero"
-                    v-model="form.address.numero"
+                    v-model="form.address[0].number"
                     type="text"
                     bg-color="white"
                     rounded
@@ -151,8 +152,18 @@
                   />
                 </div>
                 <v-text-field
+                  label="Complemento"
+                  v-model="form.address[0].complement"
+                  type="text"
+                  bg-color="white"
+                  rounded
+                  variant="solo"
+                  theme="light"
+                  :loading="cepLoad"
+                />
+                <v-text-field
                   label="Bairro"
-                  v-model="form.address.bairro"
+                  v-model="form.address[0].neighborhood"
                   type="text"
                   bg-color="white"
                   rounded
@@ -165,7 +176,7 @@
                   <v-text-field
                     width="280"
                     label="Cidade"
-                    v-model="form.address.cidade"
+                    v-model="form.address[0].city"
                     type="text"
                     bg-color="white"
                     rounded
@@ -176,7 +187,7 @@
                   />
                   <v-text-field
                     label="Estado"
-                    v-model="form.address.uf"
+                    v-model="form.address[0].state"
                     type="text"
                     bg-color="white"
                     rounded
@@ -230,20 +241,25 @@ export default defineComponent({
       disableCEP: true,
       cepLoad: false,
       form: {
+        address: [
+          {
+            cep: "",
+            street: "",
+            number: "",
+            complement: "",
+            neighborhood: "",
+            city: "",
+            state: "",
+          },
+        ],
+        avatar: "https://cdn-icons-png.flaticon.com/512/3899/3899618.png",
+        confirmPassword: "",
+        cpf: "",
         name: "",
         email: "",
-        cpf: "",
-        phone: "",
+        isAdm: false,
         password: "",
-        confirmPassword: "",
-        address: {
-          cep: "",
-          rua: "",
-          numero: "",
-          bairro: "",
-          cidade: "",
-          uf: "",
-        },
+        phone: "",
       },
       recoveryPassword: false,
       rules: [
@@ -253,14 +269,33 @@ export default defineComponent({
           return "Campo obrigatório";
         },
       ],
+      rulesPassword: [
+        (value: any) => {
+          if (value.length >= 8) return true;
+
+          return "É preciso ter no minimo 8 caracteres";
+        },
+      ],
+      rulesConfirmPassword: [
+        (value: any) => {
+          let password = document.getElementById("password") as any;
+          // console.log(value)
+          console.log(password.value);
+          if (value === password.value) return true;
+
+          return "As senhas não conferem";
+        },
+      ],
     };
   },
   methods: {
     registerUser() {
-      console.log(this.form);
+      store.commit("Set_Load", true);
+
+      store.dispatch("register", this.form);
     },
     buscarCEP() {
-      let cep = this.form.address.cep.replace("-", "");
+      let cep = this.form.address[0].cep.replace("-", "");
 
       this.disableCEP = true;
       this.cepLoad = true;
@@ -269,10 +304,10 @@ export default defineComponent({
         .then((res) => res.json())
         .then((data) => {
           try {
-            this.form.address.rua = data.street;
-            this.form.address.bairro = data.neighborhood;
-            this.form.address.cidade = data.city;
-            this.form.address.uf = data.state;
+            this.form.address[0].street = data.street;
+            this.form.address[0].neighborhood = data.neighborhood;
+            this.form.address[0].city = data.city;
+            this.form.address[0].state = data.state;
             this.disableCEP = false;
             this.cepLoad = false;
           } catch (error) {

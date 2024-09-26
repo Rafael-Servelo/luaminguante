@@ -1,6 +1,5 @@
 <template>
   <v-navigation-drawer
-    v-if="!isRegister"
     floating
     :width="$vuetify.display.mobile ? $vuetify.display.width : 400"
     color="var(--color-primary)"
@@ -13,7 +12,7 @@
         <v-text-field
           class="my-2"
           variant="solo-filled"
-          rounded
+          rounded="lg"
           hide-details
           bg-color="white"
           placeholder="E-mail"
@@ -24,7 +23,7 @@
         <v-text-field
           class="my-2"
           variant="solo-filled"
-          rounded
+          rounded="lg"
           hide-details
           bg-color="white"
           placeholder="Senha"
@@ -68,10 +67,16 @@
     >
       <div class="d-flex w-100 align-center justify-center">
         <div class="line"></div>
-        <p class="frase-inteira">Ainda não tem cadastro ?</p>
+        <p
+          class="frase-inteira link"
+          @click="store.commit('Set_IsRegister', !isRegister)"
+        >
+          Ainda não tem cadastro ?
+        </p>
         <div class="line"></div>
       </div>
       <v-btn
+        v-if="isRegister"
         @click="$router.push({ name: 'CreateAccount' })"
         class="ma-2"
         rounded
@@ -80,18 +85,15 @@
       >
     </div>
   </v-navigation-drawer>
-  <register v-else :drawer="drawer.drawer" />
 </template>
 
 <script lang="ts">
 import store from "@/store";
 import { computed, defineComponent } from "vue";
 import { toast } from "vue3-toastify";
-import Register from "@/components/Register.vue";
 
 export default defineComponent({
   name: "Login Form",
-  components: { Register },
   props: {
     drawer: Object as any,
   },

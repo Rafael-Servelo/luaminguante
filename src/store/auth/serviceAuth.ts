@@ -24,13 +24,7 @@ const serviceAuth = {
   },
 
   async register(form: any) {
-    return axios.post(`${import.meta.env.VITE_URL}/auth/register`, {
-      name: form.name,
-      email: form.email,
-      password: form.password,
-      confirmPassword: form.confirmPassword,
-      isAdm: false,
-    });
+    return axios.post(`${import.meta.env.VITE_URL}/auth/register`, form);
   },
 
   async getUser() {
