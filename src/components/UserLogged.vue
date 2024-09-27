@@ -15,9 +15,13 @@
               density="compact"
               size="80"
               :text="user.name"
-              color="var(--color-secondary)"
-              style="font-family: var(--font-header); font-size: 18pt;"
-              icon="mdi-account"
+              color="var(--color-primary)"
+              style="font-family: var(--font-header); font-size: 18pt"
+              :image="
+                user.avatar.includes('http')
+                  ? user.avatar
+                  : 'data:image/png;base64, ' + user.avatar
+              "
             />
             <span class="nameUser">{{ user.name }}</span>
             <a :href="`mailto:${user.email}`" class="emailUser">{{

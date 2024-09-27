@@ -54,9 +54,11 @@ const actionsAuth = {
   async register({ commit }: any, form: any) {
     try {
       const { data } = await serviceAuth.register(form);
-      commit("Set_Response", data);
       toast.success(data.msg);
       commit("Set_IsRegister", false);
+      setTimeout(()=>{
+        router.push({name: "Home"})
+      }, 3000)
     } catch (err: any) {
       toast.error(err.response.data.msg);
     } finally {
