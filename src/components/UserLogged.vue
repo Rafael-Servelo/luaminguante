@@ -17,11 +17,7 @@
               :text="user.name"
               color="var(--color-primary)"
               style="font-family: var(--font-header); font-size: 18pt"
-              :image="
-                user.avatar.includes('http')
-                  ? user.avatar
-                  : 'data:image/png;base64, ' + user.avatar
-              "
+              :image="avatar"
             />
             <span class="nameUser">{{ user.name }}</span>
             <a :href="`mailto:${user.email}`" class="emailUser">{{
@@ -75,6 +71,7 @@ export default defineComponent({
       store,
       loadBtn: computed(() => store.state.auth.load),
       user: computed(() => store.state.auth.user),
+      avatar: "",
     };
   },
   methods: {
@@ -85,6 +82,14 @@ export default defineComponent({
         "userID=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
       window.location.reload();
     },
+  },
+  mounted() {
+    setTimeout(() => {
+      this.avatar = this.user.avatar.includes("http")
+        ? this.user.avatar
+        : "data:image/png;base64, " + this.user.avatar;
+      console.log(this.avatar);
+    }, 300);
   },
 });
 </script>

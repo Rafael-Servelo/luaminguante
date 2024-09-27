@@ -297,7 +297,11 @@ export default defineComponent({
   },
   methods: {
     deleteitem(id: any) {
-      store.dispatch("deleteProducts", id, this.user.email);
+      let object = {
+        id: id,
+        email: this.user.email
+      }
+      store.dispatch("deleteProducts", object);
     },
     count() {
       let counts = this.paginaAtual * this.perPage - this.perPage;

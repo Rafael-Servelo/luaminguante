@@ -20,18 +20,13 @@ const serviceAuth = {
   async getProducts() {
     return axios.get(`${import.meta.env.VITE_URL}/store/products`);
   },
-  async deleteProducts(id: any, email: any) {
-    return axios.delete(
-      `${import.meta.env.VITE_URL}/store/delete_product`,
-      {
-        headers: {
-          email
-        },
-        data: {
-          id
-        }
+  async deleteProducts(form: any) {
+    return axios.delete(`${import.meta.env.VITE_URL}/store/delete_product`, {
+      data: {
+        id: form.id,
+        email: form.email,
       },
-    );
+    });
   },
 };
 
