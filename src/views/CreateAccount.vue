@@ -22,7 +22,7 @@
         >
         <v-form @submit.prevent="registerUser">
           <v-card-item>
-            <div class="flex w-100 justify-center">
+            <div class="flex w-100 justify-center" :class="{col: $vuetify.display.mobile}">
               <div class="w-100">
                 <div class="w-100 text-subtitle-2 mb-2">Dados Pessoais:</div>
                 <v-text-field
@@ -129,7 +129,7 @@
                 />
                 <div class="flex" style="gap: 1rem">
                   <v-text-field
-                    width="280"
+                    :width="$vuetify.display.mobile ? '200' : '280'"
                     label="Rua"
                     v-model="form.address[0].street"
                     type="text"
@@ -174,7 +174,7 @@
                 />
                 <div class="flex" style="gap: 1rem">
                   <v-text-field
-                    width="280"
+                    :width="$vuetify.display.mobile ? '200' : '280'"
                     label="Cidade"
                     v-model="form.address[0].city"
                     type="text"
@@ -186,7 +186,7 @@
                     :loading="cepLoad"
                   />
                   <v-text-field
-                    label="Estado"
+                    label="UF"
                     v-model="form.address[0].state"
                     type="text"
                     bg-color="white"
