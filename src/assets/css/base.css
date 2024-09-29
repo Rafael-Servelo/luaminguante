@@ -11,6 +11,10 @@
   --color-secondary: #f27405;
   --color-tertiary: #d92b04;
   --color-green: #005349;
+  --color-black-1: #00000050;
+  --color-black-2: #00000080;
+  --color-black-3: #000000aa;
+  --color-black-3: #000000cc;
   --font-header: "Brookshire";
   --font-body: "M PLUS Rounded 1c", sans-serif;
 }

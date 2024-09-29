@@ -6,7 +6,8 @@ const store = {
       return {
         resultSearch: [],
         products: [],
-        loadProducts: true
+        loadProducts: true,
+        setProducts: false
     };
   },
   mutations: mutationsStore,

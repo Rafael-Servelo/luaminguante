@@ -8,6 +8,9 @@ const mutationsStore = {
   Set_LoadProducts(state: any, payload: any) {
     state.loadProducts = payload;
   },
+  Set_SetProducts(state: any, payload: any) {
+    state.setProducts = payload;
+  },
 };
 
 export default mutationsStore;

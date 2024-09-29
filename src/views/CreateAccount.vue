@@ -279,8 +279,6 @@ export default defineComponent({
       rulesConfirmPassword: [
         (value: any) => {
           let password = document.getElementById("password") as any;
-          // console.log(value)
-          console.log(password.value);
           if (value === password.value) return true;
 
           return "As senhas não conferem";

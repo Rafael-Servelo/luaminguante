@@ -21,6 +21,7 @@
     ></v-img>
   </div>
   <v-main style="background: white">
+    <set-products :show="setProduct" />
     <div
       style="color: black"
       v-if="loadProducts"
@@ -35,8 +36,10 @@
       class="w-100 flex col align-center justify-center h-100"
       style="color: var(--color-primary)"
     >
-      <v-icon>mdi-emoticon-sad</v-icon>
-      Nenhum produto disponivel no momento...
+      <div class="text-body-1 flex col align-center">
+        <v-icon>mdi-emoticon-sad</v-icon>
+        Nenhum produto disponivel no momento...
+      </div>
     </div>
     <products v-else :products="products" :per-page="perPage" />
   </v-main>
@@ -48,15 +51,16 @@ import { computed, defineComponent } from "vue";
 import HeaderNav from "@/components/Header.vue";
 import MyFooter from "@/components/footer.vue";
 import Products from "@/components/Products.vue";
+import SetProducts from "@/components/SetProducts.vue";
 import store from "@/store";
 import router from "@/router";
-// @click="changePage($event.target.innerText)"
 
 export default defineComponent({
   components: {
     HeaderNav,
     MyFooter,
     Products,
+    SetProducts,
   },
   data() {
     return {
@@ -66,6 +70,7 @@ export default defineComponent({
       perPage: 10,
       loadProducts: computed(() => store.state.store.loadProducts),
       urlParams: new URLSearchParams(window.location.search),
+      setProduct: computed(() => store.state.store.setProducts),
     };
   },
   methods: {
@@ -90,12 +95,12 @@ export default defineComponent({
       }
     });
   },
-  mounted(){
-    if(this.getParam("token")){
+  mounted() {
+    if (this.getParam("token")) {
       sessionStorage.setItem("resetToken", `${this.getParam("token")}`);
       router.push({ name: "ForgotPassword" });
     }
-  }
+  },
 });
 </script>
 

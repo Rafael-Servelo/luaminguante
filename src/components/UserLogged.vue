@@ -41,7 +41,9 @@
             <v-list-item
               prepend-icon="mdi-note-plus"
               title="Cadastrar Produtos"
-            ></v-list-item>
+              @click="showSetProducts"
+            >
+          </v-list-item>
           </v-list>
         </div>
 
@@ -82,13 +84,15 @@ export default defineComponent({
         "userID=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
       window.location.reload();
     },
+    showSetProducts(){
+      store.commit('Set_SetProducts', true)
+    }
   },
   mounted() {
     setTimeout(() => {
       this.avatar = this.user.avatar.includes("http")
         ? this.user.avatar
         : "data:image/png;base64, " + this.user.avatar;
-      console.log(this.avatar);
     }, 300);
   },
 });
