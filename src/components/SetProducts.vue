@@ -49,7 +49,9 @@
               </template>
               <v-carousel-item
                 v-for="img in form.images"
-                :src="img"
+                :src="
+                  img.startsWith('http') ? img : 'data:image/png;base64,' + img
+                "
               ></v-carousel-item>
               <template v-slot:next="{ props }">
                 <v-btn
@@ -62,10 +64,8 @@
                 >
               </template>
             </v-carousel>
-            <v-card-text v-show="form.images.length === 0" class="text-center"
-              >Adicionar Imagens</v-card-text
-            >
             <v-file-input
+              rounded
               @input="encodeImageFileAsURL($event.target)"
               :rules="rules"
               max-width="500"
@@ -73,8 +73,28 @@
               label="Enviar Fotos"
               prepend-icon="mdi-camera"
               variant="outlined"
-              class="ma-4"
+              id="imgInput"
+              @click:clear="form.images = []"
             ></v-file-input>
+            <div
+              class="w-100 flex align-center justify-center"
+              style="gap: 1rem"
+            >
+              <v-divider></v-divider>
+              ou
+              <v-divider></v-divider>
+            </div>
+            <v-card-item>
+              <v-text-field
+                v-model="urlIMG"
+                variant="outlined"
+                rounded
+                label="Adicionar URL da imagem"
+                append-inner-icon="mdi-send"
+                @click:append-inner="form.images.push(urlIMG), (urlIMG = '')"
+                hide-details
+              ></v-text-field>
+            </v-card-item>
             <v-card-item>
               <v-text-field
                 rounded
@@ -129,14 +149,36 @@
                 label="Preço"
                 v-model="form.price"
               />
+              <v-card-item
+                style="
+                  border: 1px solid var(--color-black-1);
+                  border-radius: 30px;
+                  margin-bottom: 1.5rem;
+                "
+              >
+                <v-switch
+                  label="Promoção"
+                  v-model="form.promotion"
+                  inset
+                  base-color="red"
+                  color="green"
+                  false-icon="mdi-close"
+                  true-icon="mdi-check"
+                  hide-details
+                ></v-switch>
+                <v-text-field
+                  v-if="form.promotion"
+                  rounded
+                  variant="outlined"
+                  label="Preço com Desconto"
+                />
+              </v-card-item>
               <v-text-field
                 rounded
                 variant="outlined"
                 label="Categoria"
                 v-model="form.category"
               />
-              <v-text-field rounded variant="outlined" label="Tags" />
-              <v-text-field rounded variant="outlined" label="" />
               <v-text-field rounded variant="outlined" label="" />
               <v-text-field rounded variant="outlined" label="" />
               <v-text-field rounded variant="outlined" label="" />
@@ -187,39 +229,41 @@ export default defineComponent({
           return "Campo obrigatório";
         },
       ],
+      urlIMG: "",
       form: {
-        amount: 0,
+        amount: "",
         category: "",
         colors: [],
         description: "",
-        discountPrice: 0,
-        height: 0,
+        discountPrice: "",
+        height: "",
         images: [],
-        length: 0,
-        numberSold: 0,
-        numberReview: 0,
-        price: 0,
+        length: "",
+        numberSold: "",
+        numberReview: "",
+        price: "",
         product: "",
         promotion: false,
-        rating: 0,
+        rating: "",
         sizes: [],
         specifications: "",
         tags: [],
         variations: [],
-        weight: 0,
-        width: 0,
+        weight: "",
+        width: "",
       } as any,
     };
   },
   methods: {
     encodeImageFileAsURL(element: any) {
       return new Promise((resolve) => {
+        this.form.images = [];
         let files = element.files;
         let array = this.form.images;
         for (let item of files) {
-          let reader = new FileReader();
+          let reader = new FileReader() as any;
           reader.onloadend = function () {
-            resolve(array.push(reader.result));
+            resolve(array.push(reader.result?.replace(/data:.+;base64,/g, "")));
           };
           reader.readAsDataURL(item);
         }
