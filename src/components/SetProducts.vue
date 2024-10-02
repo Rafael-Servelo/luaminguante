@@ -64,38 +64,47 @@
                 >
               </template>
             </v-carousel>
-            <v-file-input
-              rounded
-              @input="encodeImageFileAsURL($event.target)"
-              :rules="rules"
-              max-width="500"
-              multiple
-              label="Enviar Fotos"
-              prepend-icon="mdi-camera"
-              variant="outlined"
-              id="imgInput"
-              @click:clear="form.images = []"
-            ></v-file-input>
-            <div
-              class="w-100 flex align-center justify-center"
-              style="gap: 1rem"
-            >
-              <v-divider></v-divider>
-              ou
-              <v-divider></v-divider>
-            </div>
+            <v-card-item>
+              <v-file-input
+                rounded
+                @input="encodeImageFileAsURL($event.target)"
+                max-width="500"
+                multiple
+                label="Enviar Fotos"
+                prepend-icon="mdi-camera"
+                variant="outlined"
+                id="imgInput"
+                @click:clear="form.images = []"
+              ></v-file-input>
+              <div
+                class="w-100 flex align-center justify-center"
+                style="gap: 1rem"
+              >
+                <v-divider></v-divider>
+                ou
+                <v-divider></v-divider>
+              </div>
+            </v-card-item>
+
+          <v-chip-group direction="vertical">
+            <v-chip v-for="(tag, index) in form.images" :key="index">
+              <template v-slot:prepend>
+                <v-icon @click="form.images = form.images.splice(form.images.indexOf(tag) + 1 , 1), console.log(form.images.indexOf(tag))">mdi-close</v-icon>
+              </template>
+              {{ tag }}
+            </v-chip>
+          </v-chip-group>
+
             <v-card-item>
               <v-text-field
+                class="mt-1"
                 v-model="urlIMG"
                 variant="outlined"
                 rounded
                 label="Adicionar URL da imagem"
                 append-inner-icon="mdi-send"
                 @click:append-inner="form.images.push(urlIMG), (urlIMG = '')"
-                hide-details
               ></v-text-field>
-            </v-card-item>
-            <v-card-item>
               <v-text-field
                 rounded
                 variant="outlined"
@@ -112,35 +121,30 @@
                 rounded
                 variant="outlined"
                 label="Altura ( cm )"
-                type="number"
                 v-model="form.height"
               />
               <v-text-field
                 rounded
                 variant="outlined"
                 label="Largura ( cm )"
-                type="number"
                 v-model="form.width"
               />
               <v-text-field
                 rounded
                 variant="outlined"
                 label="Comprimento ( cm )"
-                type="number"
                 v-model="form.length"
               />
               <v-text-field
                 rounded
                 variant="outlined"
                 label="Peso ( kg )"
-                type="number"
                 v-model="form.weight"
               />
               <v-text-field
                 rounded
                 variant="outlined"
                 label="Quantidade"
-                type="number"
                 v-model="form.amount"
               />
               <v-text-field
@@ -149,47 +153,47 @@
                 label="Preço"
                 v-model="form.price"
               />
-              <v-card-item
-                style="
-                  border: 1px solid var(--color-black-1);
-                  border-radius: 30px;
-                  margin-bottom: 1.5rem;
-                "
-              >
-                <v-switch
-                  label="Promoção"
-                  v-model="form.promotion"
-                  inset
-                  base-color="red"
-                  color="green"
-                  false-icon="mdi-close"
-                  true-icon="mdi-check"
-                  hide-details
-                ></v-switch>
-                <v-text-field
-                  v-if="form.promotion"
-                  rounded
-                  variant="outlined"
-                  label="Preço com Desconto"
-                />
-              </v-card-item>
               <v-text-field
                 rounded
                 variant="outlined"
                 label="Categoria"
                 v-model="form.category"
               />
+              <v-text-field
+                rounded
+                variant="outlined"
+                label="Especificações"
+                v-model="form.specifications"
+              />
               <v-text-field rounded variant="outlined" label="" />
               <v-text-field rounded variant="outlined" label="" />
-              <v-text-field rounded variant="outlined" label="" />
-              <v-text-field rounded variant="outlined" label="" />
-              <v-text-field rounded variant="outlined" label="" />
-              <v-text-field rounded variant="outlined" label="" />
-              <v-text-field rounded variant="outlined" label="" />
-              <v-text-field rounded variant="outlined" label="" />
-              <v-text-field rounded variant="outlined" label="" />
-              <v-text-field rounded variant="outlined" label="" />
-              <v-text-field rounded variant="outlined" label="" />
+              <v-card-item
+                style="
+                  border: 1px solid #00000070;
+                  border-radius: 25px;
+                  margin-bottom: 1.5rem;
+                "
+              >
+                <div class="w-100 flex justify-center">
+                  <v-switch
+                    label="Promoção"
+                    v-model="form.promotion"
+                    :inset="false"
+                    base-color="red-darken-2"
+                    color="green-darken-2"
+                    false-icon="mdi-close"
+                    true-icon="mdi-check"
+                    hide-details
+                  ></v-switch>
+                </div>
+                <v-text-field
+                  v-if="form.promotion"
+                  rounded
+                  variant="outlined"
+                  label="Preço com Desconto"
+                  v-model="form.discountPrice"
+                />
+              </v-card-item>
             </v-card-item>
           </div>
           <v-divider vertical opacity="1" class="mx-4"></v-divider>
@@ -229,6 +233,7 @@ export default defineComponent({
           return "Campo obrigatório";
         },
       ],
+      imagesName: [],
       urlIMG: "",
       form: {
         amount: "",
