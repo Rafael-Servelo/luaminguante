@@ -29,6 +29,16 @@ body {
   background: var(--color-primary);
 }
 
+.txt-primary{
+  color: var(--color-primary)!important;
+}
+.txt-secondary{
+  color: var(--color-secondary)!important;
+}
+.txt-green{
+  color: var(--color-green)!important;
+}
+
 .line {
   width: 100%;
   height: 1px;

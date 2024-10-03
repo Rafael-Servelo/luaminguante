@@ -28,6 +28,13 @@ const serviceAuth = {
       },
     });
   },
+  async setProducts(form: any, email: any) {
+    return axios.post(`${import.meta.env.VITE_URL}/store/set_product`, form, {
+      headers: {
+        email: email
+      },
+    });
+  },
 };
 
 export default serviceAuth;

@@ -1,4 +1,5 @@
 <template>
+  
   <v-fab
     color="var(--color-secondary)"
     icon="mdi-chevron-up"
@@ -21,7 +22,7 @@
     ></v-img>
   </div>
   <v-main style="background: white">
-    <set-products :show="setProduct" />
+
     <div
       style="color: black"
       v-if="loadProducts"
@@ -36,10 +37,32 @@
       class="w-100 flex col align-center justify-center h-100"
       style="color: var(--color-primary)"
     >
-      <div class="text-body-1 flex col align-center">
-        <v-icon>mdi-emoticon-sad</v-icon>
-        Nenhum produto disponivel no momento...
-      </div>
+      <v-empty-state
+        class="pa-0"
+        image="https://vuetifyjs.b-cdn.net/docs/images/components/v-empty-state/astro-cat.svg"
+        size="200"
+      >
+        <template v-slot:media>
+          <v-sheet class="py-4 mb-4" color="#fff">
+            <v-img></v-img>
+          </v-sheet>
+        </template>
+
+        <template v-slot:title>
+          <div class="text-h6 text-high-emphasis txt-green">Ops..</div>
+        </template>
+
+        <template v-slot:text>
+          <div
+            class="text-body-2 font-weight-medium text-medium-emphasis txt-green"
+          >
+            Nenhum produto disponivel no momento...
+          </div>
+        </template>
+        <template v-slot:actions>
+          <v-spacer></v-spacer>
+        </template>
+      </v-empty-state>
     </div>
     <products v-else :products="products" :per-page="perPage" />
   </v-main>

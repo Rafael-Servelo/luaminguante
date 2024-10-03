@@ -1,6 +1,7 @@
 <template>
   <loading v-show="loadingPage" />
-  <v-app theme="dark" style="background: var(--color-primary);">
+  <set-products :show="setProduct" />
+  <v-app theme="dark" style="background: var(--color-primary)">
     <router-view></router-view>
   </v-app>
 </template>
@@ -10,4 +11,5 @@ import Loading from "@/components/Loading.vue";
 import { computed } from "vue";
 import store from "./store";
 const loadingPage = computed(() => store.state.loadingPage);
+const setProduct = computed(() => store.state.store.setProducts);
 </script>
