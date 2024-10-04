@@ -8,15 +8,15 @@ const actionsStore = {
 
       commit("Set_ResultSearch", data.result);
     } catch (err: any) {
-      console.log(err.messagee);
+      toast.error(err.response.data.msg);
     }
   },
   async getProducts({ commit }: any) {
     try {
       const { data } = await serviceStore.getProducts();
       commit("Set_Products", data.products);
-    } catch (err) {
-      console.error(err);
+    } catch (err: any) {
+      toast.error(err.response.data.msg);
     } finally {
       commit("Set_LoadProducts", false);
     }
@@ -25,22 +25,22 @@ const actionsStore = {
     try {
       const { data } = await serviceStore.deleteProducts(form);
       toast.success(data.msg);
-    } catch (err) {
-      console.error(err);
+    } catch (err: any) {
+      toast.error(err.response.data.msg);
     } finally {
       commit("Set_LoadProducts", false);
       window.location.reload();
     }
   },
-  async setProducts({ commit }: any, form: any, email: any) {
+  async setProducts({ commit }: any, form: any) {
     try {
-      const { data } = await serviceStore.setProducts(form, email);
+      const { data } = await serviceStore.setProducts(form);
       toast.success(data.msg);
-    } catch (err) {
-      console.error(err);
+    } catch (err: any) {
+      toast.error(err.response.data.msg);
     } finally {
       commit("Set_LoadProducts", false);
-      window.location.reload();
+      window.location.reload()
     }
   },
 };

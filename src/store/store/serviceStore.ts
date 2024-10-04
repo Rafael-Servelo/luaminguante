@@ -1,4 +1,3 @@
-// import getCookie from "@/assets/scripts/getCookies";
 import axios from "axios";
 
 const serviceAuth = {
@@ -28,10 +27,10 @@ const serviceAuth = {
       },
     });
   },
-  async setProducts(form: any, email: any) {
+  async setProducts(form: any) {
     return axios.post(`${import.meta.env.VITE_URL}/store/set_product`, form, {
       headers: {
-        email: email
+        email: sessionStorage.getItem("email"),
       },
     });
   },

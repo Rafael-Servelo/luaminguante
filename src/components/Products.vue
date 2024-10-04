@@ -61,7 +61,7 @@
         font-family: var(--font-body);
       "
     >
-      Destaques
+      Produtos
     </div>
     <v-row class="w-100">
       <v-col v-for="item in resultPagination" :key="item.id" sm>
@@ -144,11 +144,11 @@
               >
                 <s v-if="item.discountPrice">
                   <span class="grey font-weight-light"
-                    >R$ {{ item.price }}</span
+                    >R$ {{ item.price.toFixed(2) }}</span
                   >
                 </s>
                 <span v-else style="color: var(--color-green)"
-                  >R$ {{ item.price }}</span
+                  >R$ {{ item.price.toFixed(2) }}</span
                 >
               </v-card-item>
               <v-card-item
@@ -299,8 +299,8 @@ export default defineComponent({
     deleteitem(id: any) {
       let object = {
         id: id,
-        email: this.user.email
-      }
+        email: this.user.email,
+      };
       store.dispatch("deleteProducts", object);
     },
     count() {

@@ -70,6 +70,7 @@ const actionsAuth = {
     try {
       const { data } = await serviceAuth.getUser();
 
+      sessionStorage.setItem("email", data.user.email)
       commit("Set_User", data.user);
       commit("Set_IsLogged", true);
     } catch (err: any) {
