@@ -63,21 +63,19 @@
     >
       Produtos
     </div>
-    <v-row class="w-100">
-      <v-col v-for="item in resultPagination" :key="item.id" sm>
+    <div class="producs-container">
+      <div class="product" v-for="item in resultPagination" :key="item.id">
         <v-card
           class="mx-auto mb-4"
           rounded="xl"
-          :width="
-            $vuetify.display.mobile ? $vuetify.display.width / 2 - 30 : 300
-          "
+          :width="$vuetify.display.mobile ? 160 : 300"
           color="white"
           elevation="6"
         >
           <v-sheet color="transparent">
             <v-carousel
               color="var(--color-secondary)"
-              :height="$vuetify.display.mobile ? 190 : 300"
+              :height="$vuetify.display.mobile ? 160 : 300"
               deperPageer-icon="mdi-circle-medium"
               hide-deperPageer-background
               :continuous="false"
@@ -114,11 +112,11 @@
             </v-carousel>
           </v-sheet>
           <v-card-item>
-            <h2 class="text-h6" style="color: var(--color-green)">
+            <div class="text-subtitle-1" style="color: var(--color-green)">
               {{ item.product }}
-            </h2>
+            </div>
             <div
-              class="text-subtitle-1"
+              class="text-body-2"
               style="
                 max-height: 80px;
                 white-space: nowrap;
@@ -130,13 +128,14 @@
             </div>
           </v-card-item>
 
-          <v-card-item style="min-width: 250px">
+          <v-card-item
+            :style="{ minWidth: $vuetify.display.mobile ? '160px' : '300px' }"
+          >
             <v-chip
               v-for="tag in item.tags"
               color="var(--color-secondary)"
-              variant="flat"
+              variant="tonal"
               :text="tag"
-              theme="light"
             ></v-chip>
             <div :class="{ flex: !$vuetify.display.mobile }">
               <v-card-item
@@ -144,11 +143,11 @@
               >
                 <s v-if="item.discountPrice">
                   <span class="grey font-weight-light"
-                    >R$ {{ item.price.toFixed(2) }}</span
+                    >R${{ item.price.toFixed(2) }}</span
                   >
                 </s>
                 <span v-else style="color: var(--color-green)"
-                  >R$ {{ item.price.toFixed(2) }}</span
+                  >R${{ item.price.toFixed(2) }}</span
                 >
               </v-card-item>
               <v-card-item
@@ -156,7 +155,7 @@
                 v-if="item.discountPrice"
               >
                 <span style="color: var(--color-green)"
-                  >R$ {{ item?.discountPrice }}</span
+                  >R${{ item?.discountPrice.toFixed(2) }}</span
                 >
               </v-card-item>
             </div>
@@ -233,8 +232,8 @@
             </div>
           </v-card-item>
         </v-card>
-      </v-col>
-    </v-row>
+      </div>
+    </div>
     <div>
       <v-pagination
         ariant="plain"
@@ -266,6 +265,21 @@ export default defineComponent({
       user: computed(() => store.state.auth.user),
       resultPagination: [] as any,
       paginaAtual: 1,
+      config: {
+        prefix: "",
+        suffix: "",
+        thousands: ",",
+        decimal: ".",
+        precision: 2,
+        disableNegative: false,
+        disabled: false,
+        min: null,
+        max: null,
+        allowBlank: false,
+        minimumNumberOfCharacters: 0,
+        shouldRound: true,
+        focusOnRight: false,
+      },
       itemsFilter: [
         {
           item: "Ordem alfabética (A-Z)",
@@ -392,6 +406,14 @@ export default defineComponent({
 </script>
 
 <style scoped>
+.producs-container {
+  gap: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: start;
+  justify-content: flex-start;
+  padding: 1rem;
+}
 /**
  */
 </style>

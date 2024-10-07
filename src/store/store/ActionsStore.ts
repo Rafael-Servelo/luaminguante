@@ -25,22 +25,26 @@ const actionsStore = {
     try {
       const { data } = await serviceStore.deleteProducts(form);
       toast.success(data.msg);
+      setTimeout(() => {
+        window.location.reload();
+      }, 2500);
     } catch (err: any) {
       toast.error(err.response.data.msg);
     } finally {
       commit("Set_LoadProducts", false);
-      window.location.reload();
     }
   },
   async setProducts({ commit }: any, form: any) {
     try {
       const { data } = await serviceStore.setProducts(form);
       toast.success(data.msg);
+      setTimeout(() => {
+        window.location.reload();
+      }, 2500);
     } catch (err: any) {
       toast.error(err.response.data.msg);
     } finally {
       commit("Set_LoadProducts", false);
-      window.location.reload()
     }
   },
 };

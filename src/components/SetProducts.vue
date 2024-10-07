@@ -192,6 +192,7 @@
             >
               <v-card-item>
                 <v-text-field
+                  :rules="rules"
                   class="mt-1"
                   rounded
                   variant="outlined"
@@ -214,6 +215,7 @@
                 ></money3>
 
                 <v-text-field
+                  :rules="rules"
                   rounded
                   variant="outlined"
                   label="Categoria"
@@ -337,6 +339,12 @@
                     label="Preço com Desconto"
                     v-model="form.discountPrice"
                   />
+                  <money3
+                    style="color: black"
+                    v-model="form.discountPrice"
+                    v-bind="config"
+                    hidden
+                  ></money3>
                 </v-card-item>
               </v-card-item>
             </div>
