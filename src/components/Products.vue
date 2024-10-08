@@ -64,8 +64,16 @@
       Produtos
     </div>
     <div class="producs-container">
-      <div class="product" v-for="item in resultPagination" :key="item.id">
+      <div
+        class="product"
+        :style="{
+          filter: item.numberSold >= item.amount ? 'grayscale(100%)' : 'none',
+        }"
+        v-for="item in resultPagination"
+        :key="item.id"
+      >
         <v-card
+          :disabled="item.numberSold >= item.amount"
           class="mx-auto mb-4"
           rounded="xl"
           :width="$vuetify.display.mobile ? 160 : 300"
@@ -137,10 +145,9 @@
               variant="tonal"
               :text="tag"
             ></v-chip>
-            <div :class="{ flex: !$vuetify.display.mobile }">
-              <v-card-item
-                :subtitle="item.discountPrice ? 'de:' : 'A partir de:'"
-              >
+            <v-card-item :class="{ flex: !$vuetify.display.mobile }">
+              <div>
+                <span class="text-subtitle-1">{{ item.discountPrice ? 'de:' : 'A partir de:' }}</span>
                 <s v-if="item.discountPrice">
                   <span class="grey font-weight-light"
                     >R${{ item.price.toFixed(2) }}</span
@@ -149,18 +156,17 @@
                 <span v-else style="color: var(--color-green)"
                   >R${{ item.price.toFixed(2) }}</span
                 >
-              </v-card-item>
-              <v-card-item
+              </div>
+              <div
                 :subtitle="item.discountPrice ? 'Por:' : ''"
                 v-if="item.discountPrice"
               >
+              <span class="text-subtitle-1">{{item.discountPrice ? 'Por:' : ''}}</span>
                 <span style="color: var(--color-green)"
                   >R${{ item?.discountPrice.toFixed(2) }}</span
                 >
-              </v-card-item>
-            </div>
-          </v-card-item>
-          <v-card-item>
+              </div>
+            </v-card-item>
             <div class="flex align-center w-100 justify-space-around">
               <v-btn
                 icon
@@ -347,15 +353,31 @@ export default defineComponent({
         // Logica menor preço
         return this.listItems(
           this.products.sort((a: any, b: any) => {
-            return a.price - b.price;
+            if (a.discountPrice) {
+              return a.discountPrice - b.price;
+            } else if (b.discountPrice) {
+              return a.price - b.discountPrice;
+            } else if (a.discountPrice && b.discountPrice) {
+              return a.discountPrice - b.discountPrice;
+            } else {
+              return a.price - b.price;
+            }
           }),
           this.paginaAtual
         );
       } else if (evt === "maior") {
         // Logica maior preço
-        this.listItems(
+        return this.listItems(
           this.products.sort((a: any, b: any) => {
-            return b.price - a.price;
+            if (a.discountPrice) {
+              return b.price - a.discountPrice;
+            } else if (b.discountPrice) {
+              return b.discountPrice - a.price;
+            } else if (a.discountPrice && b.discountPrice) {
+              return b.discountPrice - a.discountPrice;
+            } else {
+              return b.price - a.price;
+            }
           }),
           this.paginaAtual
         );
@@ -411,7 +433,7 @@ export default defineComponent({
   display: flex;
   flex-wrap: wrap;
   align-items: start;
-  justify-content: flex-start;
+  justify-content: center;
   padding: 1rem;
 }
 /**
