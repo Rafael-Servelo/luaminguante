@@ -90,7 +90,7 @@ export default defineComponent({
       icons: ["mdi-instagram"],
       upperBtn: false,
       products: computed(() => store.state.store.products),
-      perPage: 8*2,
+      perPage: Math.round(document.body.clientWidth / (document.body.clientWidth < 1280 ? 160 : 300) * 4),
       loadProducts: computed(() => store.state.store.loadProducts),
       urlParams: new URLSearchParams(window.location.search),
       setProduct: computed(() => store.state.store.setProducts),

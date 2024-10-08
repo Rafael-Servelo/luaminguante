@@ -75,7 +75,7 @@
         <v-card
           :disabled="item.numberSold >= item.amount"
           class="mx-auto mb-4"
-          rounded="xl"
+          rounded="lg"
           :width="$vuetify.display.mobile ? 160 : 300"
           color="white"
           elevation="6"
@@ -94,7 +94,7 @@
                   variant="elevated"
                   @click="props.onClick"
                   icon
-                  size="30"
+                  size="24"
                   ><v-icon>mdi-menu-left</v-icon></v-btn
                 >
               </template>
@@ -113,7 +113,7 @@
                   variant="elevated"
                   @click="props.onClick"
                   icon
-                  size="30"
+                  size="24"
                   ><v-icon>mdi-menu-right</v-icon></v-btn
                 >
               </template>
@@ -147,7 +147,9 @@
             ></v-chip>
             <v-card-item :class="{ flex: !$vuetify.display.mobile }">
               <div>
-                <span class="text-subtitle-1">{{ item.discountPrice ? 'de:' : 'A partir de:' }}</span>
+                <span class="text-subtitle-1">{{
+                  item.discountPrice ? "de:" : "A partir de:"
+                }}</span>
                 <s v-if="item.discountPrice">
                   <span class="grey font-weight-light"
                     >R${{ item.price.toFixed(2) }}</span
@@ -161,7 +163,9 @@
                 :subtitle="item.discountPrice ? 'Por:' : ''"
                 v-if="item.discountPrice"
               >
-              <span class="text-subtitle-1">{{item.discountPrice ? 'Por:' : ''}}</span>
+                <span class="text-subtitle-1">{{
+                  item.discountPrice ? "Por:" : ""
+                }}</span>
                 <span style="color: var(--color-green)"
                   >R${{ item?.discountPrice.toFixed(2) }}</span
                 >
@@ -409,7 +413,14 @@ export default defineComponent({
 
       this.resultPagination = result;
     },
+    upPage() {
+      window.scrollTo({
+        top: 0,
+        behavior: "instant",
+      });
+    },
     goToPage(page: any) {
+      this.upPage();
       if (page > this.totalPage()) {
         return this.listItems(this.products, this.totalPage());
       }
