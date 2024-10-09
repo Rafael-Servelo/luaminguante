@@ -10,6 +10,7 @@
     "@devindex/vue-mask": "^2.0.3",
     "@mdi/font": "6.2.95",
     "axios": "^1.7.2",
+    "jsonpath": "^1.1.1",
     "roboto-fontface": "*",
     "v-money3": "^3.24.1",
     "vue": "^3.4.21",
@@ -20,6 +21,7 @@
   },
   "devDependencies": {
     "@babel/types": "^7.24.0",
+    "@types/jsonpath": "^0.2.4",
     "@types/node": "^20.11.25",
     "@vitejs/plugin-vue": "^5.0.4",
     "sass": "^1.71.1",

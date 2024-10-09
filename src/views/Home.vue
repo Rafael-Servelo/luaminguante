@@ -1,5 +1,4 @@
 <template>
-  
   <v-fab
     color="var(--color-secondary)"
     icon="mdi-chevron-up"
@@ -22,7 +21,6 @@
     ></v-img>
   </div>
   <v-main style="background: white">
-
     <div
       style="color: black"
       v-if="loadProducts"
@@ -90,7 +88,11 @@ export default defineComponent({
       icons: ["mdi-instagram"],
       upperBtn: false,
       products: computed(() => store.state.store.products),
-      perPage: Math.round(document.body.clientWidth / (document.body.clientWidth < 1280 ? 160 : 300) * 4),
+      perPage: Math.round(
+        (document.body.clientWidth /
+          (document.body.clientWidth < 1280 ? 160 : 300)) *
+          4
+      ),
       loadProducts: computed(() => store.state.store.loadProducts),
       urlParams: new URLSearchParams(window.location.search),
       setProduct: computed(() => store.state.store.setProducts),

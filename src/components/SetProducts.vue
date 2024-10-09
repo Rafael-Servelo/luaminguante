@@ -472,6 +472,7 @@ export default defineComponent({
         this.form.images.push(item.base64);
       }
 
+      this.form.product = this.form.product.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
       this.form.colors = this.arrayColors;
       this.form.tags = this.arrayTags;
       this.form.sizes = this.arraySizes;

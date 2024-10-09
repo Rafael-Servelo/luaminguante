@@ -33,6 +33,8 @@
     <v-sheet
       rounded
       :width="$vuetify.display.mobile ? $vuetify.display.width - 20 : 700"
+      style="overflow: scroll"
+      :max-height="$vuetify.display.height - 20"
     >
       <v-card theme="light">
         <v-card-item>
@@ -41,7 +43,7 @@
             variant="solo"
             hide-details
             density="compact"
-            v-if="search"
+            v-show="search"
             class="w-100"
             label="Pesquisar..."
             clearable
@@ -81,6 +83,7 @@ import LoginForm from "@/components/Login.vue";
 import UserLogged from "@/components/UserLogged.vue";
 import getCookie from "@/assets/scripts/getCookies";
 import store from "@/store";
+import jp from "jsonpath";
 
 export default defineComponent({
   name: "header nav",
@@ -94,7 +97,8 @@ export default defineComponent({
       group: null,
       search: false,
       searchField: "",
-      results: computed(() => store.state.store.resultSearch),
+      products: computed(() => store.state.store.products),
+      results: [] as any,
     };
   },
   watch: {
@@ -107,7 +111,17 @@ export default defineComponent({
       this.search = !this.search;
     },
     searchText() {
-      store.dispatch("search", this.searchField);
+      let list = this.products;
+      let res = jp.query(
+        list,
+        this.searchField === null || this.searchField === ""
+          ? `$.product`
+          : `$[?(@.product.match(/${this.searchField
+              .toLowerCase()
+              .replaceAll(" ", ".*")}/i))]`
+      );
+
+      this.results = res;
     },
   },
   mounted() {
@@ -122,6 +136,7 @@ export default defineComponent({
       if (evt.keyCode == 27) {
         this.searchField = "";
         this.search = false;
+        this.searchText();
       }
     });
   },
