@@ -13,12 +13,22 @@
       <v-icon>mdi-magnify</v-icon>
     </v-btn>
     <v-btn icon v-tooltip="'Favoritos'" theme="light">
-      <v-badge color="red" content="9+" location="top end" :floating="true">
+      <v-badge
+        :color="user.favorites?.length > 0 ? 'red' : 'transparent'"
+        :content="user.favorites?.length"
+        location="top end"
+        :floating="true"
+      >
         <v-icon>mdi-heart</v-icon>
       </v-badge>
     </v-btn>
     <v-btn class="me-4" icon v-tooltip="'Carrinho'" theme="light">
-      <v-badge color="red" content="9+" location="top end" :floating="true">
+      <v-badge
+        color="transparent"
+        :content="undefined"
+        location="top end"
+        :floating="true"
+      >
         <v-icon>mdi-cart</v-icon>
       </v-badge>
     </v-btn>
@@ -97,6 +107,7 @@ export default defineComponent({
       group: null,
       search: false,
       searchField: "",
+      user: computed(() => store.state.auth.user),
       products: computed(() => store.state.store.products),
       results: [] as any,
     };
