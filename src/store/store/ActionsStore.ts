@@ -1,5 +1,6 @@
 import { toast } from "vue3-toastify";
 import serviceStore from "./serviceStore";
+import store from "../../store";
 
 const actionsStore = {
   async search({ commit }: any, text: any) {
@@ -14,7 +15,26 @@ const actionsStore = {
   async getProducts({ commit }: any) {
     try {
       const { data } = await serviceStore.getProducts();
-      commit("Set_Products", data.products);
+
+      let favorites = await store.state.auth.user.favorites;
+      let products = data.products;
+
+      let pos = products.map((produc: any) => {
+        return produc.id;
+      });
+      let idFav = favorites.map((produc: any) => {
+        return produc.id;
+      });
+
+      for (let item of idFav) {
+        let index = pos.indexOf(item);
+
+        if (index > -1) {
+          products[index]["fav"] = true;
+        }
+      }
+
+      commit("Set_Products", products);
     } catch (err: any) {
       toast.error(err.response.data.msg);
     } finally {

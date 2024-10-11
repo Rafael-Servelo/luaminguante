@@ -31,19 +31,20 @@
               title="Início"
             ></v-list-item>
             <v-list-item
-              prepend-icon="mdi-account-box"
+              prepend-icon="mdi-account"
               title="Minha Conta"
             ></v-list-item>
             <v-list-item
-              prepend-icon="mdi-account-box"
+              prepend-icon="mdi-format-list-bulleted"
               title="Meus Pedidos"
             ></v-list-item>
             <v-list-item
+              v-if="user.isAdm"
               prepend-icon="mdi-note-plus"
               title="Cadastrar Produtos"
               @click="showSetProducts"
             >
-          </v-list-item>
+            </v-list-item>
           </v-list>
         </div>
 
@@ -84,9 +85,9 @@ export default defineComponent({
         "userID=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
       window.location.reload();
     },
-    showSetProducts(){
-      store.commit('Set_SetProducts', true)
-    }
+    showSetProducts() {
+      store.commit("Set_SetProducts", true);
+    },
   },
   mounted() {
     setTimeout(() => {
