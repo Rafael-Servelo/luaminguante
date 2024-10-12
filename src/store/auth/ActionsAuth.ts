@@ -74,8 +74,8 @@ const actionsAuth = {
       commit("Set_User", data.user);
       commit("Set_IsLogged", true);
     } catch (err: any) {
-      toast.error(err.response.data.msg);
-      commit("Set_IsLogged", false);
+      // toast.error(err.response.data.msg);
+      // commit("Set_IsLogged", false);
     }
   },
 };

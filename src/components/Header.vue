@@ -15,7 +15,7 @@
     <v-btn icon v-tooltip="'Favoritos'" theme="light">
       <v-badge
         :color="user.favorites?.length > 0 ? 'red' : 'transparent'"
-        :content="user.favorites?.length"
+        :content="user.favorites?.length === 0 ? undefined : user.favorites?.length"
         location="top end"
         :floating="true"
       >

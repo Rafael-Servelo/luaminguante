@@ -176,7 +176,7 @@
                 icon
                 variant="flat"
                 base-color="transparent"
-                @click="item.fav = !item.fav"
+                @click="addFavorite(item.fav, item.id)"
               >
                 <v-icon
                   color="var(--color-green)"
@@ -413,6 +413,13 @@ export default defineComponent({
 
       this.resultPagination = result;
     },
+    addFavorite(ev:any, id:any){
+      if(ev){
+        store.dispatch("removeFavorites", id)
+      } else {
+        store.dispatch("addFavorites", id)
+      }
+    },
     upPage() {
       window.scrollTo({
         top: 0,
@@ -433,7 +440,37 @@ export default defineComponent({
     },
   },
   mounted() {
-    this.listItems(this.products, 1);
+    store.dispatch("getUser");
+    let logged = store.state.auth.isLogged;
+
+    if (logged) {
+      
+      setTimeout(()=>{
+
+        let favorites = this.user.favorites;
+
+
+        let pos = this.products.map((product: any) => {
+          return product.id;
+        });
+        let idFav = favorites.map((product: any) => {
+          return product.id;
+        });
+        for (let item of idFav) {
+          let index = pos.indexOf(item);
+
+          if (index > -1) {
+            this.products[index]["fav"] = true;
+          }
+        }
+
+        this.listItems(this.products, 1);
+      }, 100)
+      
+
+    } else {
+      this.listItems(this.products, 1);
+    }
   },
 });
 </script>

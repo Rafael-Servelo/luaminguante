@@ -1,6 +1,5 @@
 import { toast } from "vue3-toastify";
 import serviceStore from "./serviceStore";
-import store from "../../store";
 
 const actionsStore = {
   async search({ commit }: any, text: any) {
@@ -16,25 +15,7 @@ const actionsStore = {
     try {
       const { data } = await serviceStore.getProducts();
 
-      let favorites = await store.state.auth.user.favorites;
-      let products = data.products;
-
-      let pos = products.map((produc: any) => {
-        return produc.id;
-      });
-      let idFav = favorites.map((produc: any) => {
-        return produc.id;
-      });
-
-      for (let item of idFav) {
-        let index = pos.indexOf(item);
-
-        if (index > -1) {
-          products[index]["fav"] = true;
-        }
-      }
-
-      commit("Set_Products", products);
+      commit("Set_Products", data.products);
     } catch (err: any) {
       toast.error(err.response.data.msg);
     } finally {
@@ -67,6 +48,33 @@ const actionsStore = {
       commit("Set_LoadProducts", false);
     }
   },
+  async addFavorites({commit}:any, idProduct:any){
+    try{
+      const { data } = await serviceStore.addFavorites(idProduct);
+      toast.success(data.msg)
+      setTimeout(()=>{
+        window.location.reload()
+      },2000)
+    } catch (err){
+      console.log(err)
+    } finally {
+      commit("Set_LoadProducts", false);
+    }
+  },
+  async removeFavorites({commit}:any, idProduct:any){
+    try{
+      const { data } = await serviceStore.removeFavorites(idProduct);
+      toast.success(data.msg)
+      setTimeout(()=>{
+        window.location.reload()
+      },1000)
+    } catch (err: any){
+      console.log(err)
+      toast.error(err.response.data.msg);
+    } finally {
+      commit("Set_LoadProducts", false);
+    }
+  }
 };
 
 export default actionsStore;

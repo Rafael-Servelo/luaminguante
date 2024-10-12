@@ -14,12 +14,23 @@
             <v-avatar
               density="compact"
               size="80"
-              :text="user.name"
-              color="var(--color-primary)"
+              :text="
+                user.name?.split(' ')[0][0] +
+                user.name?.split(' ').slice(-1).join(' ')[0]
+              "
+              color="var(--color-secondary)"
               style="font-family: var(--font-header); font-size: 18pt"
-              :image="avatar"
+              :image="
+                user.avatar?.includes('http')
+                  ? user.avatar
+                  : 'data:image/png;base64, ' + user.avatar
+              "
             />
-            <span class="nameUser">{{ user.name }}</span>
+            <span class="nameUser">{{
+              user.name?.split(" ")[0] +
+              " " +
+              user.name?.split(" ").slice(-1).join(" ")
+            }}</span>
             <a :href="`mailto:${user.email}`" class="emailUser">{{
               user.email
             }}</a>
@@ -79,11 +90,17 @@ export default defineComponent({
   },
   methods: {
     logout() {
-      document.cookie =
-        "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-      document.cookie =
-        "userID=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-      window.location.reload();
+      try {
+        document.cookie =
+          "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        document.cookie =
+          "userID=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      } catch (err) {
+        console.error(err);
+      } finally {
+        store.commit("Set_IsLogged", false);
+        window.location.reload();
+      }
     },
     showSetProducts() {
       store.commit("Set_SetProducts", true);

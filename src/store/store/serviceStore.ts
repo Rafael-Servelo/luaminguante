@@ -1,3 +1,4 @@
+import getCookie from "@/assets/scripts/getCookies";
 import axios from "axios";
 
 const serviceAuth = {
@@ -33,6 +34,18 @@ const serviceAuth = {
         email: sessionStorage.getItem("email"),
       },
     });
+  },
+  async addFavorites(idProduct: any) {
+    return axios.post(`${import.meta.env.VITE_URL}/store/add_favorites`, {
+      productID: idProduct
+    }, {
+      headers: {
+        id: getCookie("userID"),
+      },
+    });
+  },
+  async removeFavorites(idProduct: any) {
+    return axios.delete(`${import.meta.env.VITE_URL}/store/remove_favorites?id=${getCookie("userID")}&productID=${idProduct}`);
   },
 };
 
