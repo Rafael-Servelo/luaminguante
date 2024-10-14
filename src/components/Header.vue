@@ -12,7 +12,7 @@
     <v-btn icon @click="initSearch" v-tooltip="'Pesquisar'" theme="light">
       <v-icon>mdi-magnify</v-icon>
     </v-btn>
-    <v-btn icon v-tooltip="'Favoritos'" theme="light">
+    <v-btn icon v-tooltip="'Favoritos'" theme="light" v-if="user">
       <v-badge
         :color="user.favorites?.length > 0 ? 'red' : 'transparent'"
         :content="user.favorites?.length === 0 ? undefined : user.favorites?.length"
@@ -22,7 +22,7 @@
         <v-icon>mdi-heart</v-icon>
       </v-badge>
     </v-btn>
-    <v-btn class="me-4" icon v-tooltip="'Carrinho'" theme="light">
+    <v-btn class="me-4" icon v-tooltip="'Carrinho'" theme="light" v-if="user">
       <v-badge
         color="transparent"
         :content="undefined"

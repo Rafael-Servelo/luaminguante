@@ -178,7 +178,8 @@
                 base-color="transparent"
                 @click="addFavorite(item.fav, item.id)"
               >
-                <v-icon
+              <heart-icon :fill="item.fav" color="var(--color-green)" />
+                <!-- <v-icon
                   color="var(--color-green)"
                   v-if="item.fav"
                   v-tooltip="'Remover dos favoritos'"
@@ -189,26 +190,15 @@
                   v-else
                   v-tooltip="'Adicionar aos favoritos'"
                   >mdi-heart-outline</v-icon
-                >
+                > -->
               </v-btn>
               <v-btn
                 icon
                 variant="flat"
                 base-color="transparent"
-                @click="item.card = !item.card"
+                @click="item.cart = !item.cart"
               >
-                <v-icon
-                  color="var(--color-green)"
-                  v-if="item.card"
-                  v-tooltip="'Remover do carrinho'"
-                  >mdi-cart-remove</v-icon
-                >
-                <v-icon
-                  color="var(--color-green)"
-                  v-else
-                  v-tooltip="'Adicionar ao carrinho'"
-                  >mdi-cart-plus</v-icon
-                >
+                <shop-cart-icon color="var(--color-green)" :fill="item.cart" />
               </v-btn>
             </div>
             <div
@@ -219,7 +209,7 @@
                 icon
                 variant="flat"
                 base-color="transparent"
-                @click="item.card = !item.card"
+                @click="item.cart = !item.cart"
               >
                 <v-icon color="var(--color-green)" v-tooltip="'Editar item'"
                   >mdi-pencil</v-icon
@@ -263,9 +253,15 @@
 <script lang="ts">
 import store from "@/store";
 import { computed, defineComponent } from "vue";
+import shopCartIcon from "./icons/shop-cart-icon.vue";
+import heartIcon from "./icons/heart-icon.vue";
 
 export default defineComponent({
   name: "Products",
+  components: {
+    shopCartIcon,
+    heartIcon
+  },
   props: {
     products: Array<object>,
     perPage: Number,
@@ -413,11 +409,11 @@ export default defineComponent({
 
       this.resultPagination = result;
     },
-    addFavorite(ev:any, id:any){
-      if(ev){
-        store.dispatch("removeFavorites", id)
+    addFavorite(ev: any, id: any) {
+      if (ev) {
+        store.dispatch("removeFavorites", id);
       } else {
-        store.dispatch("addFavorites", id)
+        store.dispatch("addFavorites", id);
       }
     },
     upPage() {
@@ -444,11 +440,8 @@ export default defineComponent({
     let logged = store.state.auth.isLogged;
 
     if (logged) {
-      
-      setTimeout(()=>{
-
+      setTimeout(() => {
         let favorites = this.user.favorites;
-
 
         let pos = this.products.map((product: any) => {
           return product.id;
@@ -465,9 +458,7 @@ export default defineComponent({
         }
 
         this.listItems(this.products, 1);
-      }, 100)
-      
-
+      }, 100);
     } else {
       this.listItems(this.products, 1);
     }

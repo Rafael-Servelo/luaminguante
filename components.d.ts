@@ -7,8 +7,10 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    copy: typeof import('./src/components/shop-cart-icon copy.vue')['default']
     Footer: typeof import('./src/components/footer.vue')['default']
     Header: typeof import('./src/components/Header.vue')['default']
+    HeartIcon: typeof import('./src/components/icons/heart-icon.vue')['default']
     Loading: typeof import('./src/components/Loading.vue')['default']
     Login: typeof import('./src/components/Login.vue')['default']
     Products: typeof import('./src/components/Products.vue')['default']
@@ -16,6 +18,7 @@ declare module 'vue' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SetProducts: typeof import('./src/components/SetProducts.vue')['default']
+    ShopCartIcon: typeof import('./src/components/icons/shop-cart-icon.vue')['default']
     Sidebar: typeof import('./src/components/Sidebar.vue')['default']
     UserLogged: typeof import('./src/components/UserLogged.vue')['default']
   }
