@@ -178,19 +178,7 @@
                 base-color="transparent"
                 @click="addFavorite(item.fav, item.id)"
               >
-              <heart-icon :fill="item.fav" color="var(--color-green)" />
-                <!-- <v-icon
-                  color="var(--color-green)"
-                  v-if="item.fav"
-                  v-tooltip="'Remover dos favoritos'"
-                  >mdi-heart</v-icon
-                >
-                <v-icon
-                  color="var(--color-green)"
-                  v-else
-                  v-tooltip="'Adicionar aos favoritos'"
-                  >mdi-heart-outline</v-icon
-                > -->
+              <heart-icon v-tooltip="item.fav ? 'Remover dos favoritos' : 'Adicionar aos favoritos'" :fill="item.fav" color="var(--color-green)" />
               </v-btn>
               <v-btn
                 icon
@@ -198,7 +186,7 @@
                 base-color="transparent"
                 @click="item.cart = !item.cart"
               >
-                <shop-cart-icon color="var(--color-green)" :fill="item.cart" />
+                <shop-cart-icon color="var(--color-green)" v-tooltip="item.cart ? 'Remover do carrinho' : 'Adicionar no carrinho'" :fill="item.cart" />
               </v-btn>
             </div>
             <div

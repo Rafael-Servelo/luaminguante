@@ -99,7 +99,7 @@ export default defineComponent({
         console.error(err);
       } finally {
         store.commit("Set_IsLogged", false);
-        window.location.reload();
+        window.location.reload(true);
       }
     },
     showSetProducts() {

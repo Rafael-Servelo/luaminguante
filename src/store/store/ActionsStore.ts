@@ -1,5 +1,6 @@
 import { toast } from "vue3-toastify";
 import serviceStore from "./serviceStore";
+import store from "../../store";
 
 const actionsStore = {
   async search({ commit }: any, text: any) {
@@ -27,7 +28,7 @@ const actionsStore = {
       const { data } = await serviceStore.deleteProducts(form);
       toast.success(data.msg);
       setTimeout(() => {
-        window.location.reload();
+        window.location.reload(true);
       }, 2500);
     } catch (err: any) {
       toast.error(err.response.data.msg);
@@ -40,7 +41,7 @@ const actionsStore = {
       const { data } = await serviceStore.setProducts(form);
       toast.success(data.msg);
       setTimeout(() => {
-        window.location.reload();
+        window.location.reload(true);
       }, 2500);
     } catch (err: any) {
       toast.error(err.response.data.msg);
@@ -53,8 +54,8 @@ const actionsStore = {
       const { data } = await serviceStore.addFavorites(idProduct);
       toast.success(data.msg)
       setTimeout(()=>{
-        window.location.reload()
-      },2000)
+        window.location.reload(true)
+      },1000)
     } catch (err){
       console.log(err)
     } finally {
@@ -66,7 +67,7 @@ const actionsStore = {
       const { data } = await serviceStore.removeFavorites(idProduct);
       toast.success(data.msg)
       setTimeout(()=>{
-        window.location.reload()
+        window.location.reload(true)
       },1000)
     } catch (err: any){
       console.log(err)

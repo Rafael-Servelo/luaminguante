@@ -12,7 +12,7 @@ const actionsAuth = {
       toast.success(data.msg);
       commit("Set_IsLogged", true);
       dispatch("getUser");
-      window.location.reload();
+      window.location.reload(true);
     } catch (err: any) {
       toast.error(err.response.data.msg);
       commit("Set_IsLogged", false);
