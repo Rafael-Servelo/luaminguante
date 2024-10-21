@@ -1,27 +1,29 @@
 import { createStore } from "vuex";
 import auth from "./auth";
 import storeModule from "./store";
+import socket from "./websocket";
 
 const store = createStore({
   namespace: true,
-  state(){
-    return{
+  state() {
+    return {
       loadingPage: false,
-      isRegister: false
-    }
+      isRegister: false,
+    };
   },
-  mutations:{
-    Set_LoadingPage(state:any, payload:any){
-      state.loadingPage = payload
+  mutations: {
+    Set_LoadingPage(state: any, payload: any) {
+      state.loadingPage = payload;
     },
-    Set_IsRegister(state:any, payload:any){
-      state.isRegister = payload
-    }
+    Set_IsRegister(state: any, payload: any) {
+      state.isRegister = payload;
+    },
   },
-  modules:{
+  modules: {
     auth,
-    store: storeModule
-  }
+    store: storeModule,
+    socket,
+  },
 });
 
-export default store
+export default store;

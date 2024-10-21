@@ -99,7 +99,7 @@ export default defineComponent({
         console.error(err);
       } finally {
         store.commit("Set_IsLogged", false);
-        (window.location.reload as (cache: boolean) => void)(true);
+        store.dispatch("disconnect");
       }
     },
     showSetProducts() {
@@ -112,6 +112,11 @@ export default defineComponent({
         ? this.user.avatar
         : "data:image/png;base64, " + this.user.avatar;
     }, 300);
+    setInterval(() => {
+      if (!store.state.auth.isLogged) {
+        (window.location.reload as (cache: boolean) => void)(true);
+      }
+    }, 1000);
   },
 });
 </script>

@@ -12,6 +12,7 @@
     "axios": "^1.7.2",
     "jsonpath": "^1.1.1",
     "roboto-fontface": "*",
+    "socket.io-client": "^4.8.0",
     "v-money3": "^3.24.1",
     "vue": "^3.4.21",
     "vue-router": "^4.4.0",
