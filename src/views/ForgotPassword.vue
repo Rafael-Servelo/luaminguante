@@ -38,7 +38,7 @@
             <div class="w-100 flex justify-center mt-2">
               <v-btn
                 text="Recuperar Senha"
-                color="var(--color-green)"
+                color="var(--color-assistant)"
                 type="submit"
                 rounded
                 :loading="loadBtn"
@@ -94,7 +94,7 @@
             <div class="w-100 flex justify-center mt-2">
               <v-btn
                 text="Recuperar Senha"
-                color="var(--color-green)"
+                color="var(--color-assistant)"
                 type="submit"
                 :loading="loadBtn"
                 rounded
@@ -106,7 +106,7 @@
       </v-card>
       <v-btn
         text="Voltar para Página inicial"
-        color="var(--color-green)"
+        color="var(--color-assistant)"
         rounded
         @click="$router.push({ name: 'Home' })"
       />

@@ -121,7 +121,7 @@
             </v-carousel>
           </v-sheet>
           <v-card-item>
-            <div class="text-subtitle-1" style="color: var(--color-green)">
+            <div class="text-subtitle-1" style="color: var(--color-assistant)">
               {{ item.product }}
             </div>
             <div
@@ -156,7 +156,7 @@
                     >R${{ item.price.toFixed(2) }}</span
                   >
                 </s>
-                <span v-else style="color: var(--color-green)"
+                <span v-else style="color: var(--color-assistant)"
                   >R${{ item.price.toFixed(2) }}</span
                 >
               </div>
@@ -167,7 +167,7 @@
                 <span class="text-subtitle-1">{{
                   item.discountPrice ? "Por:" : ""
                 }}</span>
-                <span style="color: var(--color-green)"
+                <span style="color: var(--color-assistant)"
                   >R${{ item?.discountPrice.toFixed(2) }}</span
                 >
               </div>
@@ -189,7 +189,7 @@
                       : 'Adicionar aos favoritos'
                   "
                   :fill="item.fav"
-                  color="var(--color-green)"
+                  color="var(--color-assistant)"
                 />
               </v-btn>
               <v-btn
@@ -199,7 +199,7 @@
                 @click="item.cart = !item.cart"
               >
                 <shop-cart-icon
-                  color="var(--color-green)"
+                  color="var(--color-assistant)"
                   v-tooltip="
                     item.cart ? 'Remover do carrinho' : 'Adicionar no carrinho'
                   "
@@ -217,7 +217,7 @@
                 base-color="transparent"
                 @click="item.cart = !item.cart"
               >
-                <v-icon color="var(--color-green)" v-tooltip="'Editar item'"
+                <v-icon color="var(--color-assistant)" v-tooltip="'Editar item'"
                   >mdi-pencil</v-icon
                 >
               </v-btn>
@@ -231,7 +231,7 @@
                     (deleteItem.name = item.product))
                 "
               >
-                <v-icon color="var(--color-green)" v-tooltip="'Deletar item'"
+                <v-icon color="var(--color-assistant)" v-tooltip="'Deletar item'"
                   >mdi-trash-can-outline</v-icon
                 >
               </v-btn>
@@ -243,7 +243,7 @@
     <div>
       <v-pagination
         ariant="plain"
-        color="var(--color-green)"
+        color="var(--color-assistant)"
         v-model="paginaAtual"
         :length="totalPage()"
         rounded="circle"

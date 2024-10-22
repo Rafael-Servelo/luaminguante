@@ -22,7 +22,7 @@
       <v-form @submit.prevent="handleSave">
         <v-card-title
           class="text-center text-h5 text-uppercase"
-          style="color: var(--color-green); font-weight: bold"
+          style="color: var(--color-assistant); font-weight: bold"
           >Cadastrar Produto</v-card-title
         >
         <v-card-item>
@@ -94,7 +94,7 @@
                   class="w-100 flex align-center justify-center"
                   style="gap: 1rem"
                 >
-                  <v-btn variant="flat" color="var(--color-green)" rounded>
+                  <v-btn variant="flat" color="var(--color-assistant)" rounded>
                     <v-label for="imgInput"> Importar Fotos </v-label>
                     <template v-slot:append>
                       <v-file-input
@@ -351,7 +351,7 @@
           </div>
           <v-card-item>
             <div class="w-100 flex justify-center" style="gap: 1rem">
-              <v-btn type="submit" rounded color="var(--color-green)"
+              <v-btn type="submit" rounded color="var(--color-assistant)"
                 >Salvar</v-btn
               >
               <v-btn

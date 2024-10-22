@@ -204,7 +204,7 @@
             <div class="d-flex w-100 align-center justify-center">
               <v-btn
                 text="Enviar"
-                color="var(--color-green)"
+                color="var(--color-assistant)"
                 rounded
                 type="submit"
               />
@@ -214,7 +214,7 @@
       </v-card>
       <v-btn
         text="Voltar para Página inicial"
-        color="var(--color-green)"
+        color="var(--color-assistant)"
         rounded
         @click="$router.push({ name: 'Home' })"
       />

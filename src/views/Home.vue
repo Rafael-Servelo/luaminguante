@@ -26,7 +26,7 @@
       v-if="loadProducts"
       class="w-100 flex align-center justify-center h-100"
     >
-      <v-progress-circular indeterminate size="150" color="var(--color-green)"
+      <v-progress-circular indeterminate size="150" color="var(--color-assistant)"
         >Carregando...</v-progress-circular
       >
     </div>

@@ -1,5 +1,5 @@
 <template>
-  <v-footer color="var(--color-green)" class="d-flex flex-column">
+  <v-footer color="var(--color-assistant)" class="d-flex flex-column">
     <div class="flex col align-center">
       <v-img src="../assets/img/logo-claro.png" width="200"></v-img>
       <div class="text-subtitle-1" style="margin-top: -1.5rem; font-family: var(--font-body);">A beleza começa com o autocuidado!</div>

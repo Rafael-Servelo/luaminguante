@@ -11,7 +11,7 @@
   --color-primary: #7d4ab3;
   --color-secondary: #F2BCBA;
   --color-tertiary: #b66e82;
-  --color-green: #c25968;
+  --color-assistant: #c25968;
   --color-black-1: #20222150;
   --color-black-2: #20222180;
   --color-black-3: #202221aa;
@@ -42,7 +42,7 @@ body {
   color: var(--color-secondary)!important;
 }
 .txt-green{
-  color: var(--color-green)!important;
+  color: var(--color-assistant)!important;
 }
 
 .line {

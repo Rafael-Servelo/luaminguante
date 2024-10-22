@@ -14,7 +14,7 @@
           <img src="/src/assets/img/404.gif" alt="404" width="300" />
         </div>
       </v-card>
-      <v-btn class="ma-10" color="var(--color-green)" rounded variant="elevated" @click="$router.push({name: 'Home'})">Voltar para página inicial</v-btn>
+      <v-btn class="ma-10" color="var(--color-assistant)" rounded variant="elevated" @click="$router.push({name: 'Home'})">Voltar para página inicial</v-btn>
     </v-container>
   </v-main>
 </template>
@@ -30,7 +30,7 @@ export default defineComponent({
 <style scoped>
 div {
   font-size: xx-large;
-  color: var(--color-green);
+  color: var(--color-assistant);
   user-select: none;
 }
 </style>
