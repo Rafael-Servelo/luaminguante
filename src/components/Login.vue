@@ -10,22 +10,22 @@
     <v-responsive class="mx-auto" max-width="344">
       <v-form @submit.prevent="login">
         <v-text-field
+          theme="light"
           class="my-2"
           variant="solo-filled"
           rounded="lg"
           hide-details
-          bg-color="white"
           placeholder="E-mail"
           type="email"
           autocomplete="username"
           v-model="form.email"
         />
         <v-text-field
+          theme="light"
           class="my-2"
           variant="solo-filled"
           rounded="lg"
-          hide-details
-          bg-color="white"
+          hide-detail
           placeholder="Senha"
           :type="showPassword ? 'text' : 'password'"
           autocomplete="current-password"

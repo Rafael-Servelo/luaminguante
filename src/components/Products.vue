@@ -54,7 +54,7 @@
       </v-select>
     </v-card>
     <div
-      class="text-h4 mb-10"
+      class="text-h2 mb-10 title"
       style="
         color: var(--color-primary);
         font-weight: 500;
@@ -77,7 +77,7 @@
           class="mx-auto mb-4"
           rounded="lg"
           :width="$vuetify.display.mobile ? 160 : 300"
-          color="white"
+          theme="light"
           elevation="6"
         >
           <v-sheet color="transparent">
@@ -87,6 +87,7 @@
               deperPageer-icon="mdi-circle-medium"
               hide-deperPageer-background
               :continuous="false"
+              hide-delimiter-background
             >
               <template v-slot:prev="{ props }">
                 <v-btn
@@ -141,7 +142,7 @@
           >
             <v-chip
               v-for="tag in item.tags"
-              color="var(--color-secondary)"
+              color="var(--color-tertiary)"
               variant="tonal"
               :text="tag"
             ></v-chip>
@@ -171,14 +172,25 @@
                 >
               </div>
             </v-card-item>
-            <div class="flex align-center w-100 justify-space-around">
+            <div
+              class="flex align-center w-100 justify-space-around"
+              v-if="user"
+            >
               <v-btn
                 icon
                 variant="flat"
                 base-color="transparent"
                 @click="addFavorite(item.fav, item.id)"
               >
-              <heart-icon v-tooltip="item.fav ? 'Remover dos favoritos' : 'Adicionar aos favoritos'" :fill="item.fav" color="var(--color-green)" />
+                <heart-icon
+                  v-tooltip="
+                    item.fav
+                      ? 'Remover dos favoritos'
+                      : 'Adicionar aos favoritos'
+                  "
+                  :fill="item.fav"
+                  color="var(--color-green)"
+                />
               </v-btn>
               <v-btn
                 icon
@@ -186,7 +198,13 @@
                 base-color="transparent"
                 @click="item.cart = !item.cart"
               >
-                <shop-cart-icon color="var(--color-green)" v-tooltip="item.cart ? 'Remover do carrinho' : 'Adicionar no carrinho'" :fill="item.cart" />
+                <shop-cart-icon
+                  color="var(--color-green)"
+                  v-tooltip="
+                    item.cart ? 'Remover do carrinho' : 'Adicionar no carrinho'
+                  "
+                  :fill="item.cart"
+                />
               </v-btn>
             </div>
             <div
@@ -248,7 +266,7 @@ export default defineComponent({
   name: "Products",
   components: {
     shopCartIcon,
-    heartIcon
+    heartIcon,
   },
   props: {
     products: Array<object>,

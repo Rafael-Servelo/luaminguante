@@ -18,21 +18,3 @@ socket.off();
 
 store.dispatch("bindEvents");
 </script>
-
-<!-- 
-let favorites = store.state.auth.user.favorites;
-let products = await data.products;
-
-let pos = products.map((produc: any) => {
-  return produc.id;
-});
-let idFav = favorites.map((produc: any) => {
-  return produc.id;
-});
-for (let item of idFav) {
-  let index = pos.indexOf(item);
-
-  if (index > -1) {
-    products[index]["fav"] = true;
-  }
-} -->

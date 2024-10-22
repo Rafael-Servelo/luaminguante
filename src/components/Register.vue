@@ -10,11 +10,11 @@
     <v-responsive class="mx-auto" max-width="344">
       <v-form @submit.prevent="register">
         <v-text-field
+          theme="light"
           class="my-2"
           variant="solo-filled"
           rounded
           hide-details
-          bg-color="white"
           placeholder="Nome"
           type="text"
           v-model="form.name"
@@ -24,7 +24,7 @@
           variant="solo-filled"
           rounded
           hide-details
-          bg-color="white"
+          theme="light"
           placeholder="E-mail"
           type="email"
           autocomplete="email"
@@ -35,7 +35,7 @@
           variant="solo-filled"
           rounded
           hide-details
-          bg-color="white"
+          theme="light"
           placeholder="Senha"
           type="password"
           autocomplete="current-password"
@@ -46,7 +46,7 @@
           variant="solo-filled"
           rounded
           hide-details
-          bg-color="white"
+          theme="light"
           placeholder="Confirmar Senha"
           type="password"
           v-model="form.confirmPassword"

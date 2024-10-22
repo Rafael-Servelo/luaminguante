@@ -1,6 +1,7 @@
 import { reactive } from "vue";
 import { io } from "socket.io-client";
 
+
 export const state = reactive({
     connected: false,
     fooEvents: [] as Array<any>,
@@ -8,9 +9,9 @@ export const state = reactive({
   });
   
   // "undefined" means the URL will be computed from the `window.location` object
-  const URL = 'http://192.168.18.7:3000';
+  const URL = import.meta.env.VITE_URL;
   
-  export const socket = io(URL, {
+  export const socket = io(URL.split("/server")[0], {
     autoConnect: false
   });
   
