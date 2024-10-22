@@ -1,7 +1,7 @@
 import { toast } from "vue3-toastify";
 import serviceAuth from "./serviceAuth";
 import router from "@/router";
-import store from "@/store";
+// import store from "@/store";
 
 const actionsAuth = {
   async login({ commit, dispatch }: any, form: any) {
