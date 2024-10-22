@@ -10,11 +10,11 @@
 import Loading from "@/components/Loading.vue";
 import { computed } from "vue";
 import store from "./store";
-import { socket } from "@/socket";
+// import { socket } from "@/socket";
 const loadingPage = computed(() => store.state.loadingPage);
 const setProduct = computed(() => store.state.store.setProducts);
 
-socket.off();
+// socket.off();
 
-store.dispatch("bindEvents");
+// store.dispatch("bindEvents");
 </script>
