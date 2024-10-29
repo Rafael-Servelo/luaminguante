@@ -33,6 +33,9 @@ const serviceAuth = {
     return axios.get(`${import.meta.env.VITE_URL}/auth/${userID}`, {
       headers: {
         authorization: token,
+        "Cache-Control": "no-cache",
+        Pragma: "no-cache",
+        Expires: "0",
       },
     });
   },

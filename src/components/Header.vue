@@ -9,7 +9,7 @@
     </v-btn>
     <v-spacer></v-spacer>
 
-    <v-btn icon @click="initSearch" v-tooltip="'Pesquisar'" >
+    <v-btn icon @click="initSearch" v-tooltip="'Pesquisar'" theme="light" >
       <v-icon>mdi-magnify</v-icon>
     </v-btn>
     <v-btn icon v-tooltip="'Favoritos'" theme="light" v-if="user">
