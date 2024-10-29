@@ -17,7 +17,7 @@ const actionsStore = {
 
       commit("Set_Products", data.products);
     } catch (err: any) {
-      toast.error(err.response.data.msg);
+      // toast.error(err.response.data.msg);
     } finally {
       commit("Set_LoadProducts", false);
     }
