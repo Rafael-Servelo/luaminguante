@@ -1,5 +1,6 @@
 import { toast } from "vue3-toastify";
 import serviceStore from "./serviceStore";
+import store from "../../store";
 
 const actionsStore = {
   async search({ commit }: any, text: any) {
@@ -17,7 +18,7 @@ const actionsStore = {
 
       commit("Set_Products", data.products);
     } catch (err: any) {
-      // toast.error(err.response.data.msg);
+      toast.error(err.response.data.msg);
     } finally {
       commit("Set_LoadProducts", false);
     }
@@ -48,33 +49,49 @@ const actionsStore = {
       commit("Set_LoadProducts", false);
     }
   },
-  async addFavorites({commit}:any, idProduct:any){
-    try{
+  async addFavorites({ commit }: any, idProduct: any) {
+    try {
       const { data } = await serviceStore.addFavorites(idProduct);
-      toast.success(data.msg)
-      setTimeout(()=>{
-        (window.location.reload as (cache: boolean) => void)(true)
-      },1000)
-    } catch (err){
-      console.log(err)
+      store.dispatch("getUser");
+      toast.success(data.msg);
+
+      let index = 0;
+      let products = store.state.store.products;
+
+      for (let i = 0; i < products.length; i++) {
+        if (products[i].id === idProduct) index = i;
+      }
+
+      products[index].fav = true
+
+    } catch (err) {
+      console.log(err);
     } finally {
       commit("Set_LoadProducts", false);
     }
   },
-  async removeFavorites({commit}:any, idProduct:any){
-    try{
+  async removeFavorites({ commit }: any, idProduct: any) {
+    try {
       const { data } = await serviceStore.removeFavorites(idProduct);
-      toast.success(data.msg)
-      setTimeout(()=>{
-        (window.location.reload as (cache: boolean) => void)(true)
-      },1000)
-    } catch (err: any){
-      console.log(err)
+      store.dispatch("getUser");
+      toast.success(data.msg);
+
+      let index = 0;
+      let products = store.state.store.products;
+
+      for (let i = 0; i < products.length; i++) {
+        if (products[i].id === idProduct) index = i;
+      }
+
+      products[index].fav = false
+
+    } catch (err: any) {
+      console.log(err);
       toast.error(err.response.data.msg);
     } finally {
       commit("Set_LoadProducts", false);
     }
-  }
+  },
 };
 
 export default actionsStore;
