@@ -32,6 +32,9 @@ const serviceAuth = {
     return axios.post(`${import.meta.env.VITE_URL}/store/set_product`, form, {
       headers: {
         email: sessionStorage.getItem("email"),
+        "Cache-Control": "no-cache",
+        Pragma: "no-cache",
+        Expires: "0",
       },
     });
   },
@@ -41,6 +44,9 @@ const serviceAuth = {
     }, {
       headers: {
         id: getCookie("userID"),
+        "Cache-Control": "no-cache",
+        Pragma: "no-cache",
+        Expires: "0",
       },
     });
   },
