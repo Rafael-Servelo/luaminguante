@@ -192,20 +192,45 @@
                   color="var(--color-assistant)"
                 />
               </v-btn>
-              <v-btn
-                icon
-                variant="flat"
-                base-color="transparent"
-                @click="item.cart = !item.cart"
-              >
-                <shop-cart-icon
-                  color="var(--color-assistant)"
-                  v-tooltip="
-                    item.cart ? 'Remover do carrinho' : 'Adicionar no carrinho'
-                  "
-                  :fill="item.cart"
-                />
-              </v-btn>
+              <v-menu location="bottom start" v-if="user" theme="light" :close-on-content-click="false">
+                <template v-slot:activator="{ props }">
+                  <v-btn
+                    icon
+                    variant="flat"
+                    base-color="transparent"
+                    @click="item.cart = !item.cart"
+                    v-bind="props"
+                  >
+                    <shop-cart-icon
+                      color="var(--color-assistant)"
+                      v-tooltip="
+                        item.cart
+                          ? 'Remover do carrinho'
+                          : 'Adicionar no carrinho'
+                      "
+                      :fill="item.cart"
+                    />
+                  </v-btn>
+                </template>
+                <v-list>
+                  <v-list-item class="ga-4">
+                    <v-list-item-title>
+                      <div class="text-h6 txt-green txt-body font-weight-bold">
+                        {{ "Adicionar ao carrinho".toUpperCase() }}
+                      </div>
+                    </v-list-item-title>
+                    <div class="flex col ga-4">
+                      <div>
+                        <v-btn></v-btn>
+                        
+                        <input  type="number" :value="0" :max="item.amount-item.numberSold" min="0">
+                        <v-btn></v-btn>
+                      </div>
+                      <v-btn color="var(--color-secondary)" prepend-icon="mdi-cart">Adicionar ao Carrinho</v-btn>
+                    </div>
+                  </v-list-item>
+                </v-list>
+              </v-menu>
             </div>
             <div
               class="flex align-center w-100 justify-space-around"
@@ -231,7 +256,9 @@
                     (deleteItem.name = item.product))
                 "
               >
-                <v-icon color="var(--color-assistant)" v-tooltip="'Deletar item'"
+                <v-icon
+                  color="var(--color-assistant)"
+                  v-tooltip="'Deletar item'"
                   >mdi-trash-can-outline</v-icon
                 >
               </v-btn>
@@ -446,25 +473,23 @@ export default defineComponent({
     let logged = store.state.auth.isLogged;
 
     if (logged) {
-      setTimeout(() => {
-        let favorites = this.user.favorites;
+      let favorites = this.user.favorites;
 
-        let pos = this.products.map((product: any) => {
-          return product.id;
-        });
-        let idFav = favorites.map((product: any) => {
-          return product.id;
-        });
-        for (let item of idFav) {
-          let index = pos.indexOf(item);
+      let pos = this.products.map((product: any) => {
+        return product.id;
+      });
+      let idFav = favorites.map((product: any) => {
+        return product.id;
+      });
+      for (let item of idFav) {
+        let index = pos.indexOf(item);
 
-          if (index > -1) {
-            this.products[index]["fav"] = true;
-          }
+        if (index > -1) {
+          this.products[index]["fav"] = true;
         }
+      }
 
-        this.listItems(this.products, 1);
-      }, 100);
+      this.listItems(this.products, 1);
     } else {
       this.listItems(this.products, 1);
     }
@@ -481,6 +506,4 @@ export default defineComponent({
   justify-content: center;
   padding: 1rem;
 }
-/**
- */
 </style>

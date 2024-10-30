@@ -5,20 +5,27 @@
  */
 
 // Plugins
-import { registerPlugins } from '@/plugins'
-import router from './router';
-import '@/assets/css/base.css'
-import 'vue3-toastify/dist/index.css';
+import { registerPlugins } from "@/plugins";
+import router from "./router";
+import "@/assets/css/base.css";
+import "vue3-toastify/dist/index.css";
+import axios from "axios";
+
+axios.defaults.headers.common = {
+  "Cache-Control": "no-cache",
+  Pragma: "no-cache",
+  Expires: "0",
+};
 
 // Components
-import App from './App.vue'
+import App from "./App.vue";
 
 // Composables
-import { createApp } from 'vue'
+import { createApp } from "vue";
 
-const app = createApp(App)
+const app = createApp(App);
 
-registerPlugins(app)
+registerPlugins(app);
 
-app.use(router)
-app.mount('#app')
+app.use(router);
+app.mount("#app");
