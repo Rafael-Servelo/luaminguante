@@ -9,19 +9,46 @@
     </v-btn>
     <v-spacer></v-spacer>
 
-    <v-btn icon @click="initSearch" v-tooltip="'Pesquisar'" theme="light" >
+    <v-btn icon @click="initSearch" v-tooltip="'Pesquisar'" theme="light">
       <v-icon>mdi-magnify</v-icon>
     </v-btn>
-    <v-btn icon v-tooltip="'Favoritos'" theme="light" v-if="user">
-      <v-badge
-        :color="user.favorites?.length > 0 ? 'red' : 'transparent'"
-        :content="user.favorites?.length === 0 ? undefined : user.favorites?.length"
-        location="top end"
-        :floating="true"
-      >
-        <v-icon>mdi-heart</v-icon>
-      </v-badge>
-    </v-btn>
+    <v-menu location="start" v-if="user" theme="light">
+      <template v-slot:activator="{ props }">
+        <v-btn icon v-tooltip="'Favoritos'" theme="light" v-bind="props">
+          <v-badge
+            :color="user.favorites?.length > 0 ? 'red' : 'transparent'"
+            :content="
+              user.favorites?.length === 0 ? undefined : user.favorites?.length
+            "
+            location="top end"
+            :floating="true"
+          >
+            <v-icon>mdi-heart</v-icon>
+          </v-badge>
+        </v-btn>
+      </template>
+      <v-list selectable>
+        <v-list-item
+        v-if="user.favorites.length != 0"
+        class="ga-4"
+          v-for="(item, index) in user.favorites"
+          :key="index"
+        >
+        <template v-slot:prepend>
+          <v-img :src="item.images[0].startsWith('http')
+                    ? item.images[0]
+                    : 'data: image/jpeg; base64,' + item.images[0]" width="50" />
+        </template>
+          <v-list-item-title>{{ item.product }}</v-list-item-title>
+        </v-list-item>
+        <v-list-item v-else>
+          <div class="text-subtitle-1">
+            Nenhum produto adicionado...
+          </div>
+        </v-list-item>
+      </v-list>
+    </v-menu>
+
     <v-btn class="me-4" icon v-tooltip="'Carrinho'" theme="light" v-if="user">
       <v-badge
         color="transparent"
