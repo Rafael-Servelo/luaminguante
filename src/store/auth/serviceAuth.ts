@@ -37,6 +37,9 @@ const serviceAuth = {
         Pragma: "no-cache",
         Expires: "0",
       },
+      params: {
+        t: new Date().getTime(),
+      },
     });
   },
 };
