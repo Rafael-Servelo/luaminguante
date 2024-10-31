@@ -224,18 +224,55 @@
                       </div>
                     </v-list-item-title>
                     <div class="flex col ga-4">
-                      <span class="text-body-1"> Quantidade: </span>
-                      <div>
-                        <v-btn :disabled="cart.amount < 1" @click="cart.amount = cart.amount - 1"><v-icon>mdi-menu-down</v-icon></v-btn>
-                        <input
-                          class="text-center"
-                          v-model="cart.amount"
-                          :max="item.amount - item.numberSold"
-                          min="0"
-                          style="width: 70px;"
-                        />
-                        <v-btn :disabled="cart.amount === item.amount - item.numberSold" @click="cart.amount = cart.amount + 1"><v-icon>mdi-menu-up</v-icon></v-btn>
+                      <div class="variedades flex col">
+                        <span class="text-body-1"> Modelo: </span>
+                        <v-btn-toggle v-model="cart.variation" base-color="tranparent" color="var(--color-secondary)" >
+                          
+                          <v-btn v-for="item in variations" :value="item">
+                            {{ item }}
+                          </v-btn>
+                        </v-btn-toggle>
                       </div>
+                      <div class="cores">
+                        <span class="text-body-1"> Cor: </span>
+                        <v-btn-toggle v-model="cart.color" base-color="tranparent" color="var(--color-secondary)" >
+                          
+                          <v-btn v-for="item in colors" :value="item">
+                            <v-avatar :color="item"></v-avatar>
+                          </v-btn>
+                        </v-btn-toggle>
+                      </div>
+                      <div class="tamanho">
+                        <span class="text-body-1"> Tamanho: </span>
+                        <v-btn-toggle v-model="cart.size" divided base-color="grey-lighten-2" color="var(--color-secondary)" >
+                          <v-btn v-for="item in sizes" :value="item">{{ item }}</v-btn>
+                        </v-btn-toggle>
+                      </div>
+                      <div class="quantidade">
+                        <span class="text-body-1"> Quantidade: </span>
+                        <div>
+                          <v-btn
+                            :disabled="cart.amount < 1"
+                            @click="cart.amount = cart.amount - 1"
+                            ><v-icon>mdi-menu-down</v-icon></v-btn
+                          >
+                          <input
+                            class="text-center"
+                            v-model="cart.amount"
+                            :max="item.amount - item.numberSold"
+                            min="0"
+                            style="width: 70px"
+                          />
+                          <v-btn
+                            :disabled="
+                              cart.amount === item.amount - item.numberSold
+                            "
+                            @click="cart.amount = cart.amount + 1"
+                            ><v-icon>mdi-menu-up</v-icon></v-btn
+                          >
+                        </div>
+                      </div>
+
                       <v-btn
                         color="var(--color-secondary)"
                         prepend-icon="mdi-cart"
@@ -319,11 +356,14 @@ export default defineComponent({
       user: computed(() => store.state.auth.user),
       resultPagination: [] as any,
       paginaAtual: 1,
+      colors: ["#FF4040", "#33302D", "#116600"],
+      sizes: ["P", "M", "G"],
+      variations: ["Pitaya", "Melancia"],
       cart: {
         amount: 0,
-        colors: ["#FF4040", "#33302D", "#116600"],
-        sizes: ["P", "M", "G"],
-        variations: ["Pitaya", "Melancia"],
+        color: undefined,
+        size: undefined,
+        variation: undefined
       },
       config: {
         prefix: "",
