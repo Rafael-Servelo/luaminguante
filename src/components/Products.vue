@@ -192,13 +192,17 @@
                   color="var(--color-assistant)"
                 />
               </v-btn>
-              <v-menu location="bottom start" v-if="user" theme="light" :close-on-content-click="false">
+              <v-menu
+                location="bottom start"
+                v-if="user"
+                theme="light"
+                :close-on-content-click="false"
+              >
                 <template v-slot:activator="{ props }">
                   <v-btn
                     icon
                     variant="flat"
                     base-color="transparent"
-                    @click="item.cart = !item.cart"
                     v-bind="props"
                   >
                     <shop-cart-icon
@@ -220,13 +224,24 @@
                       </div>
                     </v-list-item-title>
                     <div class="flex col ga-4">
+                      <span class="text-body-1"> Quantidade: </span>
                       <div>
-                        <v-btn></v-btn>
-                        
-                        <input  type="number" :value="0" :max="item.amount-item.numberSold" min="0">
-                        <v-btn></v-btn>
+                        <v-btn :disabled="cart.amount < 1" @click="cart.amount = cart.amount - 1"><v-icon>mdi-menu-down</v-icon></v-btn>
+                        <input
+                          class="text-center"
+                          v-model="cart.amount"
+                          :max="item.amount - item.numberSold"
+                          min="0"
+                          style="width: 70px;"
+                        />
+                        <v-btn :disabled="cart.amount === item.amount - item.numberSold" @click="cart.amount = cart.amount + 1"><v-icon>mdi-menu-up</v-icon></v-btn>
                       </div>
-                      <v-btn color="var(--color-secondary)" prepend-icon="mdi-cart">Adicionar ao Carrinho</v-btn>
+                      <v-btn
+                        color="var(--color-secondary)"
+                        prepend-icon="mdi-cart"
+                        @click="item.cart = !item.cart"
+                        >Adicionar ao Carrinho</v-btn
+                      >
                     </div>
                   </v-list-item>
                 </v-list>
@@ -304,6 +319,12 @@ export default defineComponent({
       user: computed(() => store.state.auth.user),
       resultPagination: [] as any,
       paginaAtual: 1,
+      cart: {
+        amount: 0,
+        colors: ["#FF4040", "#33302D", "#116600"],
+        sizes: ["P", "M", "G"],
+        variations: ["Pitaya", "Melancia"],
+      },
       config: {
         prefix: "",
         suffix: "",
@@ -478,14 +499,16 @@ export default defineComponent({
       let pos = this.products.map((product: any) => {
         return product.id;
       });
-      let idFav = favorites.map((product: any) => {
-        return product.id;
-      });
-      for (let item of idFav) {
-        let index = pos.indexOf(item);
+      if (favorites) {
+        let idFav = favorites.map((product: any) => {
+          return product.id;
+        });
+        for (let item of idFav) {
+          let index = pos.indexOf(item);
 
-        if (index > -1) {
-          this.products[index]["fav"] = true;
+          if (index > -1) {
+            this.products[index]["fav"] = true;
+          }
         }
       }
 
