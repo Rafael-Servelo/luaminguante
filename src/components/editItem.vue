@@ -389,8 +389,6 @@ export default defineComponent({
       user: computed(() => store.state.auth.user),
       arrayImages: [] as any,
       arrayTags: [] as any,
-      arrayImages: [] as any,
-      arrayTags: [] as any,
       arrayColors: [] as any,
       arraySizes: [] as any,
       arrayVariations: [] as any,
