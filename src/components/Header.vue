@@ -29,22 +29,25 @@
       </template>
       <v-list selectable>
         <v-list-item
-        v-if="user.favorites.length != 0"
-        class="ga-4"
+          v-if="user.favorites.length != 0"
+          class="ga-4"
           v-for="(item, index) in user.favorites"
           :key="index"
         >
-        <template v-slot:prepend>
-          <v-img :src="item.images[0].startsWith('http')
-                    ? item.images[0]
-                    : 'data: image/jpeg; base64,' + item.images[0]" width="50" />
-        </template>
+          <template v-slot:prepend>
+            <v-img
+              :src="
+                item.images[0].startsWith('http')
+                  ? item.images[0]
+                  : 'data: image/jpeg; base64,' + item.images[0]
+              "
+              width="50"
+            />
+          </template>
           <v-list-item-title>{{ item.product }}</v-list-item-title>
         </v-list-item>
         <v-list-item v-else>
-          <div class="text-subtitle-1">
-            Nenhum produto adicionado...
-          </div>
+          <div class="text-subtitle-1">Nenhum produto adicionado...</div>
         </v-list-item>
       </v-list>
     </v-menu>
@@ -66,6 +69,7 @@
     :model-value="search"
     class="align-center justify-center"
     theme="light"
+    @click:outside="(search = false), (searchField = ''), (results = [])"
   >
     <v-sheet
       rounded
@@ -104,7 +108,7 @@
             </template>
             {{ item.product }}
             <template v-slot:append>
-              <v-btn color="var(--color-secondary)" theme="dark">ACESSAR</v-btn>
+              <v-btn color="var(--color-tertiary)" theme="dark">ACESSAR</v-btn>
             </template>
           </v-list-item>
         </v-list>
@@ -146,7 +150,7 @@ export default defineComponent({
   },
   methods: {
     initSearch() {
-      this.search = !this.search;
+      this.search = true;
     },
     searchText() {
       let list = this.products;

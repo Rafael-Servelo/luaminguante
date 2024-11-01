@@ -1,38 +1,6 @@
 <template>
-  <v-overlay
-    :model-value="showAlert"
-    class="align-center justify-center"
-    theme="light"
-  >
-    <v-sheet
-      rounded="xl"
-      class="pa-6 text-green-darken-4 mx-auto"
-      color="#f4f4f4"
-      :width="$vuetify.display.mobile ? $vuetify.display.width - 20 : 'auto'"
-    >
-      <div class="w-100 flex col align-center mb-4" style="gap: 0.5rem">
-        <v-icon color="amber" size="112">mdi-alert</v-icon>
-        <h4 class="text-h5 font-weight-bold">Atenção!</h4>
-      </div>
-      <p class="mb-4 text-body-1">
-        Tem certeza que deseja deletar o item
-        <strong>{{ deleteItem.name }}</strong
-        >?
-      </p>
-
-      <div class="flex w-100 align-center justify-center" style="gap: 1rem">
-        <v-btn color="error" @click="deleteitem(deleteItem.id)">Deletar</v-btn>
-        <v-btn
-          variant="outlined"
-          color="error"
-          @click="
-            (showAlert = false), (deleteItem.id = ''), (deleteItem.name = '')
-          "
-          >Cancelar</v-btn
-        >
-      </div>
-    </v-sheet>
-  </v-overlay>
+  <alert-delete-item :show-alert="showAlert" :item="deleteItem" />
+  <edit-item :show-edit="showEdit" :form="form" />
   <div class="flex col align-center" style="color: black; width: 100%" ron>
     <div class="my-2"></div>
     <v-card theme="light" color="var(--color-secondary)" class="mb-5">
@@ -73,7 +41,6 @@
         :key="item.id"
       >
         <v-card
-          :disabled="item.numberSold >= item.amount"
           class="mx-auto mb-4"
           rounded="lg"
           :width="$vuetify.display.mobile ? 160 : 300"
@@ -177,6 +144,7 @@
               v-if="user"
             >
               <v-btn
+                :disabled="item.numberSold >= item.amount"
                 icon
                 variant="flat"
                 base-color="transparent"
@@ -193,6 +161,7 @@
                 />
               </v-btn>
               <v-menu
+                :disabled="item.numberSold >= item.amount"
                 location="bottom start"
                 v-if="user"
                 theme="light"
@@ -200,6 +169,7 @@
               >
                 <template v-slot:activator="{ props }">
                   <v-btn
+                    :disabled="item.numberSold >= item.amount"
                     icon
                     variant="flat"
                     base-color="transparent"
@@ -226,8 +196,11 @@
                     <div class="flex col ga-4">
                       <div class="variedades flex col">
                         <span class="text-body-1"> Modelo: </span>
-                        <v-btn-toggle v-model="cart.variation" base-color="tranparent" color="var(--color-secondary)" >
-                          
+                        <v-btn-toggle
+                          v-model="cart.variation"
+                          base-color="tranparent"
+                          color="var(--color-secondary)"
+                        >
                           <v-btn v-for="item in variations" :value="item">
                             {{ item }}
                           </v-btn>
@@ -235,8 +208,11 @@
                       </div>
                       <div class="cores">
                         <span class="text-body-1"> Cor: </span>
-                        <v-btn-toggle v-model="cart.color" base-color="tranparent" color="var(--color-secondary)" >
-                          
+                        <v-btn-toggle
+                          v-model="cart.color"
+                          base-color="tranparent"
+                          color="var(--color-secondary)"
+                        >
                           <v-btn v-for="item in colors" :value="item">
                             <v-avatar :color="item"></v-avatar>
                           </v-btn>
@@ -244,8 +220,15 @@
                       </div>
                       <div class="tamanho">
                         <span class="text-body-1"> Tamanho: </span>
-                        <v-btn-toggle v-model="cart.size" divided base-color="grey-lighten-2" color="var(--color-secondary)" >
-                          <v-btn v-for="item in sizes" :value="item">{{ item }}</v-btn>
+                        <v-btn-toggle
+                          v-model="cart.size"
+                          divided
+                          base-color="grey-lighten-2"
+                          color="var(--color-secondary)"
+                        >
+                          <v-btn v-for="item in sizes" :value="item">{{
+                            item
+                          }}</v-btn>
                         </v-btn-toggle>
                       </div>
                       <div class="quantidade">
@@ -289,10 +272,11 @@
               v-if="user.isAdm"
             >
               <v-btn
+                style="filter: none !important"
                 icon
                 variant="flat"
                 base-color="transparent"
-                @click="item.cart = !item.cart"
+                @click="(showEdit.showEdit = !showEdit.showEdit), (form = item)"
               >
                 <v-icon color="var(--color-assistant)" v-tooltip="'Editar item'"
                   >mdi-pencil</v-icon
@@ -303,7 +287,7 @@
                 variant="flat"
                 base-color="transparent"
                 @click="
-                  (showAlert = !showAlert),
+                  (showAlert.showAlert = !showAlert.showAlert),
                     ((deleteItem.id = item.id),
                     (deleteItem.name = item.product))
                 "
@@ -340,12 +324,16 @@ import store from "@/store";
 import { computed, defineComponent } from "vue";
 import shopCartIcon from "./icons/shop-cart-icon.vue";
 import heartIcon from "./icons/heart-icon.vue";
+import alertDeleteItem from "./alertDeleteItem.vue";
+import editItem from "./editItem.vue";
 
 export default defineComponent({
   name: "Products",
   components: {
     shopCartIcon,
     heartIcon,
+    alertDeleteItem,
+    editItem,
   },
   props: {
     products: Array<object>,
@@ -353,9 +341,9 @@ export default defineComponent({
   } as any,
   data() {
     return {
+      form: {},
       user: computed(() => store.state.auth.user),
       resultPagination: [] as any,
-      paginaAtual: 1,
       colors: ["#FF4040", "#33302D", "#116600"],
       sizes: ["P", "M", "G"],
       variations: ["Pitaya", "Melancia"],
@@ -363,8 +351,9 @@ export default defineComponent({
         amount: 0,
         color: undefined,
         size: undefined,
-        variation: undefined
+        variation: undefined,
       },
+      paginaAtual: 1,
       config: {
         prefix: "",
         suffix: "",
@@ -402,7 +391,12 @@ export default defineComponent({
           value: "date",
         },
       ],
-      showAlert: false,
+      showAlert: {
+        showAlert: false,
+      },
+      showEdit: {
+        showEdit: false,
+      },
       deleteItem: {
         name: "",
         id: "",
@@ -410,13 +404,6 @@ export default defineComponent({
     };
   },
   methods: {
-    deleteitem(id: any) {
-      let object = {
-        id: id,
-        email: this.user.email,
-      };
-      store.dispatch("deleteProducts", object);
-    },
     count() {
       let counts = this.paginaAtual * this.perPage - this.perPage;
 
@@ -539,16 +526,14 @@ export default defineComponent({
       let pos = this.products.map((product: any) => {
         return product.id;
       });
-      if (favorites) {
-        let idFav = favorites.map((product: any) => {
-          return product.id;
-        });
-        for (let item of idFav) {
-          let index = pos.indexOf(item);
+      let idFav = favorites.map((product: any) => {
+        return product.id;
+      });
+      for (let item of idFav) {
+        let index = pos.indexOf(item);
 
-          if (index > -1) {
-            this.products[index]["fav"] = true;
-          }
+        if (index > -1) {
+          this.products[index]["fav"] = true;
         }
       }
 

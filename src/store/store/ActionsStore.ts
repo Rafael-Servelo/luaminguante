@@ -49,6 +49,20 @@ const actionsStore = {
       commit("Set_LoadProducts", false);
     }
   },
+  async updateProducts({ commit, dispatch }: any, form: any) {
+    try {
+      const { data } = await serviceStore.updateProducts(form);
+      toast.success(data.msg);
+      dispatch("getProducts");
+      // setTimeout(() => {
+      //   (window.location.reload as (cache: boolean) => void)(true);
+      // }, 2500);
+    } catch (err: any) {
+      toast.error(err.response.data.msg);
+    } finally {
+      commit("Set_LoadProducts", false);
+    }
+  },
   async addFavorites({ commit }: any, idProduct: any) {
     try {
       const { data } = await serviceStore.addFavorites(idProduct);
@@ -62,8 +76,7 @@ const actionsStore = {
         if (products[i].id === idProduct) index = i;
       }
 
-      products[index].fav = true
-
+      products[index].fav = true;
     } catch (err) {
       console.log(err);
     } finally {
@@ -83,8 +96,7 @@ const actionsStore = {
         if (products[i].id === idProduct) index = i;
       }
 
-      products[index].fav = false
-
+      products[index].fav = false;
     } catch (err: any) {
       console.log(err);
       toast.error(err.response.data.msg);

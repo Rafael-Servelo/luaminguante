@@ -38,6 +38,17 @@ const serviceAuth = {
       },
     });
   },
+  async updateProducts(form: any) {
+    return axios.put(`${import.meta.env.VITE_URL}/store/update_product`, form, {
+      headers: {
+        email: sessionStorage.getItem("email"),
+        id: form.id,
+        "Cache-Control": "no-cache",
+        Pragma: "no-cache",
+        Expires: "0",
+      },
+    });
+  },
   async addFavorites(idProduct: any) {
     return axios.post(`${import.meta.env.VITE_URL}/store/add_favorites`, {
       productID: idProduct

@@ -1,6 +1,6 @@
 <template>
   <v-overlay
-    :model-value="show"
+    :model-value="showEdit.showEdit"
     class="align-center justify-center"
     theme="light"
     persistent
@@ -14,24 +14,24 @@
       :max-height="$vuetify.display.height - 20"
       style="overflow: auto"
     >
-      <v-form @submit.prevent="handleSave">
-        <v-card-title
-          class="text-center text-h5 text-uppercase"
-          style="color: var(--color-assistant); font-weight: bold"
-          >Cadastrar Produto</v-card-title
-        >
+      <div class="w-100 flex col align-center mb-4" style="gap: 0.5rem">
+        <h4 class="text-h5 font-weight-bold text-uppercase">Editar Produto</h4>
+      </div>
+
+      <v-form @submit.prevent="">
         <v-card-item>
           <div
             class="justify-center"
             :class="{ flex: !$vuetify.display.mobile }"
           >
             <div
-              :style="{ minWidth: $vuetify.display.mobile ? 'auto' : '400px' }"
+              :style="{
+                minWidth: $vuetify.display.mobile ? 'auto' : '400px',
+              }"
             >
               <div class="flex justify-center">
                 <v-carousel
                   height="300"
-                  v-show="arrayImages.length"
                   hide-delimiter-background
                   color="var(--color-secondary)"
                   deperPageer-icon="mdi-circle-medium"
@@ -51,11 +51,11 @@
                     >
                   </template>
                   <v-carousel-item
-                    v-for="img in arrayImages"
+                    v-for="img in form.images"
                     :src="
-                      img.base64.startsWith('http')
-                        ? img.base64
-                        : 'data:image/png;base64,' + img.base64
+                      img.startsWith('http')
+                        ? img
+                        : 'data:image/png;base64,' + img
                     "
                   ></v-carousel-item>
                   <template v-slot:next="{ props }">
@@ -89,7 +89,12 @@
                   class="w-100 flex align-center justify-center"
                   style="gap: 1rem"
                 >
-                  <v-btn variant="flat" color="var(--color-assistant)" rounded>
+                  <v-btn
+                    variant="flat"
+                    color="var(--color-assistant)"
+                    theme="dark"
+                    rounded
+                  >
                     <v-label for="imgInput"> Importar Fotos </v-label>
                     <template v-slot:append>
                       <v-file-input
@@ -127,18 +132,17 @@
                   append-inner-icon="mdi-send"
                   @click:append-inner="
                     arrayImages.push({ name: urlIMG, base64: urlIMG }),
+                      form.images.push(urlIMG),
                       (urlIMG = '')
                   "
                 />
                 <v-text-field
-                  :rules="rules"
                   rounded
                   variant="outlined"
                   label="Nome do produto"
                   v-model="form.product"
                 />
                 <v-textarea
-                  :rules="rules"
                   rounded
                   variant="outlined"
                   label="Descrição"
@@ -147,28 +151,24 @@
                 />
 
                 <v-text-field
-                  :rules="rules"
                   rounded
                   variant="outlined"
                   label="Altura ( cm )"
                   v-model="form.height"
                 />
                 <v-text-field
-                  :rules="rules"
                   rounded
                   variant="outlined"
                   label="Largura ( cm )"
                   v-model="form.width"
                 />
                 <v-text-field
-                  :rules="rules"
                   rounded
                   variant="outlined"
                   label="Comprimento ( cm )"
                   v-model="form.length"
                 />
                 <v-text-field
-                  :rules="rules"
                   rounded
                   variant="outlined"
                   label="Peso ( kg )"
@@ -183,11 +183,12 @@
               class="mx-4"
             ></v-divider>
             <div
-              :style="{ minWidth: $vuetify.display.mobile ? 'auto' : '400px' }"
+              :style="{
+                minWidth: $vuetify.display.mobile ? 'auto' : '400px',
+              }"
             >
               <v-card-item>
                 <v-text-field
-                  :rules="rules"
                   class="mt-1"
                   rounded
                   variant="outlined"
@@ -196,21 +197,21 @@
                 />
 
                 <v-text-field
-                  :rules="rules"
+                  class="mt-1"
+                  rounded
+                  variant="outlined"
+                  label="Vendidos"
+                  v-model="form.numberSold"
+                />
+
+                <v-text-field
                   rounded
                   variant="outlined"
                   label="Preço"
                   v-model="form.price"
                 />
-                <money3
-                  style="color: black"
-                  v-model="form.price"
-                  v-bind="config"
-                  hidden
-                ></money3>
 
                 <v-text-field
-                  :rules="rules"
                   rounded
                   variant="outlined"
                   label="Categoria"
@@ -235,7 +236,9 @@
                   rounded
                   label="Adicionar Tags"
                   append-inner-icon="mdi-send"
-                  @click:append-inner="arrayTags.push(tag), (tag = '')"
+                  @click:append-inner="
+                    arrayTags.push(tag), form.tags.push(tag), (tag = '')
+                  "
                 />
                 <v-chip-group direction="vertical">
                   <v-chip
@@ -256,7 +259,11 @@
                   rounded
                   label="Adicionar Cores"
                   append-inner-icon="mdi-send"
-                  @click:append-inner="arrayColors.push(color), (color = '')"
+                  @click:append-inner="
+                    arrayColors.push(color),
+                      form.colors.push(color),
+                      (color = '')
+                  "
                 />
                 <v-chip-group direction="vertical">
                   <v-chip
@@ -277,7 +284,9 @@
                   rounded
                   label="Adicionar Tamanhos"
                   append-inner-icon="mdi-send"
-                  @click:append-inner="arraySizes.push(size), (size = '')"
+                  @click:append-inner="
+                    arraySizes.push(size), form.sizes.push(size), (size = '')
+                  "
                 />
                 <v-chip-group direction="vertical">
                   <v-chip
@@ -299,7 +308,9 @@
                   label="Adicionar Variações"
                   append-inner-icon="mdi-send"
                   @click:append-inner="
-                    arrayVariations.push(variation), (variation = '')
+                    arrayVariations.push(variation),
+                      form.variations.push(variation),
+                      (variation = '')
                   "
                 />
                 <v-text-field
@@ -334,12 +345,6 @@
                     label="Preço com Desconto"
                     v-model="form.discountPrice"
                   />
-                  <money3
-                    style="color: black"
-                    v-model="form.discountPrice"
-                    v-bind="config"
-                    hidden
-                  ></money3>
                 </v-card-item>
               </v-card-item>
             </div>
@@ -348,18 +353,17 @@
             <div class="w-100 flex justify-center" style="gap: 1rem">
               <v-btn
                 type="submit"
+                theme="dark"
                 rounded
                 color="var(--color-assistant)"
-                theme="dark"
+                @click="handleSave"
                 >Salvar</v-btn
               >
               <v-btn
                 rounded
                 variant="outlined"
                 color="red"
-                @click="
-                  $store.commit('Set_SetProducts', false), (arrayImages = [])
-                "
+                @click="(showEdit.showEdit = false), (arrayImages = [])"
                 >Fechar</v-btn
               >
             </div>
@@ -375,12 +379,26 @@ import store from "@/store";
 import { computed, defineComponent } from "vue";
 
 export default defineComponent({
-  name: "Set Products",
+  name: "AlertDeleteItem",
   props: {
-    show: Boolean,
+    showEdit: Object as any,
+    form: Object as any,
   },
   data() {
     return {
+      user: computed(() => store.state.auth.user),
+      arrayImages: [] as any,
+      arrayTags: [] as any,
+      arrayImages: [] as any,
+      arrayTags: [] as any,
+      arrayColors: [] as any,
+      arraySizes: [] as any,
+      arrayVariations: [] as any,
+      urlIMG: "",
+      tag: "",
+      color: "",
+      size: "",
+      variation: "",
       config: {
         masked: false,
         prefix: "R$",
@@ -400,63 +418,48 @@ export default defineComponent({
         shouldRound: true,
         focusOnRight: false,
       },
-      rules: [
-        (value: any) => {
-          if (value.length) return true;
-
-          return "Campo obrigatório";
-        },
-      ],
-      user: computed(() => store.state.auth.user),
-      arrayImages: [] as any,
-      arrayTags: [] as any,
-      arrayColors: [] as any,
-      arraySizes: [] as any,
-      arrayVariations: [] as any,
-      urlIMG: "",
-      tag: "",
-      color: "",
-      size: "",
-      variation: "",
-      form: {
-        amount: "",
-        category: "",
-        colors: [],
-        description: "",
-        discountPrice: "",
-        height: "",
-        images: [],
-        length: "",
-        numberSold: "",
-        numberReview: "",
-        price: "",
-        product: "",
-        promotion: false,
-        rating: "",
-        sizes: [],
-        specifications: "",
-        tags: [],
-        variations: [],
-        weight: "",
-        width: "",
-      } as any,
     };
   },
   methods: {
     removeImg(index: number) {
-      this.arrayImages.splice(index, 1);
+      for (let i = 0; i < this.form.images.length; i++) {
+        if (this.form.images[i] === this.arrayImages[index].base64) {
+          this.form.images.splice(i, 1);
+          this.arrayImages.splice(index, 1);
+        }
+      }
     },
     removeTag(index: number) {
-      this.arrayTags.splice(index, 1);
+      for (let i = 0; i < this.form.tags.length; i++) {
+        if (this.form.tags[i] === this.arrayTags[index]) {
+          this.form.tags.splice(i, 1);
+          this.arrayTags.splice(index, 1);
+        }
+      }
     },
     removeColor(index: number) {
-      this.arrayColors.splice(index, 1);
-    },
-    removeSize(index: number) {
-      this.arraySizes.splice(index, 1);
+      for (let i = 0; i < this.form.colors.length; i++) {
+        if (this.form.colors[i] === this.arrayColors[index]) {
+          this.form.colors.splice(i, 1);
+          this.arrayColors.splice(index, 1);
+        }
+      }
     },
     removeVariation(index: number) {
-      this.arrayVariations.splice(index, 1);
+      for (let i = 0; i < this.form.variations.length; i++) {
+        if (this.form.variations[i] === this.arrayVariations[index]) {
+          this.form.variations.splice(i, 1);
+          this.arrayVariations.splice(index, 1);
+        }
+      }
+    },
+    removeSize(index: number) {
+      for (let i = 0; i < this.form.sizes.length; i++) {
+        if (this.form.sizes[i] === this.arraySizes[index]) {
+          this.form.sizes.splice(i, 1);
+          this.arraySizes.splice(index, 1);
+        }
+      }
     },
     encodeImageFileAsURL(element: any) {
       return new Promise((resolve) => {
@@ -475,21 +478,11 @@ export default defineComponent({
         }
       });
     },
-    handleSave() {
-      for (let item of this.arrayImages) {
-        this.form.images.push(item.base64);
-      }
-
-      this.form.product = this.form.product
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "");
-      this.form.colors = this.arrayColors;
-      this.form.tags = this.arrayTags;
-      this.form.sizes = this.arraySizes;
-      this.form.variation = this.arrayVariations;
-
-      store.dispatch("setProducts", this.form);
-    },
+    handleSave(){
+      store.dispatch("updateProducts", this.form)
+    }
   },
 });
 </script>
+
+<style scoped></style>
