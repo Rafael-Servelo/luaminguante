@@ -521,19 +521,20 @@ export default defineComponent({
     let logged = store.state.auth.isLogged;
 
     if (logged) {
-      let favorites = this.user.favorites;
-
       let pos = this.products.map((product: any) => {
         return product.id;
       });
-      let idFav = favorites.map((product: any) => {
-        return product.id;
-      });
-      for (let item of idFav) {
-        let index = pos.indexOf(item);
-
-        if (index > -1) {
-          this.products[index]["fav"] = true;
+      let favorites = this.user.favorites;
+      if(favorites.length != 0){
+        let idFav = favorites.map((product: any) => {
+          return product.id;
+        });
+        for (let item of idFav) {
+          let index = pos.indexOf(item);
+  
+          if (index > -1) {
+            this.products[index]["fav"] = true;
+          }
         }
       }
 
