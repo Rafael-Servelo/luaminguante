@@ -261,7 +261,7 @@
                 />
                 <v-chip-group direction="vertical">
                   <v-chip
-                    v-for="(obj, index) in arraySizes"
+                    v-for="(obj, index) in form.sizes"
                     :key="index"
                     class="mb-2"
                     style="max-width: 400px"
@@ -278,13 +278,11 @@
                   rounded
                   label="Adicionar Tamanhos"
                   append-inner-icon="mdi-send"
-                  @click:append-inner="
-                    arraySizes.push(size), form.sizes.push(size), (size = '')
-                  "
+                  @click:append-inner="form.sizes.push(size), (size = '')"
                 />
                 <v-chip-group direction="vertical">
                   <v-chip
-                    v-for="(obj, index) in arrayVariations"
+                    v-for="(obj, index) in form.variations"
                     :key="index"
                     class="mb-2"
                     style="max-width: 400px"
@@ -302,9 +300,7 @@
                   label="Adicionar Variações"
                   append-inner-icon="mdi-send"
                   @click:append-inner="
-                    arrayVariations.push(variation),
-                      form.variations.push(variation),
-                      (variation = '')
+                    form.variations.push(variation), (variation = '')
                   "
                 />
                 <v-text-field
