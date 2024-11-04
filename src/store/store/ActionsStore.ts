@@ -1,6 +1,7 @@
 import { toast } from "vue3-toastify";
 import serviceStore from "./serviceStore";
 import store from "../../store";
+import router from "@/router";
 
 const actionsStore = {
   async search({ commit }: any, text: any) {
@@ -54,6 +55,7 @@ const actionsStore = {
       const { data } = await serviceStore.updateProducts(form);
       toast.success(data.msg);
       dispatch("getProducts");
+      router.push({name: "Home"})
       // setTimeout(() => {
       //   (window.location.reload as (cache: boolean) => void)(true);
       // }, 2500);

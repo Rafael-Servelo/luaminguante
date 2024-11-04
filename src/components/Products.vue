@@ -525,7 +525,7 @@ export default defineComponent({
         return product.id;
       });
       let favorites = this.user.favorites;
-      if(favorites.length != 0){
+      if(favorites){
         let idFav = favorites.map((product: any) => {
           return product.id;
         });

@@ -219,7 +219,7 @@
                 />
                 <v-chip-group direction="vertical">
                   <v-chip
-                    v-for="(obj, index) in arrayTags"
+                    v-for="(obj, index) in form.tags"
                     :key="index"
                     class="mb-2"
                     style="max-width: 400px"
@@ -236,13 +236,11 @@
                   rounded
                   label="Adicionar Tags"
                   append-inner-icon="mdi-send"
-                  @click:append-inner="
-                    arrayTags.push(tag), form.tags.push(tag), (tag = '')
-                  "
+                  @click:append-inner="form.tags.push(tag), (tag = '')"
                 />
                 <v-chip-group direction="vertical">
                   <v-chip
-                    v-for="(obj, index) in arrayColors"
+                    v-for="(obj, index) in form.colors"
                     :key="index"
                     class="mb-2"
                     style="max-width: 400px"
@@ -259,11 +257,7 @@
                   rounded
                   label="Adicionar Cores"
                   append-inner-icon="mdi-send"
-                  @click:append-inner="
-                    arrayColors.push(color),
-                      form.colors.push(color),
-                      (color = '')
-                  "
+                  @click:append-inner="form.colors.push(color), (color = '')"
                 />
                 <v-chip-group direction="vertical">
                   <v-chip
@@ -476,11 +470,9 @@ export default defineComponent({
         }
       });
     },
-    handleSave(){
-      store.dispatch("updateProducts", this.form)
-    }
+    handleSave() {
+      store.dispatch("updateProducts", this.form);
+    },
   },
 });
 </script>
-
-<style scoped></style>
