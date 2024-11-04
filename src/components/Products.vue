@@ -118,13 +118,13 @@
                 <span class="text-subtitle-1">{{
                   item.discountPrice ? "de:" : "A partir de:"
                 }}</span>
-                <s v-if="item.discountPrice">
+                <span v-if="item.discountPrice">
                   <span class="grey font-weight-light"
-                    >R${{ item.price.toFixed(2) }}</span
+                    >R${{ formatCentavos(item.price) }}</span
                   >
-                </s>
+                </span>
                 <span v-else style="color: var(--color-assistant)"
-                  >R${{ item.price.toFixed(2) }}</span
+                  >R${{ formatCentavos(item.price) }}</span
                 >
               </div>
               <div
@@ -135,7 +135,7 @@
                   item.discountPrice ? "Por:" : ""
                 }}</span>
                 <span style="color: var(--color-assistant)"
-                  >R${{ item?.discountPrice.toFixed(2) }}</span
+                  >R${{ formatCentavos(item?.discountPrice) }}</span
                 >
               </div>
             </v-card-item>
@@ -341,6 +341,7 @@ export default defineComponent({
   } as any,
   data() {
     return {
+      productsLoad: computed(() => store.state.store.loadProducts),
       form: {},
       user: computed(() => store.state.auth.user),
       resultPagination: [] as any,
@@ -404,6 +405,20 @@ export default defineComponent({
     };
   },
   methods: {
+    formatCentavos(valor: any) {
+      if (valor.toString().includes(".")) {
+        let price = valor.toString().split(".")[0];
+        let centavos = valor.toString().split(".")[1];
+
+        if (parseInt(centavos) < 10) {
+          return price + "," + centavos + "0";
+        } else {
+          return price + "," + centavos;
+        }
+      } else {
+        return valor + ",00";
+      }
+    },
     count() {
       let counts = this.paginaAtual * this.perPage - this.perPage;
 
@@ -518,30 +533,27 @@ export default defineComponent({
   },
   mounted() {
     store.dispatch("getUser");
-    let logged = store.state.auth.isLogged;
 
-    if (logged) {
+    setTimeout(() => {
       let pos = this.products.map((product: any) => {
         return product.id;
       });
       let favorites = this.user.favorites;
-      if(favorites){
+
+      if (favorites.length != 0) {
         let idFav = favorites.map((product: any) => {
           return product.id;
         });
         for (let item of idFav) {
           let index = pos.indexOf(item);
-  
+
           if (index > -1) {
             this.products[index]["fav"] = true;
           }
         }
       }
-
-      this.listItems(this.products, 1);
-    } else {
-      this.listItems(this.products, 1);
-    }
+    }, 800);
+    this.listItems(this.products, 1);
   },
 });
 </script>

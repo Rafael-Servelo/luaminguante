@@ -18,7 +18,13 @@ const serviceAuth = {
     }
   },
   async getProducts() {
-    return axios.get(`${import.meta.env.VITE_URL}/store/products`);
+    return axios.get(`${import.meta.env.VITE_URL}/store/products`, {
+      headers: {
+        "Cache-Control": "no-cache",
+        Pragma: "no-cache",
+        Expires: "0",
+      },
+    });
   },
   async deleteProducts(form: any) {
     return axios.delete(`${import.meta.env.VITE_URL}/store/delete_product`, {

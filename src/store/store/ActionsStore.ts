@@ -54,11 +54,10 @@ const actionsStore = {
     try {
       const { data } = await serviceStore.updateProducts(form);
       toast.success(data.msg);
-      dispatch("getProducts");
-      router.push({name: "Home"})
-      // setTimeout(() => {
-      //   (window.location.reload as (cache: boolean) => void)(true);
-      // }, 2500);
+      router.push({ name: "Home" });
+      setTimeout(() => {
+        (window.location.reload as (cache: boolean) => void)(true);
+      }, 2500);
     } catch (err: any) {
       toast.error(err.response.data.msg);
     } finally {
