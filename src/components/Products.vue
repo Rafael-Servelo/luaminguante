@@ -33,13 +33,21 @@
     </div>
     <div class="producs-container">
       <div
+        style="position: relative"
         class="product"
         :style="{
-          filter: item.numberSold >= item.amount ? 'grayscale(100%)' : 'none',
+          filter: item.amount == 0 ? 'grayscale(100%)' : 'none',
         }"
         v-for="item in resultPagination"
         :key="item.id"
       >
+        <img
+          v-if="item.promotion"
+          style="position: absolute; z-index: 1; top: 0; right: 0"
+          src="../assets/img/placa-de-promoção.png"
+          alt="promoção"
+          width="100"
+        />
         <v-card
           class="mx-auto mb-4"
           rounded="lg"
@@ -114,29 +122,25 @@
               :text="tag"
             ></v-chip>
             <v-card-item :class="{ flex: !$vuetify.display.mobile }">
-              <div>
-                <span class="text-subtitle-1">{{
-                  item.discountPrice ? "de:" : "A partir de:"
-                }}</span>
+              <div v-if="item.promotion">
+                <span class="text-subtitle-1">De:</span>
                 <span v-if="item.discountPrice">
-                  <span class="grey font-weight-light"
-                    >R${{ formatCentavos(item.price) }}</span
+                  <span class="grey font-weight-light">
+                    R$<s>{{ formatCentavos(item.price) }}</s></span
                   >
                 </span>
-                <span v-else style="color: var(--color-assistant)"
-                  >R${{ formatCentavos(item.price) }}</span
-                >
+                <div>
+                  <span class="text-subtitle-1">Por:</span>
+                  <span style="color: var(--color-assistant)">
+                  R${{ formatCentavos(item.discountPrice) }}
+                </span>
+                </div>
               </div>
-              <div
-                :subtitle="item.discountPrice ? 'Por:' : ''"
-                v-if="item.discountPrice"
-              >
-                <span class="text-subtitle-1">{{
-                  item.discountPrice ? "Por:" : ""
-                }}</span>
-                <span style="color: var(--color-assistant)"
-                  >R${{ formatCentavos(item?.discountPrice) }}</span
-                >
+              <div v-else>
+                <span class="text-subtitle-1">A partir de:</span>
+                <span style="color: var(--color-assistant)">
+                  R${{ formatCentavos(item.price) }}
+                </span>
               </div>
             </v-card-item>
             <div
@@ -144,7 +148,7 @@
               v-if="user"
             >
               <v-btn
-                :disabled="item.numberSold >= item.amount"
+                :disabled="item.amount == 0"
                 icon
                 variant="flat"
                 base-color="transparent"
@@ -161,7 +165,7 @@
                 />
               </v-btn>
               <v-menu
-                :disabled="item.numberSold >= item.amount"
+                :disabled="item.amount == 0"
                 location="bottom start"
                 v-if="user"
                 theme="light"
@@ -169,7 +173,7 @@
               >
                 <template v-slot:activator="{ props }">
                   <v-btn
-                    :disabled="item.numberSold >= item.amount"
+                    :disabled="item.amount == 0"
                     icon
                     variant="flat"
                     base-color="transparent"
