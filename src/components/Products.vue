@@ -44,7 +44,7 @@
         <img
           v-if="item.promotion"
           style="position: absolute; z-index: 1; top: 0; right: 0"
-          src="../assets/img/placa-de-promoção.png"
+          src="../assets/img/placa-de-promocao.png"
           alt="promoção"
           width="100"
         />
