@@ -14,6 +14,7 @@ declare module 'vue' {
     HeartIcon: typeof import('./src/components/icons/heart-icon.vue')['default']
     Loading: typeof import('./src/components/Loading.vue')['default']
     Login: typeof import('./src/components/Login.vue')['default']
+    Product: typeof import('./src/components/Product.vue')['default']
     Products: typeof import('./src/components/Products.vue')['default']
     Register: typeof import('./src/components/Register.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']

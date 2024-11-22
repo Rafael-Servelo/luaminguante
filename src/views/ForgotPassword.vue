@@ -1,15 +1,15 @@
 <template>
   <header-nav></header-nav>
 
-  <v-main style="background: white;">
+  <v-main style="background: white">
     <v-container
       class="flex col align-center justify-center h-100 w-100"
-      style="background-color: white; color: black;"
+      style="background-color: white; color: black"
       ron
     >
       <v-card
         color="var(--color-secondary)"
-        :width="$vuetify.display.mobile ? $vuetify.display.width - 20: '500'"
+        :width="$vuetify.display.mobile ? $vuetify.display.width - 20 : '500'"
         elevation="4"
         rounded="xl"
         class="ma-10"
@@ -37,6 +37,7 @@
             />
             <div class="w-100 flex justify-center mt-2">
               <v-btn
+                class="mb-4"
                 text="Recuperar Senha"
                 color="var(--color-assistant)"
                 type="submit"
@@ -51,7 +52,7 @@
       <v-card
         v-else
         color="var(--color-secondary)"
-        :width="$vuetify.display.mobile ? $vuetify.display.width - 20: '500'"
+        :width="$vuetify.display.mobile ? $vuetify.display.width - 20 : '500'"
         elevation="4"
         rounded="xl"
         class="ma-10"
@@ -93,6 +94,7 @@
             />
             <div class="w-100 flex justify-center mt-2">
               <v-btn
+                class="mb-4"
                 text="Recuperar Senha"
                 color="var(--color-assistant)"
                 type="submit"

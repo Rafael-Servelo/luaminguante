@@ -1,27 +1,30 @@
-@import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Caveat+Brush&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Caveat+Brush&display=swap");
 @font-face {
-    font-family: "Brookshire";
-    src: url("../fonts/EFCOBrookshireRegular.ttf");
-    font-weight: normal;
-    font-style: normal;
+  font-family: "Brookshire";
+  src: url("../fonts/EFCOBrookshireRegular.ttf");
+  font-weight: normal;
+  font-style: normal;
 }
 
 :root {
   --color-primary: #7d4ab3;
-  --color-secondary: #F2BCBA;
-  --color-tertiary: #b66e82;
-  --color-assistant: #c25968;
+  --color-secondary: #c25968;
+  --color-tertiary: #efe1c7;
+  --color-assistant: #b66e82;
+  --color-beige: #efe1c7;
+  --color-black: #202221;
   --color-black-1: #20222150;
   --color-black-2: #20222180;
   --color-black-3: #202221aa;
-  --color-black-3: #202221cc;
+  --color-black-4: #202221cc;
   --font-header: "Brookshire";
   --font-title: "Caveat Brush", cursive;
   --font-body: "M PLUS Rounded 1c", sans-serif;
 }
 
-html, body{
+html,
+body {
   font-family: var(--font-body);
   font-weight: 700;
   font-style: normal;
@@ -31,24 +34,24 @@ body {
   background: var(--color-primary);
 }
 
-.title{
-  font-family: var(--font-title)!important;
+.title {
+  font-family: var(--font-title) !important;
 }
-.txt-header{
-  font-family: var(--font-header)!important;
+.txt-header {
+  font-family: var(--font-header) !important;
 }
-.txt-body{
-  font-family: var(--font-body)!important;
+.txt-body {
+  font-family: var(--font-body) !important;
 }
 
-.txt-primary{
-  color: var(--color-primary)!important;
+.txt-primary {
+  color: var(--color-primary) !important;
 }
-.txt-secondary{
-  color: var(--color-secondary)!important;
+.txt-secondary {
+  color: var(--color-secondary) !important;
 }
-.txt-green{
-  color: var(--color-assistant)!important;
+.txt-green {
+  color: var(--color-assistant) !important;
 }
 
 .line {
@@ -63,13 +66,13 @@ body {
   white-space: nowrap;
 }
 
-.flex{
-  display: flex!important;
+.flex {
+  display: flex !important;
 }
 
-.col{
-  flex-direction: column!important;
+.col {
+  flex-direction: column !important;
 }
-.row{
-  flex-direction: row!important;
+.row {
+  flex-direction: row !important;
 }

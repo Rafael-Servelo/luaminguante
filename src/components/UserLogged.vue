@@ -60,7 +60,7 @@
         </div>
 
         <div class="pa-5">
-          <v-btn block rounded color="var(--color-tertiary)" @click="logout">
+          <v-btn block rounded color="var(--color-tertiary)" theme="light" @click="logout">
             Logout
           </v-btn>
         </div>

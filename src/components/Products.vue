@@ -7,8 +7,6 @@
       <v-select
         theme="light"
         bg-color="var(--color-secondary)"
-        base-color="var(--color-primary)"
-        color="var(--color-primary)"
         append-icon="mdi-filter"
         label="FILTRO"
         :items="itemsFilter"
@@ -96,7 +94,7 @@
             </v-carousel>
           </v-sheet>
           <v-card-item>
-            <div class="text-subtitle-1" style="color: var(--color-assistant)">
+            <div @click="goToProduct(item.id)" class="text-center" style="color: var(--color-primary); font-family: var(--font-body); cursor: pointer;">
               {{ item.product }}
             </div>
             <div
@@ -117,7 +115,7 @@
           >
             <v-chip
               v-for="tag in item.tags"
-              color="var(--color-tertiary)"
+              color="var(--color-assistant)"
               variant="tonal"
               :text="tag"
             ></v-chip>
@@ -534,6 +532,9 @@ export default defineComponent({
 
       this.listItems(this.products, page);
     },
+    goToProduct(id:number){
+      window.location.replace(`/produto?id=${id}`)
+    }
   },
   mounted() {
     store.dispatch("getUser");

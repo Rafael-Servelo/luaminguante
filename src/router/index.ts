@@ -21,6 +21,11 @@ const routes: RouteRecordRaw[] = [
     name: "CreateAccount",
     component: () => import("@/views/CreateAccount.vue"),
   },
+  {
+    path: "/produto",
+    name: "Product",
+    component: () => import("@/components/Products.vue"),
+  },
 ];
 
 const router = createRouter({
