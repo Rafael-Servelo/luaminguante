@@ -23,6 +23,7 @@
     "skipLibCheck": true
   },
   "include": [
+    "produto.html",
     "src/**/*",
     "src/**/*.vue"
   ],
