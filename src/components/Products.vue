@@ -533,7 +533,7 @@ export default defineComponent({
       this.listItems(this.products, page);
     },
     goToProduct(id:number){
-      window.location.replace(`/produto?id=${id}`)
+      window.location.replace(`/produto.html?id=${id}`)
     }
   },
   mounted() {
