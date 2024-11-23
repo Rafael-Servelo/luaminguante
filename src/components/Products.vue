@@ -191,7 +191,7 @@
                 <v-list>
                   <v-list-item class="ga-4">
                     <v-list-item-title>
-                      <div class="text-h6 txt-green txt-body font-weight-bold">
+                      <div class="text-h6 txt-assistant txt-body font-weight-bold">
                         {{ "Adicionar ao carrinho".toUpperCase() }}
                       </div>
                     </v-list-item-title>

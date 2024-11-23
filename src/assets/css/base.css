@@ -50,7 +50,7 @@ body {
 .txt-secondary {
   color: var(--color-secondary) !important;
 }
-.txt-green {
+.txt-assistant {
   color: var(--color-assistant) !important;
 }
 

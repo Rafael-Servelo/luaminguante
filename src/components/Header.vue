@@ -29,6 +29,7 @@
       </template>
       <v-list selectable>
         <v-list-item
+        @click="accessProduct(item.id)"
           v-if="user.favorites.length != 0"
           class="ga-4"
           v-for="(item, index) in user.favorites"
@@ -108,7 +109,7 @@
             </template>
             {{ item.product }}
             <template v-slot:append>
-              <v-btn color="var(--color-tertiary)" theme="dark">ACESSAR</v-btn>
+              <v-btn color="var(--color-primary)" theme="dark" @click="accessProduct(item.id)">Acessar</v-btn>
             </template>
           </v-list-item>
         </v-list>
@@ -149,6 +150,9 @@ export default defineComponent({
     },
   },
   methods: {
+    accessProduct(id:any){
+      window.location.replace(`produto.html?id=${id}`)
+    },
     initSearch() {
       this.search = true;
     },

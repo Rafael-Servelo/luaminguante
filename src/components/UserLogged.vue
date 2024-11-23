@@ -40,6 +40,7 @@
             <v-list-item
               prepend-icon="mdi-view-dashboard"
               title="Início"
+              @click="home"
             ></v-list-item>
             <v-list-item
               prepend-icon="mdi-account"
@@ -70,6 +71,7 @@
 </template>
 
 <script lang="ts">
+import router from "@/router";
 import store from "@/store";
 import { computed, defineComponent } from "vue";
 import { toast } from "vue3-toastify";
@@ -83,12 +85,16 @@ export default defineComponent({
     return {
       toast,
       store,
+      router,
       loadBtn: computed(() => store.state.auth.load),
       user: computed(() => store.state.auth.user),
       avatar: "",
     };
   },
   methods: {
+    home(){
+      window.location.replace('/')
+    },
     logout() {
       try {
         document.cookie =

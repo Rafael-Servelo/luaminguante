@@ -47,12 +47,12 @@
         </template>
 
         <template v-slot:title>
-          <div class="text-h6 text-high-emphasis txt-green">Ops..</div>
+          <div class="text-h6 text-high-emphasis txt-assistant">Ops..</div>
         </template>
 
         <template v-slot:text>
           <div
-            class="text-body-2 font-weight-medium text-medium-emphasis txt-green"
+            class="text-body-2 font-weight-medium text-medium-emphasis txt-assistant"
           >
             Nenhum produto disponivel no momento...
           </div>
