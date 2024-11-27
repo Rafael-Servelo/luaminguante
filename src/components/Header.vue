@@ -28,28 +28,35 @@
         </v-btn>
       </template>
       <v-list selectable>
-        <v-list-item
-        @click="accessProduct(item.id)"
-          v-if="user.favorites.length != 0"
-          class="ga-4"
-          v-for="(item, index) in user.favorites"
-          :key="index"
-        >
-          <template v-slot:prepend>
-            <v-img
-              :src="
-                item.images[0].startsWith('http')
-                  ? item.images[0]
-                  : 'data: image/jpeg; base64,' + item.images[0]
-              "
-              width="50"
-            />
-          </template>
-          <v-list-item-title>{{ item.product }}</v-list-item-title>
-        </v-list-item>
-        <v-list-item v-else>
-          <div class="text-subtitle-1">Nenhum produto adicionado...</div>
-        </v-list-item>
+        <div v-for="item in user.favorites">
+          <div v-for="(product, index) in products" :key="index">
+            <div v-if="product.id === item">
+              <v-list-item
+                @click="accessProduct(item)"
+                v-if="user.favorites.length != 0"
+                class="ga-4"
+              >
+                <template v-slot:prepend>
+                  <v-img
+                    :src="
+                      products[index].images[0].startsWith('http')
+                        ? products[index].images[0]
+                        : 'data: image/jpeg; base64,' +
+                          products[index].images[0]
+                    "
+                    width="50"
+                  />
+                </template>
+                <v-list-item-title>{{
+                  products[index].product
+                }}</v-list-item-title>
+              </v-list-item>
+              <v-list-item v-else>
+                <div class="text-subtitle-1">Nenhum produto adicionado...</div>
+              </v-list-item>
+            </div>
+          </div>
+        </div>
       </v-list>
     </v-menu>
 
@@ -109,7 +116,12 @@
             </template>
             {{ item.product }}
             <template v-slot:append>
-              <v-btn color="var(--color-primary)" theme="dark" @click="accessProduct(item.id)">Acessar</v-btn>
+              <v-btn
+                color="var(--color-primary)"
+                theme="dark"
+                @click="accessProduct(item.id)"
+                >Acessar</v-btn
+              >
             </template>
           </v-list-item>
         </v-list>
@@ -150,8 +162,8 @@ export default defineComponent({
     },
   },
   methods: {
-    accessProduct(id:any){
-      window.location.replace(`produto.html?id=${id}`)
+    accessProduct(id: any) {
+      window.location.replace(`produto.html?id=${id}`);
     },
     initSearch() {
       this.search = true;

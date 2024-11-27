@@ -143,7 +143,6 @@
             </v-card-item>
             <div
               class="flex align-center w-100 justify-space-around"
-              v-if="user"
             >
               <v-btn
                 :disabled="item.amount == 0"
@@ -165,7 +164,6 @@
               <v-menu
                 :disabled="item.amount == 0"
                 location="bottom start"
-                v-if="user"
                 theme="light"
                 :close-on-content-click="false"
               >
@@ -546,10 +544,7 @@ export default defineComponent({
       let favorites = this.user.favorites;
 
       if (favorites.length != 0) {
-        let idFav = favorites.map((product: any) => {
-          return product.id;
-        });
-        for (let item of idFav) {
+        for (let item of favorites) {
           let index = pos.indexOf(item);
 
           if (index > -1) {
