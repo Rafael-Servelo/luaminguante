@@ -12,7 +12,7 @@
     <v-btn icon @click="initSearch" v-tooltip="'Pesquisar'" theme="light">
       <v-icon>mdi-magnify</v-icon>
     </v-btn>
-    <v-menu location="start" v-if="user" theme="light">
+    <v-menu location="start" theme="light">
       <template v-slot:activator="{ props }">
         <v-btn icon v-tooltip="'Favoritos'" theme="light" v-bind="props">
           <v-badge
@@ -60,7 +60,7 @@
       </v-list>
     </v-menu>
 
-    <v-btn class="me-4" icon v-tooltip="'Carrinho'" theme="light" v-if="user">
+    <v-btn class="me-4" icon v-tooltip="'Carrinho'" theme="light">
       <v-badge
         color="transparent"
         :content="undefined"

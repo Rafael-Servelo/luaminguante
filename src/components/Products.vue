@@ -8,7 +8,7 @@
         theme="light"
         bg-color="var(--color-secondary)"
         append-icon="mdi-filter"
-        label="FILTRO"
+        label="Classificar por:"
         :items="itemsFilter"
         item-title="item"
         item-value="value"
@@ -50,6 +50,7 @@
           class="mx-auto mb-4"
           rounded="lg"
           :width="$vuetify.display.mobile ? 160 : 300"
+          :height="560"
           theme="light"
           elevation="6"
         >
@@ -94,7 +95,16 @@
             </v-carousel>
           </v-sheet>
           <v-card-item>
-            <div @click="goToProduct(item.id)" class="text-center" style="color: var(--color-primary); font-family: var(--font-body); cursor: pointer;">
+            <div
+              @click="goToProduct(item.id)"
+              class="text-center"
+              style="
+                color: var(--color-primary);
+                font-family: var(--font-body);
+                cursor: pointer;
+                height: 50px;
+              "
+            >
               {{ item.product }}
             </div>
             <div
@@ -119,7 +129,10 @@
               variant="tonal"
               :text="tag"
             ></v-chip>
-            <v-card-item :class="{ flex: !$vuetify.display.mobile }">
+            <v-card-item
+              :class="{ flex: !$vuetify.display.mobile }"
+              style="height: 70px"
+            >
               <div v-if="item.promotion">
                 <span class="text-subtitle-1">De:</span>
                 <span v-if="item.discountPrice">
@@ -130,8 +143,8 @@
                 <div>
                   <span class="text-subtitle-1">Por:</span>
                   <span style="color: var(--color-assistant)">
-                  R${{ formatCentavos(item.discountPrice) }}
-                </span>
+                    R${{ formatCentavos(item.discountPrice) }}
+                  </span>
                 </div>
               </div>
               <div v-else>
@@ -141,13 +154,11 @@
                 </span>
               </div>
             </v-card-item>
-            <div
-              class="flex align-center w-100 justify-space-around"
-            >
+            <div class="flex row align-center w-100 justify-space-around">
               <v-btn
                 :disabled="item.amount == 0"
                 icon
-                variant="flat"
+                variant="outlined"
                 base-color="transparent"
                 @click="addFavorite(item.fav, item.id)"
               >
@@ -171,7 +182,7 @@
                   <v-btn
                     :disabled="item.amount == 0"
                     icon
-                    variant="flat"
+                    variant="outlined"
                     base-color="transparent"
                     v-bind="props"
                   >
@@ -189,7 +200,9 @@
                 <v-list>
                   <v-list-item class="ga-4">
                     <v-list-item-title>
-                      <div class="text-h6 txt-assistant txt-body font-weight-bold">
+                      <div
+                        class="text-h6 txt-assistant txt-body font-weight-bold"
+                      >
                         {{ "Adicionar ao carrinho".toUpperCase() }}
                       </div>
                     </v-list-item-title>
@@ -266,11 +279,6 @@
                   </v-list-item>
                 </v-list>
               </v-menu>
-            </div>
-            <div
-              class="flex align-center w-100 justify-space-around"
-              v-if="user.isAdm"
-            >
               <v-btn
                 style="filter: none !important"
                 icon
@@ -530,9 +538,9 @@ export default defineComponent({
 
       this.listItems(this.products, page);
     },
-    goToProduct(id:number){
-      window.location.replace(`/produto.html?id=${id}`)
-    }
+    goToProduct(id: number) {
+      window.location.replace(`/produto.html?id=${id}`);
+    },
   },
   mounted() {
     store.dispatch("getUser");
@@ -543,14 +551,18 @@ export default defineComponent({
       });
       let favorites = this.user.favorites;
 
-      if (favorites.length != 0) {
-        for (let item of favorites) {
-          let index = pos.indexOf(item);
+      if (this.user) {
+        if (favorites.length != 0) {
+          for (let item of favorites) {
+            let index = pos.indexOf(item);
 
-          if (index > -1) {
-            this.products[index]["fav"] = true;
+            if (index > -1) {
+              this.products[index]["fav"] = true;
+            }
           }
         }
+      } else {
+        console.log("usuario nao logado");
       }
     }, 800);
     this.listItems(this.products, 1);
