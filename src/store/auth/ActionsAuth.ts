@@ -14,8 +14,7 @@ const actionsAuth = {
       store.dispatch("connect")
       commit("Set_IsLogged", true);
       dispatch("getUser");
-      router.push({name:'Home'})
-      // (window.location.reload as (cache: boolean) => void)(true);
+      (window.location.reload as (cache: boolean) => void)(true);
     } catch (err: any) {
       toast.error(err.response.data.msg);
       commit("Set_IsLogged", false);
