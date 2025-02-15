@@ -99,7 +99,7 @@ export default defineComponent({
   },
   methods: {
     home() {
-      window.location.replace("/");
+      router.push({ name: "Home" });
     },
     logout() {
       try {

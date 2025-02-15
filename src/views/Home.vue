@@ -120,6 +120,11 @@ export default defineComponent({
       }
     });
   },
+  beforeMount(){
+    if (this.getParam("id")) {
+      router.push(`produto?id=${this.getParam("id")}`);
+    }
+  },
   mounted() {
     if (this.getParam("token")) {
       sessionStorage.setItem("resetToken", `${this.getParam("token")}`);

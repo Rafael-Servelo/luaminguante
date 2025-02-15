@@ -280,6 +280,7 @@
                 </v-list>
               </v-menu>
               <v-btn
+                v-if="user.isAdm"
                 style="filter: none !important"
                 icon
                 variant="flat"
@@ -291,6 +292,7 @@
                 >
               </v-btn>
               <v-btn
+                v-if="user.isAdm"
                 icon
                 variant="flat"
                 base-color="transparent"
@@ -334,6 +336,7 @@ import shopCartIcon from "./icons/shop-cart-icon.vue";
 import heartIcon from "./icons/heart-icon.vue";
 import alertDeleteItem from "./alertDeleteItem.vue";
 import editItem from "./editItem.vue";
+import router from "@/router";
 
 export default defineComponent({
   name: "Products",
@@ -539,7 +542,7 @@ export default defineComponent({
       this.listItems(this.products, page);
     },
     goToProduct(id: number) {
-      window.location.replace(`/produto.html?id=${id}`);
+      router.push(`produto?id=${id}`);
     },
   },
   mounted() {

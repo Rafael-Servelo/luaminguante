@@ -163,7 +163,7 @@ export default defineComponent({
   },
   methods: {
     accessProduct(id: any) {
-      window.location.replace(`produto.html?id=${id}`);
+      window.location.replace(`/?id=${id}`);
     },
     initSearch() {
       this.search = true;

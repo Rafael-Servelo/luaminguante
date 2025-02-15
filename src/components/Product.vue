@@ -273,6 +273,7 @@ import MyFooter from "@/components/footer.vue";
 import HeaderNav from "@/components/Header.vue";
 import store from "@/store";
 import jp from "jsonpath";
+import router from "@/router";
 
 export default defineComponent({
   name: "Product",
@@ -305,10 +306,10 @@ export default defineComponent({
       });
     },
     goHome() {
-      window.location.replace("/");
+      router.push({name: "Home"});
     },
     accessProduct(id: any) {
-      window.location.replace(`/produto.html?id=${id}`);
+      router.push(`/?id=${id}`);
     },
   },
   created() {
@@ -335,7 +336,7 @@ export default defineComponent({
       }, 500);
       store.dispatch("getProducts");
     } else {
-      window.location.replace("/");
+      router.push({ name: "Home" });
     }
   },
 });

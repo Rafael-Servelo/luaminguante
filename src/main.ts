@@ -19,18 +19,13 @@ axios.defaults.headers.common = {
 
 // Components
 import App from "./App.vue";
-import Product from "./components/Product.vue";
 
 // Composables
 import { createApp } from "vue";
 
 const app = createApp(App);
-const product = createApp(Product);
 
 registerPlugins(app);
-registerPlugins(product);
 
 app.use(router);
 app.mount("#app");
-
-product.mount("#product")
