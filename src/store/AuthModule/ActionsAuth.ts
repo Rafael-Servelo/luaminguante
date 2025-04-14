@@ -11,7 +11,7 @@ const actionsAuth = {
       document.cookie = `token=${data.token}; path=/;`;
       document.cookie = `userID=${data.userID}; path=/;`;
       toast.success(data.msg);
-      store.dispatch("connect")
+      store.dispatch("connect");
       commit("Set_IsLogged", true);
       dispatch("getUser");
       (window.location.reload as (cache: boolean) => void)(true);
@@ -58,9 +58,9 @@ const actionsAuth = {
       const { data } = await serviceAuth.register(form);
       toast.success(data.msg);
       commit("Set_IsRegister", false);
-      setTimeout(()=>{
-        router.push({name: "Home"})
-      }, 3000)
+      setTimeout(() => {
+        router.push({ name: "Home" });
+      }, 3000);
     } catch (err: any) {
       toast.error(err.response.data.msg);
     } finally {
@@ -72,8 +72,8 @@ const actionsAuth = {
     try {
       const { data } = await serviceAuth.getUser();
 
-      sessionStorage.setItem("email", data.user.email)
-      store.dispatch("connect")
+      sessionStorage.setItem("email", data.user.email);
+      store.dispatch("connect");
       commit("Set_User", data.user);
       commit("Set_IsLogged", true);
     } catch (err: any) {

@@ -25,6 +25,11 @@ const routes: RouteRecordRaw[] = [
     name: "Product",
     component: () => import("@/components/Product.vue"),
   },
+  {
+    path: "/minha-conta",
+    name: "Account",
+    component: () => import("@/views/Account.vue"),
+  },
 ];
 
 const router = createRouter({

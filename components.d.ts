@@ -23,6 +23,7 @@ declare module 'vue' {
     ShopCartIcon: typeof import('./src/components/icons/shop-cart-icon.vue')['default']
     Sidebar: typeof import('./src/components/Sidebar.vue')['default']
     SocketStatus: typeof import('./src/components/SocketStatus.vue')['default']
+    Template1: typeof import('./src/components/templates/Template1.vue')['default']
     UserLogged: typeof import('./src/components/UserLogged.vue')['default']
   }
 }

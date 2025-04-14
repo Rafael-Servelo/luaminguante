@@ -1,6 +1,6 @@
 import { createStore } from "vuex";
-import auth from "./auth";
-import storeModule from "./store";
+import AuthModule from "./AuthModule";
+import StoreModule from "./StoreModule";
 import socket from "./websocket";
 
 const store = createStore({
@@ -20,8 +20,8 @@ const store = createStore({
     },
   },
   modules: {
-    auth,
-    store: storeModule,
+    auth: AuthModule,
+    store: StoreModule,
     socket,
   },
 });

@@ -38,13 +38,14 @@
           <v-divider opacity="0.5"></v-divider>
           <v-list selectable>
             <v-list-item
-              prepend-icon="mdi-view-dashboard"
+              prepend-icon="mdi-home"
               title="Início"
-              @click="home"
+              @click="$router.push({ name: 'Home' })"
             ></v-list-item>
             <v-list-item
               prepend-icon="mdi-account"
               title="Minha Conta"
+              @click="$router.push({ name: 'Account' })"
             ></v-list-item>
             <v-list-item
               prepend-icon="mdi-format-list-bulleted"
@@ -98,9 +99,6 @@ export default defineComponent({
     };
   },
   methods: {
-    home() {
-      router.push({ name: "Home" });
-    },
     logout() {
       try {
         document.cookie =
